@@ -4,7 +4,7 @@ published: true
 ---
 
 ## ¿Qué es una licencia de software libre?
-Las licencias se utilizan para regular el uso del código fuente. Existen licencias en las que se renuncia por completo a los derechos de autor, mientras exiten otras que sólo buscan algo de reconocimiento.
+Las licencias se utilizan para regular el uso del código fuente. Existen licencias en las que se renuncia por completo a los derechos de autor, mientras existen otras que sólo buscan algo de reconocimiento.
 
 En este post, voy a mostrarte las licencias más usadas que podras encontrar en varios repositorios de Github.
 
