@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 10 · Episodio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@800&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --negro: #000; --blanco: #F4F1EA; --naranja: #FF7A00; --rojo: #E3001B; --morado: #6A2C91; --verde: #7CDB2A; --texto: #C9C4BA; }
+    body { background: var(--negro); color: var(--texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.08rem, 0.5vw + 1rem, 1.25rem); line-height: 1.75; }
+    .mincho { font-family: 'Shippori Mincho B1', serif; font-weight: 800; color: var(--blanco); display: inline-block; transform: scaleX(0.72); transform-origin: left; line-height: 0.95; letter-spacing: -0.02em; }
+    /* tarjetas de título a pantalla completa */
+    .tarjetas { position: fixed; inset: 0; z-index: 60; background: #000; display: grid; place-items: center; }
+    .tarjeta { position: absolute; inset: 0; padding: 12vh 8vw; display: none; }
+    .tarjeta.ver { display: block; }
+    .tarjeta .a { font-size: clamp(2rem, 6vw, 4rem); }
+    .tarjeta .b { font-size: clamp(5rem, 22vw, 15rem); display: block; }
+    .tarjeta .c { position: absolute; right: 8vw; bottom: 14vh; font-size: clamp(1.4rem, 4vw, 2.8rem); transform-origin: right; }
+    .tarjetas.fuera { animation: corte 0.01s forwards; }
+    @keyframes corte { to { visibility: hidden; } }
+    /* página */
+    .hex { position: fixed; right: -60px; top: 60px; width: 380px; height: 380px; pointer-events: none; opacity: 0.55;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'><path d='M28 2 L54 17 L54 47 L28 62 L2 47 L2 17 Z M28 64 L54 79 L54 109 M28 64 L2 79 L2 109' fill='none' stroke='%23FF7A00' stroke-width='2'/></svg>");
+      -webkit-mask-image: radial-gradient(circle at 70% 30%, #000 20%, transparent 70%); mask-image: radial-gradient(circle at 70% 30%, #000 20%, transparent 70%); animation: alerta 1.6s steps(1) infinite; }
+    @keyframes alerta { 50% { opacity: 0.25; } }
+    .cinta { position: fixed; left: -5%; right: -5%; top: 1rem; height: 2rem; background: repeating-linear-gradient(-45deg, var(--naranja) 0 22px, #000 22px 44px); transform: rotate(-2deg); display: grid; place-items: center; opacity: 0.9; }
+    .cinta span { background: #000; color: var(--naranja); font: 700 0.75rem 'IBM Plex Mono', monospace; letter-spacing: 0.35em; padding: 0.15rem 0.8rem; }
+    main { position: relative; max-width: 44rem; margin: 0 auto; padding: 5rem 1.25rem 9rem; }
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--naranja); }
+    .titulo { margin: 1.5rem 0 2.5rem; }
+    .titulo .ep { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+    .titulo .nombre { font-size: clamp(4.4rem, 17vw, 10rem); display: block; }
+    .titulo .rojo { color: var(--rojo); }
+    .magi { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin-bottom: 3rem; }
+    .magi div { border: 1px solid var(--naranja); padding: 0.7rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--naranja); }
+    .magi b { display: block; font-weight: 400; color: var(--verde); font-size: 0.85rem; margin-top: 0.3rem; opacity: 0; animation: surgir 0.01s forwards; }
+    .magi div:nth-child(1) b { animation-delay: 3.6s; } .magi div:nth-child(2) b { animation-delay: 3.9s; } .magi div:nth-child(3) b { animation-delay: 4.2s; }
+    .saludo { font-style: italic; color: var(--blanco); font-size: 1.3em; }
+    .firma { margin-top: 2.5rem; font-size: 2.2rem; }
+    @media (max-width: 520px) { .magi { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="tarjetas" id="tarjetas" aria-hidden="true">
+    <div class="tarjeta"><span class="mincho a">EPISODIO:01</span></div>
+    <div class="tarjeta"><span class="mincho a">EPISODIO:01</span><br><span class="mincho b">LA CARTA</span></div>
+    <div class="tarjeta"><span class="mincho b">DANIEL</span><span class="mincho c">QUE LLEGÓ DESDE LEJOS</span></div>
+  </div>
+
+  <div class="hex" aria-hidden="true"></div>
+  <div class="cinta" aria-hidden="true"><span>PELIGRO · CONTENIDO EMOCIONAL</span></div>
+
+  <main>
+    <p class="meta surgir" style="--d:2400ms">Episodio:01 · La carta</p>
+    <h1 class="titulo surgir" style="--d:2600ms"><span class="mincho ep">EPISODIO:01</span><span class="mincho nombre">DANIEL <span class="rojo">DB</span></span></h1>
+
+    <div class="magi surgir" style="--d:3200ms" aria-label="Sistema de decisión">
+      <div>Pensador · 01<b>Aprobado</b></div>
+      <div>Narrador · 02<b>Aprobado</b></div>
+      <div>Músico · 03<b>Aprobado</b></div>
+    </div>
+
+    <p class="saludo revelar" data-inicio="4600" data-ritmo="70">Querido visitante:</p>
+    <p class="revelar" data-ritmo="34">No tienes que entrar si no quieres. Pero si entras, aquí no encontrarás un currículum: encontrarás números que intentan explicar el mundo, relatos sobre lo que nos asusta de nosotros mismos y una guitarra que convierte el sonido en luz.</p>
+    <p class="revelar" data-ritmo="34">Lo importante no es huir. Lo importante es quedarse un rato.</p>
+    <p class="firma surgir" style="--d:11500ms"><span class="mincho">— DANIEL DB</span></p>
+  </main>
+
+  <nav class="nav-conceptos"><a href="09-senor-x.html">← Anterior</a><span>10 · Episodio</span><a href="11-opera.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    // Cortes secos entre tarjetas de título
+    const caja = document.getElementById('tarjetas');
+    const tarjetas = caja.querySelectorAll('.tarjeta');
+    if (quieto) caja.remove();
+    else {
+      const tiempos = [0, 650, 1400];
+      tarjetas.forEach((t, i) => setTimeout(() => { tarjetas.forEach((x) => x.classList.remove('ver')); t.classList.add('ver'); }, tiempos[i]));
+      setTimeout(() => caja.remove(), 2300);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daniel DB — Cartas desde el vacío</title>
+  <meta name="description" content="Daniel DB: artista, escritor y músico. Una carta escrita desde muy lejos.">
+  <meta name="theme-color" content="#09110A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/portada.css">
+</head>
+<body>
+  <canvas id="cielo" aria-hidden="true"></canvas>
+  <div class="halo" aria-hidden="true"></div>
+  <div class="vineta" aria-hidden="true"></div>
+  <div class="grano" aria-hidden="true"></div>
+
+  <!-- Lo que solo ve quien explora con la luz -->
+  <div class="secretos" aria-hidden="true">
+    <span style="left:6%;  top:16%">dx/dt = σ(y − x)</span>
+    <span style="right:5%; top:12%" class="verso">toda verdad deja huellas</span>
+    <span style="left:84%; top:46%" class="amplio">caso sin cerrar</span>
+    <span style="left:3%;  top:58%" class="verso amplio">recuerdos de un lugar que nunca vi</span>
+    <span style="left:8%;  top:84%">∂ψ/∂t = −iĤψ / ħ</span>
+    <span style="right:5%; top:80%" class="verso">el azar también escribe</span>
+    <span style="left:76%; top:30%" class="amplio">440 Hz · La₄</span>
+    <span style="left:88%; top:66%" class="amplio">f(x) → ∞</span>
+    <span style="left:4%;  top:36%" class="amplio">23:47</span>
+  </div>
+
+  <header class="barra capa surgir" style="--d:200ms">
+    <span class="meta">Transmisión Nº 001</span>
+    <span class="meta barra-coord">Recibida a las 23:47 · Origen desconocido</span>
+  </header>
+
+  <main class="carta capa" id="carta">
+    <p class="meta surgir" style="--d:600ms">Noviembre de 2026 · Distancia desconocida</p>
+
+    <h1 class="firma-titulo surgir" style="--d:900ms">Daniel <span class="acento">DB</span></h1>
+
+    <p class="saludo revelar" data-inicio="2200" data-ritmo="70">Querido visitante:</p>
+
+    <p class="revelar" data-ritmo="38">Si estás leyendo esto, la señal llegó. Te escribo desde lejos, desde ese lugar silencioso donde las ecuaciones empiezan a parecerse a la música y las historias tienen la forma de una órbita.</p>
+
+    <p class="revelar" data-ritmo="38">Aquí no vas a encontrar un currículum. Vas a encontrar números que intentan explicar el mundo, relatos que se esconden en la niebla y una guitarra que convierte el sonido en luz.</p>
+
+    <p class="revelar" data-ritmo="38">No tengas prisa. El vacío nunca está vacío del todo.</p>
+
+    <footer class="despedida surgir" style="--d:9800ms">
+      <p class="firma">— Daniel DB</p>
+      <p class="meta">Artista · Escritor · Músico</p>
+      <hr class="orbita">
+      <nav class="senales" aria-label="Señales externas">
+        <a class="senal" href="https://danieldbarte.substack.com/" target="_blank" rel="noopener">La mente del artista</a>
+        <a class="senal" href="https://payhip.com/danieldb" target="_blank" rel="noopener">Libros</a>
+      </nav>
+    </footer>
+  </main>
+
+  <p class="pista meta capa surgir" style="--d:11000ms" aria-hidden="true">Mueve la luz · hay cosas escondidas en la oscuridad</p>
+
+  <script src="../js/cielo.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* ==========================================================
+   Portada: la carta desde el espacio
+   ========================================================== */
+
+.barra {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--e-2);
+  padding: var(--e-3) var(--gutter);
+}
+
+.carta {
+  max-width: var(--medida);
+  margin: 0 auto;
+  padding: clamp(7rem, 18vh, 11rem) var(--gutter) var(--e-6);
+}
+
+.firma-titulo {
+  font-size: var(--t-hero);
+  font-weight: 300;
+  margin: var(--e-2) 0 var(--e-4);
+  margin-left: -0.04em;
+}
+
+.saludo {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-3);
+  color: var(--luz);
+  margin-bottom: var(--e-3);
+}
+
+.carta > p.revelar:not(.saludo) {
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+.despedida { margin-top: var(--e-4); }
+
+.firma {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-2);
+  color: var(--luz);
+  margin-bottom: var(--e-1);
+}
+
+.senales { display: flex; flex-wrap: wrap; gap: var(--e-2); }
+
+.pista {
+  position: fixed;
+  bottom: var(--e-3);
+  left: 0; right: 0;
+  margin: 0;
+  text-align: center;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .barra-coord { display: none; }
+  .pista { position: static; padding-bottom: var(--e-4); }
+}

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 04 · Códice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    body { background: var(--p-fondo); color: var(--p-texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.08rem, 0.5vw + 1rem, 1.25rem); line-height: 1.75; }
+    /* luz de taller renacentista: luz arriba, sombra complementaria abajo */
+    .luz-taller { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse 70% 55% at 30% 10%, rgba(var(--p-luz-rgb), 0.12), transparent 65%), radial-gradient(ellipse 80% 60% at 80% 100%, rgba(var(--p-sombra-rgb), 0.45), transparent 70%); }
+    /* el disco de Poincaré: un universo infinito dentro de un círculo */
+    .disco { position: fixed; top: 50%; right: -8vmin; width: min(100vmin, 860px); aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; opacity: 0.8; }
+    .disco path, .disco circle { fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; animation: trazar 2.6s cubic-bezier(.4,0,.2,1) forwards; }
+    @keyframes trazar { to { stroke-dashoffset: 0; } }
+    main { position: relative; max-width: 36rem; padding: 6rem 1.25rem 7rem clamp(1.25rem, 8vw, 7rem); }
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: #8E7F8C; }
+    .clave { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+    .rueda-cesar { width: 6.5rem; height: 6.5rem; flex: none; }
+    .rueda-cesar text { font-family: 'IBM Plex Mono', monospace; font-size: 6.4px; }
+    .rueda-cesar .exterior text { fill: var(--p-titulos); }
+    .rueda-cesar .interior text { fill: var(--p-luz); }
+    .rueda-cesar .interior { transition: transform 0.35s cubic-bezier(.3,1.4,.5,1); transform-origin: 50px 50px; }
+    .clave .rot { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--p-triada1); }
+    h1 { font-family: 'Cinzel', serif; font-weight: 400; font-size: clamp(2.8rem, 10vw, 5.8rem); letter-spacing: 0.1em; color: var(--p-titulos); margin: 1rem 0 0.5rem; line-height: 1.05; white-space: nowrap; }
+    h1 .letra { display: inline-block; transition: color 0.3s; }
+    h1 .letra.cifrada { color: var(--p-luz); }
+    .cifrado { font-family: 'IBM Plex Mono', monospace; color: var(--p-luz); cursor: help; border-bottom: 1px dotted var(--p-luz); }
+    .cifrado.claro { color: var(--p-triada2); border-bottom-color: var(--p-triada2); }
+    .pista { font-size: 0.95rem; margin: 0.5rem 0 3rem; }
+    .saludo { font-style: italic; color: var(--p-titulos); font-size: 1.3em; }
+    .inicial::first-letter { font-family: 'Cinzel', serif; float: left; font-size: 3.6em; line-height: 0.85; padding: 0.08em 0.12em 0 0; color: var(--p-luz); }
+    .nota { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--p-triada1); border-left: 1px solid var(--p-triada1); padding-left: 1rem; margin: 2rem 0; }
+    .sello { display: inline-grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #F08ADF, var(--p-luz) 55%, #6E1F62); color: var(--p-titulos); font-family: 'Cinzel', serif; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(var(--p-sombra-rgb), 0.9); margin-top: 1rem; }
+    @media (max-width: 760px) { .disco { right: -40vmin; opacity: 0.45; } }
+  </style>
+</head>
+<body>
+  <div class="luz-taller" aria-hidden="true"></div>
+  <svg class="disco" id="disco" viewBox="-1.02 -1.02 2.04 2.04" aria-hidden="true"></svg>
+
+  <main>
+    <p class="meta surgir" style="--d:200ms">Folio I · Cifrado de César</p>
+    <div class="clave surgir" style="--d:300ms">
+      <svg class="rueda-cesar" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="var(--p-linea)" stroke-width="0.6"/>
+        <circle cx="50" cy="50" r="36" fill="none" stroke="var(--p-linea)" stroke-width="0.6"/>
+        <g class="exterior" id="exterior"></g>
+        <g class="interior" id="interior"></g>
+      </svg>
+      <span class="rot" id="rot" aria-live="polite">clave +3</span>
+    </div>
+    <h1 id="titulo" aria-label="Daniel DB"></h1>
+    <p class="pista surgir" style="--d:2600ms">Mensaje cifrado: <span class="cifrado" id="frase" tabindex="0" data-claro="quien sabe mirar, encuentra">quien sabe mirar, encuentra</span></p>
+
+    <p class="saludo revelar" data-inicio="3200" data-ritmo="70">Querido visitante:</p>
+    <p class="inicial revelar" data-ritmo="34">Toda obra esconde un código, y esta también. Aquí no hay un currículum: hay números que intentan explicar el mundo, relatos que guardan un secreto en cada página y una guitarra que convierte el sonido en luz.</p>
+    <p class="revelar" data-ritmo="34">Mira el círculo de la derecha. Dentro cabe un universo infinito: cada arco es una línea recta y por un mismo punto pasan infinitas paralelas. Euclides no lo aprobaría. Yo sí.</p>
+    <p class="nota surgir" style="--d:11500ms">Nota al margen: en geometría hiperbólica, los triángulos suman menos de 180°. Algunas historias también.</p>
+    <span class="sello surgir" style="--d:12500ms" aria-label="Sello de Daniel DB">DB</span>
+  </main>
+
+  <nav class="nav-conceptos"><a href="02-neon.html">← Anterior</a><span>04 · Códice</span><a href="06-bolsilibro.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    const ABC = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+    const cesar = (txt, k) => txt.split('').map((c) => {
+      const may = c.toUpperCase(), i = ABC.indexOf(may);
+      if (i < 0) return c;
+      const r = ABC[(i + k + ABC.length * 10) % ABC.length];
+      return c === may ? r : r.toLowerCase();
+    }).join('');
+
+    // Rueda de César: alfabeto exterior fijo, interior desplazado
+    const ns = 'http://www.w3.org/2000/svg';
+    function anillo(id, radio) {
+      const g = document.getElementById(id);
+      ABC.split('').forEach((l, i) => {
+        const a = (i / ABC.length) * 2 * Math.PI - Math.PI / 2;
+        const t = document.createElementNS(ns, 'text');
+        t.setAttribute('x', (50 + radio * Math.cos(a)).toFixed(2)); t.setAttribute('y', (50 + radio * Math.sin(a) + 2.2).toFixed(2));
+        t.setAttribute('text-anchor', 'middle'); t.textContent = l; g.appendChild(t);
+      });
+    }
+    anillo('exterior', 42); anillo('interior', 30);
+    const interior = document.getElementById('interior'), rot = document.getElementById('rot');
+    const girar = (k) => { interior.style.transform = `rotate(${(-k * 360 / ABC.length).toFixed(2)}deg)`; rot.textContent = `clave +${k}`; };
+
+    // Título: empieza cifrado con clave +3 y se descifra paso a paso
+    const titulo = document.getElementById('titulo'), NOMBRE = 'DANIEL DB';
+    function pintarTitulo(k) {
+      titulo.innerHTML = '';
+      cesar(NOMBRE, k).split('').forEach((c) => { const s = document.createElement('span'); s.className = 'letra' + (k ? ' cifrada' : ''); s.textContent = c === ' ' ? ' ' : c; s.setAttribute('aria-hidden', 'true'); titulo.appendChild(s); });
+    }
+    let k = quieto ? 0 : 3;
+    pintarTitulo(k); girar(k);
+    if (quieto) rot.textContent = 'descifrado';
+    else {
+      const paso = () => { k--; pintarTitulo(k); girar(k); if (k > 0) setTimeout(paso, 650); else rot.textContent = 'descifrado'; };
+      setTimeout(paso, 1300);
+    }
+
+    // Frase: cifrada con +3 hasta que la miras
+    const frase = document.getElementById('frase');
+    const claro = frase.dataset.claro;
+    frase.textContent = cesar(claro, 3);
+    frase.setAttribute('aria-label', 'Mensaje cifrado. Descifrado dice: ' + claro);
+    const ver = () => { frase.textContent = claro; frase.classList.add('claro'); };
+    const ocultar = () => { frase.textContent = cesar(claro, 3); frase.classList.remove('claro'); };
+    frase.addEventListener('mouseenter', ver); frase.addEventListener('focus', ver);
+    frase.addEventListener('mouseleave', ocultar); frase.addEventListener('blur', ocultar);
+
+    // Disco de Poincaré: geodésicas (arcos perpendiculares al borde) en niveles cada vez más finos
+    const disco = document.getElementById('disco');
+    function geodesica(a, b, color, ancho, retardo) {
+      const d = (b - a) / 2, r = Math.tan(d);
+      const p = document.createElementNS(ns, 'path');
+      p.setAttribute('d', `M${Math.cos(a).toFixed(4)} ${Math.sin(a).toFixed(4)} A${r.toFixed(4)} ${r.toFixed(4)} 0 0 0 ${Math.cos(b).toFixed(4)} ${Math.sin(b).toFixed(4)}`);
+      p.setAttribute('stroke', color); p.setAttribute('stroke-width', ancho); p.setAttribute('pathLength', '1');
+      p.style.animationDelay = retardo + 's';
+      disco.appendChild(p);
+    }
+    const borde = document.createElementNS(ns, 'circle');
+    borde.setAttribute('r', '1'); borde.setAttribute('stroke', 'var(--p-titulos)'); borde.setAttribute('stroke-width', '0.004'); borde.setAttribute('pathLength', '1');
+    disco.appendChild(borde);
+    const N = 7, base = -Math.PI / 2;
+    // nivel 0: heptágono ideal y su estrella
+    for (let i = 0; i < N; i++) {
+      const a = base + (i / N) * 2 * Math.PI;
+      geodesica(a, a + 2 * Math.PI / N, 'var(--p-luz)', 0.006, 0.2 + i * 0.08);
+      geodesica(a, a + 3 * 2 * Math.PI / N, 'var(--p-linea)', 0.004, 0.9 + i * 0.08);
+    }
+    // niveles siguientes: cada arco se subdivide hacia el borde, como en una tesela hiperbólica
+    for (let nivel = 1; nivel <= 4; nivel++) {
+      const partes = N * Math.pow(2, nivel);
+      for (let i = 0; i < partes; i++) {
+        const a = base + (i / partes) * 2 * Math.PI;
+        const color = nivel === 1 ? 'var(--p-triada2)' : (nivel === 2 ? 'var(--p-texto)' : 'var(--p-linea)');
+        geodesica(a, a + 2 * Math.PI / partes, color, 0.004 / nivel + 0.0015, 1.4 + nivel * 0.5 + i * 0.01);
+      }
+    }
+  </script>
+</body>
+</html>

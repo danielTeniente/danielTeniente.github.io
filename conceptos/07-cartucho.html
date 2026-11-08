@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 07 · Cartucho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --noche: var(--p-fondo); --lila: var(--p-texto); --blanco: var(--p-titulos); --oro: var(--p-triada1); --azul1: #1E6B2A; --azul2: #0B2410; }
+    body { background: var(--noche); color: var(--blanco); font-family: 'VT323', monospace; image-rendering: pixelated; }
+    #paisaje { position: fixed; inset: 0; width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+    .escanlineas { position: fixed; inset: 0; pointer-events: none; background: repeating-linear-gradient(180deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px); }
+    main { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 14vh 1rem 8rem; text-align: center; }
+    .editor { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--lila); }
+    h1 { font-family: 'Press Start 2P', monospace; font-size: clamp(2rem, 8vw, 4.6rem); line-height: 1.15; margin: 1.2rem 0 0.6rem; color: var(--oro);
+      text-shadow: 4px 4px 0 #A8329A, 8px 8px 0 #2A0F27; animation: caer 0.9s steps(8) both; }
+    @keyframes caer { from { transform: translateY(-60vh); } to { transform: none; } }
+    .sub { font-family: 'Press Start 2P', monospace; font-size: 0.65rem; color: var(--blanco); letter-spacing: 0.15em; margin-bottom: 3rem; }
+    .start { font-family: 'Press Start 2P', monospace; font-size: 0.85rem; color: var(--blanco); background: none; border: 0; cursor: pointer; animation: parpadeo 1s steps(1) infinite; padding: 1rem; }
+    @keyframes parpadeo { 50% { opacity: 0; } }
+    .menu { display: none; font-family: 'Press Start 2P', monospace; font-size: 0.7rem; line-height: 2.6; text-align: left; margin-bottom: 2rem; }
+    .menu li { list-style: none; } .menu li::before { content: '\00a0\00a0'; } .menu li.sel::before { content: '▶ '; color: var(--oro); }
+    /* caja de diálogo estilo RPG de 16 bits */
+    .dialogo { display: none; position: fixed; left: 50%; bottom: 4.5rem; transform: translateX(-50%); width: min(44rem, calc(100% - 2rem)); min-height: 9.5rem; text-align: left;
+      background: linear-gradient(180deg, var(--azul1), var(--azul2)); border: 4px solid var(--blanco); outline: 4px solid #000; box-shadow: inset 0 0 0 4px #4A9F58; border-radius: 6px; padding: 1.1rem 1.4rem 1.4rem; cursor: pointer; }
+    .dialogo .quien { font-family: 'Press Start 2P', monospace; font-size: 0.65rem; color: var(--oro); margin-bottom: 0.6rem; }
+    .dialogo .texto { font-size: clamp(1.35rem, 2.6vw, 1.7rem); line-height: 1.25; min-height: 4.2em; }
+    .dialogo .flecha { position: absolute; right: 1rem; bottom: 0.6rem; font-size: 1.2rem; color: var(--blanco); animation: rebote 0.6s steps(2) infinite; visibility: hidden; }
+    @keyframes rebote { 50% { transform: translateY(4px); } }
+    .jugando .start { display: none; } .jugando .menu, .jugando ~ .dialogo { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="paisaje" aria-hidden="true"></canvas>
+  <div class="escanlineas" aria-hidden="true"></div>
+
+  <main id="pantalla">
+    <p class="editor">© 2026 DANIEL DB SOFT</p>
+    <h1>DANIEL<br>DB</h1>
+    <p class="sub">ARTISTA · ESCRITOR · MÚSICO</p>
+    <button class="start" id="start">PULSA START</button>
+    <ul class="menu" aria-label="Menú">
+      <li class="sel">CARTA</li><li>LIBROS</li><li>RELATOS</li><li>MÚSICA</li>
+    </ul>
+  </main>
+  <div class="dialogo" id="dialogo" role="region" aria-live="polite" aria-label="Carta">
+    <p class="quien">DANIEL DB</p>
+    <p class="texto" id="texto"></p>
+    <span class="flecha" id="flecha" aria-hidden="true">▼</span>
+  </div>
+
+  <nav class="nav-conceptos"><a href="06-bolsilibro.html">← Anterior</a><span>07 · Cartucho</span><a href="08-mision.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    const paginas = [
+      'Querido visitante: ¡por fin llegaste! Llevaba mucho tiempo esperando a alguien en esta pantalla.',
+      'Aquí no vas a encontrar un currículum. Vas a encontrar números que explican el mundo, relatos de misterio y una guitarra que convierte el sonido en luz.',
+      'Elige una opción del menú cuando quieras. No hay prisa: esta partida no tiene final.',
+    ];
+    const pantalla = document.getElementById('pantalla');
+    const texto = document.getElementById('texto');
+    const flecha = document.getElementById('flecha');
+    let pagina = -1, escribiendo = null;
+    function mostrar(i) {
+      if (i >= paginas.length) i = 0;
+      pagina = i; flecha.style.visibility = 'hidden'; clearInterval(escribiendo);
+      const t = paginas[i];
+      if (quieto) { texto.textContent = t; flecha.style.visibility = 'visible'; return; }
+      let n = 0; texto.textContent = '';
+      escribiendo = setInterval(() => { texto.textContent = t.slice(0, ++n); if (n >= t.length) { clearInterval(escribiendo); escribiendo = null; flecha.style.visibility = 'visible'; } }, 32);
+    }
+    function avanzar() {
+      if (!pantalla.classList.contains('jugando')) { pantalla.classList.add('jugando'); mostrar(0); return; }
+      if (escribiendo) { clearInterval(escribiendo); escribiendo = null; texto.textContent = paginas[pagina]; flecha.style.visibility = 'visible'; return; }
+      mostrar(pagina + 1);
+    }
+    document.getElementById('start').addEventListener('click', avanzar);
+    document.getElementById('dialogo').addEventListener('click', avanzar);
+    window.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); avanzar(); } });
+
+    // Paisaje en píxeles con capas de paralaje (resolución baja, escalada)
+    const ESCALA = 4;
+    let capas = [], estrellas = [];
+    const c = document.getElementById('paisaje'), ctx = c.getContext('2d');
+    function preparar() {
+      const W = Math.ceil(innerWidth / ESCALA), H = Math.ceil(innerHeight / ESCALA);
+      if (!W || !H) return;
+      c.width = W; c.height = H; ctx.imageSmoothingEnabled = false;
+      estrellas = Array.from({ length: 70 }, () => ({ x: Math.random() * W, y: Math.random() * H * 0.6, f: Math.random() * 6 }));
+      const montes = (base, amp, paso, color, vel) => { const p = []; let y = base; for (let x = 0; x <= W * 2; x += paso) { y = Math.max(base - amp, Math.min(base + amp * 0.3, y + (Math.random() - 0.5) * amp * 0.6)); p.push(Math.round(y)); } return { p, paso, color, vel }; };
+      capas = [montes(H * 0.62, H * 0.12, 6, '#2C3F2E', 0.05), montes(H * 0.74, H * 0.1, 4, '#195721', 0.12), montes(H * 0.86, H * 0.06, 3, '#0B160C', 0.25)];
+    }
+    function dibujar(t) {
+      const W = c.width, H = c.height; if (!W) return;
+      const cielo = ctx.createLinearGradient(0, 0, 0, H);
+      ctx.fillStyle = '#09110A'; ctx.fillRect(0, 0, W, H);
+      for (let i = 0; i < 6; i++) { ctx.fillStyle = ['#09110A','#0E1A10','#1A1A1C','#2E1A2C','#4E2148','#7A2D6E'][i]; ctx.fillRect(0, Math.round(H * (0.25 + i * 0.07)), W, H); }
+      // luna llena en píxeles
+      const lx = Math.round(W * 0.82), ly = Math.round(H * 0.14), lr = 7;
+      for (let yy = -lr; yy <= lr; yy++) for (let xx = -lr; xx <= lr; xx++) if (xx * xx + yy * yy <= lr * lr) { ctx.fillStyle = (xx + yy > 4) ? '#9AA83E' : '#E4EDA0'; ctx.fillRect(lx + xx, ly + yy, 1, 1); }
+      for (const s of estrellas) { if (Math.sin(t * 0.003 + s.f) > -0.3) { ctx.fillStyle = '#F3E7F1'; ctx.fillRect(Math.round(s.x), Math.round(s.y), 1, 1); } }
+      for (const capa of capas) {
+        const off = (t * capa.vel / 16) % (W);
+        ctx.fillStyle = capa.color;
+        capa.p.forEach((y, i) => { const x = Math.round(i * capa.paso - off); if (x > -capa.paso && x < W) ctx.fillRect(x, y, capa.paso, H - y); });
+      }
+    }
+    preparar(); addEventListener('resize', preparar);
+    if (quieto) dibujar(0); else (function bucle(t) { dibujar(t); requestAnimationFrame(bucle); })(0);
+  </script>
+</body>
+</html>

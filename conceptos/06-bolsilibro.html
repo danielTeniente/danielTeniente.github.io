@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 06 · Bolsilibro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --papel: var(--p-papel); --tinta: var(--p-tinta); --sangre: var(--p-luz); --mostaza: var(--p-triada1); --texto: var(--p-tinta-2); }
+    body { background: var(--papel); color: var(--texto); font-family: 'Libre Baskerville', Georgia, serif; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.12rem); line-height: 1.85; }
+    /* trama de imprenta barata */
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(var(--p-sombra-rgb), 0.16) 1px, transparent 1.4px); background-size: 6px 6px; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%); }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 160px rgba(var(--p-sombra-rgb), 0.35); }
+    main { position: relative; max-width: 38rem; margin: 0 auto; padding: 4rem 1.25rem 7rem; }
+    .cabecera { display: flex; justify-content: space-between; border-top: 3px solid var(--tinta); border-bottom: 1px solid var(--tinta); padding: 0.4rem 0; font-family: 'Special Elite', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: clamp(4.2rem, 19vw, 10rem); line-height: 0.88; text-transform: uppercase; color: var(--sangre); margin: 1.5rem 0 0.5rem; letter-spacing: -0.01em; }
+    h1 span { display: block; color: var(--tinta); }
+    .gancho { font-family: 'Special Elite', monospace; font-size: 1.05rem; text-transform: uppercase; margin-bottom: 2rem; }
+    .pegatina { position: absolute; top: 6.5rem; right: 0.5rem; width: 7.5rem; height: 7.5rem; border-radius: 50%; background: var(--mostaza); color: var(--tinta); display: grid; place-items: center; text-align: center; font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 0.95rem; line-height: 1.1; padding: 1rem; transform: rotate(12deg); box-shadow: 2px 3px 0 var(--tinta); animation: pegar 0.4s 1.6s cubic-bezier(.2,1.6,.4,1) both; }
+    @keyframes pegar { from { transform: rotate(40deg) scale(0); } to { transform: rotate(12deg) scale(1); } }
+    /* fotograma congelado */
+    .fotograma { position: relative; aspect-ratio: 16 / 7; background: #0E1810; overflow: hidden; margin-bottom: 2.5rem; border: 6px solid var(--tinta); }
+    .fotograma .ruido { position: absolute; inset: -50%; opacity: 0.5; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.8' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); animation: ruido 0.4s steps(4) infinite, parar 0s 2.6s forwards; }
+    @keyframes ruido { 0% { transform: translate(0,0); } 50% { transform: translate(-8%, 6%); } 100% { transform: translate(5%, -4%); } }
+    @keyframes parar { to { animation-play-state: paused; opacity: 0.35; } }
+    .fotograma .silueta { position: absolute; left: 50%; bottom: 0; width: 38%; height: 88%; transform: translateX(-50%); background: radial-gradient(ellipse 22% 18% at 50% 24%, #050A06 98%, transparent 100%), radial-gradient(ellipse 50% 60% at 50% 100%, #050A06 98%, transparent 100%); }
+    .fotograma .flash { position: absolute; inset: 0; background: #fff; opacity: 0; animation: flash 0.5s 2.6s ease-out; }
+    @keyframes flash { 0% { opacity: 0.9; } 100% { opacity: 0; } }
+    .fotograma .tono { position: absolute; inset: 0; background: rgba(var(--p-luz-rgb), 0.4); mix-blend-mode: color; opacity: 0; animation: surgir 0.3s 2.6s forwards; }
+    .fotograma .rotulo { position: absolute; left: 1rem; bottom: 0.8rem; right: 1rem; font-family: 'Special Elite', monospace; color: var(--p-titulos); font-size: clamp(0.85rem, 2.4vw, 1.1rem); text-shadow: 0 1px 0 #000; min-height: 1.4em; }
+    .saludo { font-style: italic; color: var(--tinta); font-size: 1.2em; }
+    .firma { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1.8rem; color: var(--sangre); margin-top: 2rem; }
+    .firma small { display: block; font-family: 'Special Elite', monospace; font-size: 0.8rem; color: var(--texto); }
+    @media (max-width: 520px) { .pegatina { width: 5.8rem; height: 5.8rem; font-size: 0.75rem; top: 5.5rem; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="cabecera surgir" style="--d:100ms"><span>Colección Medianoche</span><span>Nº 001 · 25 céntimos</span></div>
+    <h1 class="surgir" style="--d:400ms">Daniel<span>DB</span></h1>
+    <p class="gancho surgir" style="--d:1000ms">Números. Crímenes. Guitarras. Nadie salió ileso.</p>
+    <div class="pegatina" aria-hidden="true">¡Ahora con 30% más de misterio!</div>
+
+    <div class="fotograma" aria-label="Fotograma congelado: Ese soy yo. Daniel DB.">
+      <div class="ruido"></div><div class="silueta"></div><div class="tono"></div><div class="flash"></div>
+      <p class="rotulo" data-escribir data-inicio="2900" data-ritmo="55">Ese soy yo. Daniel DB. Desde que tengo memoria, quise contar historias.</p>
+    </div>
+
+    <p class="saludo revelar" data-inicio="6600" data-ritmo="70">Querido lector:</p>
+    <p class="revelar" data-ritmo="34">Lo que tienes en las manos no es un currículum. Es una novela barata con demasiadas páginas: números que intentan explicar el mundo, relatos de terror para leer con la luz encendida y una guitarra que suena como un motor viejo.</p>
+    <p class="revelar" data-ritmo="34">Advertencia: puede provocar insomnio.</p>
+    <p class="firma surgir" style="--d:13500ms">Daniel DB<small>El autor no se hace responsable de lo que encuentres.</small></p>
+  </main>
+
+  <nav class="nav-conceptos"><a href="04-codice.html">← Anterior</a><span>06 · Bolsilibro</span><a href="07-cartucho.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* ==========================================================
+   Daniel DB — Cartas desde el vacío
+   Tokens de diseño: la fuente única de verdad estética.
+   Colores: la paleta global de css/paleta.css (luz magenta,
+   tríada lima y cian, sombras verdes complementarias).
+   ========================================================== */
+
+:root {
+  /* ---------- Color: la noche (fondos) ---------- */
+  --negro:   var(--p-fondo);       /* sombra profunda, verde casi negro */
+  --sombra:  #0E1810;               /* capas profundas */
+  --humo:    var(--p-superficie);  /* superficies elevadas */
+  --linea:   var(--p-linea);       /* bordes, separadores */
+  --acero:   #4A6B4D;              /* bordes activos */
+
+  /* ---------- Color: la luz (texto) ---------- */
+  --ceniza:  #8E7F8C;              /* metadatos, texto secundario */
+  --niebla:  var(--p-texto);       /* texto de lectura largo */
+  --luz:     var(--p-titulos);     /* titulares: blanco teñido de magenta */
+
+  /* ---------- Color: acentos (usar con escasez) ---------- */
+  --bahia:   var(--p-triada2);     /* cian: enlaces, énfasis */
+  --faro:    var(--p-luz);         /* magenta: la luz de la escena */
+  --brasa:   var(--p-triada1);     /* lima: detalles mínimos */
+
+  --bahia-tenue: rgba(var(--p-triada2-rgb), 0.14);
+  --faro-tenue:  rgba(var(--p-luz-rgb), 0.18);
+  --luz-tenue:   rgba(var(--p-titulos-rgb), 0.06);
+
+  /* ---------- Tipografía ---------- */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif; /* la voz */
+  --font-texto:   'EB Garamond', Georgia, serif;                  /* la carta */
+  --font-meta:    'IBM Plex Mono', ui-monospace, Consolas, monospace; /* el expediente */
+
+  --t-hero:  clamp(3.4rem, 10vw, 8rem);
+  --t-1:     clamp(2.4rem, 5.5vw, 4rem);
+  --t-2:     clamp(1.7rem, 3.2vw, 2.4rem);
+  --t-3:     clamp(1.3rem, 2vw, 1.6rem);
+  --t-texto: clamp(1.12rem, 0.5vw + 1rem, 1.3rem);
+  --t-small: 0.95rem;
+  --t-meta:  0.72rem;
+
+  --interlineado-texto: 1.75;
+  --tracking-meta: 0.22em;
+  --medida: 34rem; /* ancho de una buena carta: ~65 caracteres */
+
+  /* ---------- Espacio ---------- */
+  --e-1: 0.5rem;
+  --e-2: 1rem;
+  --e-3: 1.5rem;
+  --e-4: 2.5rem;
+  --e-5: 4rem;
+  --e-6: 7rem;
+  --gutter: clamp(1rem, 5vw, 3rem);
+
+  /* ---------- Movimiento: lento, como la niebla ---------- */
+  --curva:      cubic-bezier(0.22, 0.61, 0.36, 1);
+  --rapido:     240ms;
+  --medio:      700ms;
+  --lento:      1600ms;
+  --muy-lento:  3200ms;
+
+  /* ---------- Linterna (la luz del cursor) ---------- */
+  --linterna-radio: 190px;
+}

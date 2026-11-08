@@ -1,0 +1,179 @@
+/* ==========================================================
+   Portada: «La Página de Daniel DB»
+   Una web personal de 1998 hecha con cariño y sin vergüenza.
+   Colores: variantes saturadas de css/paleta.css.
+   ========================================================== */
+
+/* Colores propios de esta página: fondo azul oscuro, textos de bienvenida
+   en celeste y paneles en el verde de la paleta.
+   (Solo afecta a la portada; css/paleta.css sigue igual.) */
+:root {
+  --x-cielo:    #0B2A6B;              /* fondo de mosaico: azul oscuro */
+  --x-celeste:  #5CC8FF;              /* «¡¡¡BIENVENIDOS!!!» */
+  --x-tabla:    var(--p-sombra-sat);  /* tabla: verde */
+  --x-columna:  #013D0A;              /* columnas laterales: verde oscuro */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #FFFFFF;
+  font-family: 'Tinos', 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 1.5;
+  cursor: crosshair;
+  overflow-x: hidden;
+  /* fondo de mosaico: estrellitas magenta y lima sobre verde, como un .gif de 40 px */
+  background-color: var(--x-cielo);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M20 8 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z' fill='%23FF1FE1'/><path d='M60 48 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z' fill='%23DDFF00'/><circle cx='62' cy='14' r='1.6' fill='%2300DDFF'/><circle cx='14' cy='62' r='1.6' fill='%23FFFFFF'/></svg>");
+  background-size: 80px 80px;
+}
+
+a { color: var(--p-triada2-sat); font-weight: 700; }
+a:visited { color: var(--p-luz-sat); }
+a:hover { color: var(--p-triada1-sat); background: var(--p-luz-sat); }
+:focus-visible { outline: 3px dashed var(--p-triada1-sat); outline-offset: 3px; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+.pagina { max-width: 860px; margin: 0 auto; padding: 1rem 0.6rem 3rem; text-align: center; }
+
+/* ---------- En construcción ---------- */
+.obras {
+  background: repeating-linear-gradient(-45deg, var(--p-triada1-sat) 0 18px, #000 18px 36px);
+  border: 4px ridge #C0C0C0;
+  padding: 6px;
+  font: 700 15px/1.2 'Comic Neue', 'Comic Sans MS', cursive;
+  color: #000;
+}
+.obras span { background: var(--p-triada1-sat); padding: 3px 12px; display: inline-block; }
+.obrero { display: inline-block; animation: picar 0.5s steps(2) infinite; }
+@keyframes picar { 50% { transform: rotate(-25deg); } }
+
+/* ---------- Título WordArt ---------- */
+.bienvenidos { font: 700 1.1rem 'Comic Neue', cursive; color: var(--x-celeste); text-shadow: 1px 1px 0 #000; margin: 1.2rem 0 0; animation: parpadeo 0.9s steps(1) infinite; }
+.wordart {
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 10vw, 5.4rem);
+  line-height: 1;
+  margin: 0.4rem 0 0.4rem;
+  transform: perspective(500px) rotateX(14deg) skewX(-6deg);
+  background: linear-gradient(90deg, var(--p-luz-sat), #FFFFFF, var(--p-triada1-sat), var(--p-triada2-sat), var(--p-luz-sat));
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(2px 2px 0 #000) drop-shadow(4px 4px 0 #1E5BD8) drop-shadow(6px 6px 0 #000);
+  animation: flotar 3s ease-in-out infinite, arcoiris 3s linear infinite;
+}
+@keyframes arcoiris { to { background-position: 200% 0; } }
+@keyframes flotar { 50% { transform: perspective(500px) rotateX(14deg) skewX(-6deg) translateY(-6px); } }
+.lema { font-style: italic; color: var(--p-triada1-sat); font-weight: 700; margin: 0.3rem 0 0; }
+.lema small { display: block; color: #FFFFFF; font-weight: 400; font-style: normal; font-size: 13px; }
+
+/* ---------- Marquesina ---------- */
+.marquesina { overflow: hidden; white-space: nowrap; text-transform: uppercase; background: #000; border: 3px inset #808080; color: var(--p-triada1-sat); font-family: 'VT323', monospace; font-size: 24px; padding: 2px 0; margin: 1rem 0; }
+.marquesina span { display: inline-block; padding-left: 100%; animation: marquesina 22s linear infinite; }
+@keyframes marquesina { to { transform: translateX(-100%); } }
+
+/* ---------- Tabla de tres columnas ---------- */
+.marco { width: 100%; border: 5px outset #C0C0C0; background: var(--x-tabla); border-spacing: 0; }
+.marco > tbody > tr > td { padding: 0.9rem 1rem; vertical-align: top; text-align: left; }
+.menu-lateral { width: 25%; background: var(--x-columna); border-right: 3px groove var(--p-triada1-sat); font-family: 'Comic Neue', cursive; font-size: 15px; }
+.columna-centro { background: #000000; }
+.columna-derecha { width: 25%; background: var(--x-columna); border-left: 3px groove var(--p-triada1-sat); font-family: 'Comic Neue', cursive; font-size: 14px; }
+.titulo-caja { display: block; background: var(--p-luz-sat); color: #FFFFFF; font: 700 13px 'Comic Neue', cursive; text-transform: uppercase; padding: 2px 6px; margin: 0 0 0.5rem; border: 2px outset #FF9BEF; }
+
+.menu-lateral ul { list-style: none; padding: 0; margin: 0 0 1rem; }
+.menu-lateral li { margin-bottom: 6px; }
+.boton-menu { display: block; text-align: center; background: #C0C0C0; color: #000 !important; font-weight: 700; text-decoration: none; border: 3px outset #FFFFFF; padding: 3px 4px; font-size: 14px; }
+.boton-menu:hover { background: var(--p-triada1-sat); }
+.boton-menu:active { border-style: inset; }
+.nuevo { color: var(--p-luz-sat); font-weight: 700; font-size: 11px; animation: parpadeo 0.8s steps(1) infinite; }
+@keyframes parpadeo { 50% { visibility: hidden; } }
+
+.contador { display: inline-flex; gap: 2px; margin: 0.3rem 0; }
+.contador i { font-style: normal; font-family: 'VT323', monospace; font-size: 24px; background: #000; color: var(--p-triada1-sat); border: 1px solid #555; padding: 0 5px; }
+.minuscula { font-size: 12px; line-height: 1.35; color: #E9E9E9; }
+
+/* ---------- La carta ---------- */
+.carta-titulo { font: 700 1.25rem 'Comic Neue', cursive; color: var(--p-triada2-sat); margin: 0 0 0.8rem; text-decoration: underline wavy var(--p-luz-sat); }
+.saludo { font-style: italic; color: var(--p-triada1-sat); font-size: 1.2em; }
+.columna-centro p { margin: 0 0 1em; }
+.firma b { color: var(--p-luz-sat); }
+
+/* la carta espera oculta hasta que llegan los textos del .md, para no parpadear */
+.revelar:not(.listo) { visibility: hidden; }
+.revelar .palabra { display: inline-block; opacity: 0; filter: blur(6px); transform: translateY(0.25em); animation: aparecer 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; animation-delay: var(--d, 0ms); }
+@keyframes aparecer { to { opacity: 1; filter: blur(0); transform: none; } }
+.surgir { opacity: 0; animation: surgir 1.2s ease forwards; animation-delay: var(--d, 0ms); }
+@keyframes surgir { to { opacity: 1; } }
+
+/* ---------- Noticias, insignias ---------- */
+.noticias { margin: 0 0 1rem; padding: 0; list-style: none; }
+.noticias li { margin-bottom: 0.5rem; }
+.noticias b { color: var(--p-triada1-sat); }
+
+hr.arcoiris { border: 0; height: 7px; background: linear-gradient(90deg, var(--p-luz-sat), var(--p-triada1-sat), var(--p-triada2-sat), var(--p-luz-sat)); background-size: 200% 100%; animation: correr 2s linear infinite; margin: 1.4rem 0; }
+@keyframes correr { to { background-position: 200% 0; } }
+
+
+.reproductor { display: inline-flex; align-items: center; gap: 0.6rem; margin: 1rem 0 0; background: #C0C0C0; color: #000; border: 3px outset #FFFFFF; padding: 4px 8px; font: 13px 'VT323', monospace; font-size: 18px; }
+.barra-carga { display: inline-block; width: 90px; height: 14px; background: #FFFFFF; border: 2px inset #FFFFFF; padding: 1px; }
+.barra-carga[hidden] { display: none; }
+.barra-carga i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, #000080 0 8px, transparent 8px 10px); transition: width 0.25s steps(4); }
+.barra-carga.pasada i { background: repeating-linear-gradient(90deg, var(--p-luz-sat) 0 8px, transparent 8px 10px); animation: parpadeo 0.3s steps(1) infinite; }
+.reproductor button { font: 700 12px 'Comic Neue', cursive; background: #E0E0E0; border: 2px outset #FFFFFF; cursor: pointer; padding: 0 6px; }
+.reproductor button:active { border-style: inset; }
+
+.insignias { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 1.2rem; }
+.boton88 { width: 88px; min-height: 31px; padding: 3px 2px; display: grid; place-items: center; font: 700 9px/1.1 'Comic Neue', sans-serif; text-transform: uppercase; border: 2px outset #DDDDDD; text-align: center; }
+
+.pie { font-size: 12px; color: #FFFFFF; font-weight: 400; margin-top: 1rem; }
+.pie .giratorio { display: inline-block; animation: girar 2.4s linear infinite; color: var(--p-triada1-sat); font: 700 1.2rem 'Comic Neue', cursive; background: none; border: 0; padding: 0 0.2rem; cursor: pointer; }
+.pie .giratorio:hover { color: var(--p-luz-sat); }
+
+/* ---------- Easter egg: ventana de Windows 95 ---------- */
+.ventana-fondo { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; background: rgba(0, 0, 0, 0.45); }
+.ventana-fondo[hidden] { display: none; }
+.ventana { width: min(26rem, 100%); background: #C0C0C0; color: #000; border: 3px outset #FFFFFF; box-shadow: 4px 4px 0 #000; text-align: left; font: 15px/1.45 'Tinos', 'Times New Roman', serif; animation: abrir 0.18s steps(3); }
+@keyframes abrir { from { transform: scale(0.3); } }
+.ventana-barra { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, #000080, #1084D0); color: #FFF; font: 700 13px 'Comic Neue', cursive; padding: 3px 4px 3px 8px; }
+.ventana-x { background: #C0C0C0; color: #000; border: 2px outset #FFF; font: 700 12px/1 sans-serif; width: 18px; height: 16px; padding: 0; cursor: pointer; }
+.ventana-cuerpo { display: flex; gap: 0.9rem; padding: 1rem 1rem 0.4rem; }
+.ventana-cuerpo p { margin: 0 0 0.6rem; }
+.ventana-icono { flex: none; width: 2.6rem; height: 2.6rem; border-radius: 50%; display: grid; place-items: center; background: var(--p-luz-sat); color: #FFF; font: 700 1.4rem 'Comic Neue', cursive; border: 2px solid #000; }
+.ventana-icono.error { background: var(--p-triada1-sat); color: #000; }
+.ventana-ancha { width: min(32rem, 100%); }
+.firmas { list-style: none; margin: 0; padding: 0.8rem 1rem; max-height: 60vh; overflow-y: auto; background: #FFFFFF; border: 2px inset #FFFFFF; margin: 0.8rem; }
+.firmas li { padding: 0.5rem 0; border-bottom: 1px dashed #999; }
+.firmas li:last-child { border-bottom: 0; }
+.traduccion { display: block; margin-top: 0.25rem; font: italic 12px/1.4 'Tinos', serif; color: #666; }
+.traduccion .ficha { display: block; padding: 2px 6px; margin-top: 3px; background: #F3F3F3; border-left: 3px solid #E07B00; font-style: normal; color: #333; }
+.traduccion .ficha b { font-family: 'Comic Neue', cursive; color: #E07B00; }
+.traduccion b { font-weight: 400; font-style: normal; font-family: 'Comic Neue', cursive; }
+.firma-quien { font: 13px 'Comic Neue', cursive; color: #555; }
+.firma-quien b { color: #000080; }
+.ventana-credito { margin: 0.2rem 1rem 0.6rem; padding-top: 0.6rem; border-top: 2px groove #FFF; font-size: 12px; color: #333; }
+.ventana-botones { text-align: center; padding: 0 0 0.9rem; }
+.ventana-boton { min-width: 6rem; background: #C0C0C0; color: #000; border: 2px outset #FFF; outline: 1px solid #000; font: 700 13px 'Comic Neue', cursive; padding: 3px 10px; cursor: pointer; }
+.ventana-boton:active, .ventana-x:active { border-style: inset; }
+@keyframes girar { to { transform: rotateY(360deg); } }
+
+/* ---------- Estela de chispas ---------- */
+.chispa { position: fixed; pointer-events: none; font-size: 15px; z-index: 40; animation: chispa 0.9s ease-out forwards; }
+@keyframes chispa { to { transform: translateY(26px) scale(0.3); opacity: 0; } }
+
+@media (max-width: 680px) {
+  .marco, .marco > tbody, .marco > tbody > tr, .marco > tbody > tr > td { display: block; width: auto; }
+  .menu-lateral, .columna-derecha { border: 0; border-bottom: 3px groove var(--p-triada1-sat); }
+  .wordart { transform: none; animation: arcoiris 3s linear infinite; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+  .revelar .palabra, .surgir { opacity: 1; filter: none; transform: none; }
+}

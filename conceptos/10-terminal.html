@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 10 · Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --negro: var(--p-fondo); --gris: #8E7F8C; --texto: var(--p-texto); --blanco: var(--p-titulos); --rojo: var(--p-luz); --verde: var(--p-triada1); }
+    body { background: var(--negro); color: var(--texto); font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 300; font-size: clamp(0.92rem, 0.4vw + 0.85rem, 1.05rem); line-height: 1.85; }
+    /* luz fría de pantalla y viñeta: mucho espacio vacío arriba a la derecha */
+    .ambiente { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 70% at 15% 85%, rgba(var(--p-sombra-rgb), 0.35), transparent 70%), radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(var(--p-fondo-rgb),0.8)); }
+    .escan { position: fixed; inset: 0; pointer-events: none; background: repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px); }
+    .interferencia { position: fixed; inset: 0; pointer-events: none; z-index: 30; opacity: 0; background: repeating-linear-gradient(180deg, rgba(var(--p-luz-rgb), 0.0) 0 6px, rgba(var(--p-luz-rgb), 0.18) 6px 7px, rgba(var(--p-triada2-rgb), 0.12) 7px 9px, transparent 9px 14px); mix-blend-mode: screen; }
+    .interferencia.si { animation: interferir 0.35s steps(3) 1; }
+    @keyframes interferir { 0% { opacity: 1; transform: translateY(-8px); } 50% { opacity: 0.7; transform: translateY(12px); } 100% { opacity: 0; transform: none; } }
+    /* encuadre descentrado: el contenido vive abajo a la izquierda */
+    main { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; max-width: 40rem; padding: 6rem 1.25rem 6rem clamp(1.25rem, 7vw, 6rem); }
+    .esquina { position: fixed; top: 1.4rem; right: 1.6rem; font-size: 0.7rem; color: var(--gris); letter-spacing: 0.12em; text-align: right; }
+    .esquina b { color: var(--rojo); font-weight: 400; }
+    h1 { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: clamp(2.6rem, 9vw, 5.4rem); color: var(--blanco); letter-spacing: -0.03em; line-height: 1; margin-bottom: 2.5rem; position: relative; }
+    h1 .punto { color: var(--rojo); }
+    h1.glitch { animation: glitch 0.4s steps(2) 1; }
+    @keyframes glitch {
+      0% { text-shadow: -3px 0 var(--rojo), 3px 0 var(--verde); transform: translateX(2px); clip-path: inset(10% 0 40% 0); }
+      50% { text-shadow: 4px 0 var(--rojo), -4px 0 var(--verde); transform: translateX(-3px); clip-path: inset(50% 0 5% 0); }
+      100% { text-shadow: none; transform: none; clip-path: none; }
+    }
+    .terminal { margin: 0 0 1.5rem; white-space: pre-wrap; }
+    .terminal .prompt { color: var(--verde); }
+    .terminal .salida { color: var(--gris); }
+    .terminal .dir { color: var(--blanco); }
+    .terminal .oculto { color: var(--rojo); cursor: pointer; text-decoration: underline dotted; }
+    .cursor { display: inline-block; width: 0.6em; height: 1.1em; background: var(--rojo); vertical-align: -0.2em; animation: parpadeo 1s steps(1) infinite; }
+    @keyframes parpadeo { 50% { opacity: 0; } }
+    .carta { display: none; border-left: 1px solid var(--p-linea); padding-left: 1.25rem; }
+    .carta.activa { display: block; }
+    .carta p { color: var(--texto); }
+    .saludo { color: var(--blanco); font-weight: 400; }
+    .aparte { color: var(--gris); font-style: italic; }
+    .firma { color: var(--blanco); font-weight: 400; margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="ambiente" aria-hidden="true"></div>
+  <div class="escan" aria-hidden="true"></div>
+  <div class="interferencia" id="interferencia" aria-hidden="true"></div>
+  <p class="esquina surgir" style="--d:300ms">conexión cifrada <b>●</b><br>nodo 0x1F · sesión 001</p>
+
+  <main>
+    <h1 id="titulo" class="surgir" style="--d:200ms">daniel<span class="punto">.</span>db</h1>
+    <div class="terminal" id="terminal" aria-live="polite"></div>
+
+    <section class="carta" id="carta">
+      <p class="saludo revelar-tarde" data-ritmo="70">Hola, visitante.</p>
+      <p class="revelar-tarde" data-ritmo="30">Sé que no esperabas una carta. Nadie la espera. Pero aquí estás, leyendo a un desconocido en una pantalla negra a una hora rara.</p>
+      <p class="aparte revelar-tarde" data-ritmo="30">(Tranquilo. No voy a pedirte tus datos. Ya los tengo. Es broma.)</p>
+      <p class="revelar-tarde" data-ritmo="30">Aquí no hay un currículum. Hay números que intentan explicar el mundo, relatos sobre lo que pasa cuando nadie mira y una guitarra que convierte el sonido en luz.</p>
+      <p class="aparte revelar-tarde" data-ritmo="30">(¿Notaste la carpeta oculta? Claro que sí.)</p>
+      <p class="firma revelar-tarde" data-ritmo="60">— daniel.db</p>
+    </section>
+  </main>
+
+  <nav class="nav-conceptos"><a href="09-senor-x.html">← Anterior</a><span>10 · Terminal</span><a href="14-baldosas.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    const term = document.getElementById('terminal'), carta = document.getElementById('carta');
+    const pasos = [
+      { cmd: 'whoami', out: '<span class="dir">daniel_db</span>' },
+      { cmd: 'ls -a ~/', out: '<span class="dir">libros/  relatos/  musica/  modelos/</span>  <span class="oculto" id="oculto" tabindex="0">.secretos/</span>' },
+      { cmd: 'cat carta.txt', out: '' },
+    ];
+    const espera = (ms) => new Promise((r) => setTimeout(r, quieto ? 0 : ms));
+    async function escribir(el, texto) { for (const c of texto) { el.textContent += c; await espera(70 + Math.random() * 90); } }
+    async function sesion() {
+      await espera(1200);
+      for (const p of pasos) {
+        const linea = document.createElement('div');
+        linea.innerHTML = '<span class="prompt">~ $ </span><span class="cmd"></span><span class="cursor"></span>';
+        term.appendChild(linea);
+        await espera(500);
+        await escribir(linea.querySelector('.cmd'), p.cmd);
+        await espera(350);
+        linea.querySelector('.cursor').remove();
+        if (p.out) { const o = document.createElement('div'); o.className = 'salida'; o.innerHTML = p.out; term.appendChild(o); }
+        await espera(600);
+      }
+      carta.classList.add('activa');
+      revelarAhora(carta, 200);
+      const oculto = document.getElementById('oculto');
+      const denegar = () => { const o = document.createElement('div'); o.className = 'salida'; o.innerHTML = '<span style="color:var(--rojo)">acceso denegado.</span> todavía.'; term.appendChild(o); oculto.replaceWith(oculto.textContent); glitch(); };
+      oculto.addEventListener('click', denegar, { once: true });
+      oculto.addEventListener('keydown', (e) => { if (e.key === 'Enter') denegar(); }, { once: true });
+    }
+    // fallos de señal ocasionales
+    const titulo = document.getElementById('titulo'), interf = document.getElementById('interferencia');
+    function glitch() {
+      if (quieto) return;
+      titulo.classList.remove('glitch'); interf.classList.remove('si'); void titulo.offsetWidth;
+      titulo.classList.add('glitch'); interf.classList.add('si');
+    }
+    if (!quieto) (function programar() { setTimeout(() => { glitch(); programar(); }, 6000 + Math.random() * 7000); })();
+    sesion();
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+/* Base compartida de las pruebas de concepto */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+p { margin: 0 0 1.1em; }
+h1, h2, h3 { margin: 0; font-weight: 400; }
+
+.revelar .palabra {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(0.25em);
+  animation: aparecer 1.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes aparecer { to { opacity: 1; filter: blur(0); transform: none; } }
+
+.surgir { opacity: 0; animation: surgir 2.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; animation-delay: var(--d, 0ms); }
+@keyframes surgir { to { opacity: 1; } }
+
+/* Navegación entre conceptos */
+.nav-conceptos {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding: 0.7rem 1rem;
+  font: 11px/1.4 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.72); color: #cfcfcf;
+  backdrop-filter: blur(6px);
+}
+.nav-conceptos a { color: #fff; text-decoration: none; }
+.nav-conceptos a:hover { text-decoration: underline; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .revelar .palabra, .surgir { animation: none; opacity: 1; filter: none; transform: none; }
+  *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; }
+}

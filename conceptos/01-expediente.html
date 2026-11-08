@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 01 · Expediente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root {
+      --fondo: var(--p-fondo); --oliva: var(--p-superficie); --linea: var(--p-linea);
+      --manila: var(--p-titulos); --texto: var(--p-texto); --luz: var(--p-titulos); --sello: var(--p-triada1); --sodio: var(--p-luz); --revelado: var(--p-triada2);
+    }
+    body { background: var(--fondo); color: var(--texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.08rem, 0.5vw + 1rem, 1.25rem); line-height: 1.75; }
+    /* tubo fluorescente que parpadea al encenderse */
+    .tubo { position: fixed; top: 0; left: 10%; right: 10%; height: 2px; background: var(--sodio); box-shadow: 0 0 40px 12px rgba(var(--p-luz-rgb), 0.22), 0 0 260px 90px rgba(var(--p-luz-rgb), 0.08); animation: encender 2.2s steps(1) forwards; opacity: 0; }
+    @keyframes encender { 0%{opacity:0} 8%{opacity:1} 12%{opacity:0} 20%{opacity:.8} 23%{opacity:0} 40%{opacity:1} 44%{opacity:.3} 52%{opacity:1} 100%{opacity:1} }
+    .luz-sala { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(var(--p-luz-rgb), 0.10), transparent 70%); animation: surgir 3s 1.2s both; }
+    main { position: relative; max-width: 40rem; margin: 0 auto; padding: 7rem 1.25rem 6rem; }
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: #8E7F8C; }
+    h1 { font-family: 'Inter Tight', sans-serif; font-weight: 200; font-size: clamp(2.8rem, 9vw, 6rem); letter-spacing: 0.32em; text-transform: uppercase; color: var(--luz); margin: 1rem 0 2.5rem; line-height: 1; }
+    /* la ficha */
+    .ficha { border: 1px solid var(--linea); background: linear-gradient(180deg, rgba(var(--p-titulos-rgb), 0.05), rgba(var(--p-titulos-rgb), 0.02)); padding: 1.5rem; margin-bottom: 3rem; position: relative; }
+    .ficha::before { content: 'EXPEDIENTE Nº 001'; position: absolute; top: -0.75rem; left: 1.25rem; background: var(--fondo); padding: 0 0.6rem; font: 0.68rem 'IBM Plex Mono', monospace; letter-spacing: 0.2em; color: var(--manila); }
+    .ficha dl { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: 0.6rem 1rem; margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+    .ficha dt { color: #8E7F8C; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.7rem; padding-top: 0.15rem; }
+    .ficha dd { margin: 0; color: var(--luz); }
+    .tachado { background: #000; color: transparent; padding: 0 0.2em; transition: background 0.6s, color 0.6s; cursor: help; }
+    .tachado:hover, .tachado:focus { background: transparent; color: var(--revelado); }
+    .sello { position: absolute; right: 1.25rem; bottom: 1rem; transform: rotate(-8deg); border: 2px solid var(--sello); color: var(--sello); font: 0.72rem 'IBM Plex Mono', monospace; letter-spacing: 0.2em; padding: 0.3rem 0.6rem; opacity: 0; animation: sellar 0.25s 3.4s cubic-bezier(.2,1.6,.4,1) forwards; }
+    @keyframes sellar { from { opacity: 0; transform: rotate(-8deg) scale(1.8); } to { opacity: 0.85; transform: rotate(-8deg) scale(1); } }
+    .saludo { font-style: italic; color: var(--luz); font-size: 1.3em; }
+    .firma { font-family: 'Inter Tight', sans-serif; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--luz); margin-top: 2.5rem; }
+    @media (max-width: 520px) { .ficha dl { grid-template-columns: 1fr; } .ficha dt { padding-top: 0.6rem; } }
+  </style>
+</head>
+<body>
+  <div class="tubo" aria-hidden="true"></div>
+  <div class="luz-sala" aria-hidden="true"></div>
+
+  <main>
+    <p class="meta surgir" style="--d:1600ms">Sala de entrevistas · 23:47</p>
+    <h1 class="surgir" style="--d:2000ms">Daniel DB</h1>
+
+    <section class="ficha surgir" style="--d:2600ms" aria-label="Ficha del caso">
+      <dl>
+        <dt>Sujeto</dt><dd>Daniel DB</dd>
+        <dt>Ocupación</dt><dd>Artista · Escritor · Músico</dd>
+        <dt>Formación</dt><dd>Ingeniería, inteligencia artificial, <span class="tachado" tabindex="0">modelado matemático</span></dd>
+        <dt>Pistas</dt><dd>Un libro sobre el mundo. Un detective llamado <span class="tachado" tabindex="0">Homero</span>. Una guitarra.</dd>
+        <dt>Estado</dt><dd>Caso abierto</dd>
+      </dl>
+      <span class="sello" aria-hidden="true">Sin resolver</span>
+    </section>
+
+    <p class="saludo revelar" data-inicio="4200" data-ritmo="70">Querido visitante:</p>
+    <p class="revelar" data-ritmo="36">Si estás leyendo esto, ya formas parte de la investigación. Aquí no hay un currículum: hay pistas. Números que intentan explicar el mundo, relatos que se esconden entre la niebla y una guitarra que convierte el sonido en luz.</p>
+    <p class="revelar" data-ritmo="36">Pasa el cursor sobre lo tachado. No todo está a la vista.</p>
+    <p class="firma surgir" style="--d:10500ms">— Daniel DB</p>
+  </main>
+
+  <nav class="nav-conceptos"><a href="index.html">← Galería</a><span>01 · Expediente</span><a href="02-neon.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+</body>
+</html>

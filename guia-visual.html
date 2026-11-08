@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guía visual — Cartas desde el vacío</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#09110A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/paleta.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <style>
+    .guia { max-width: 68rem; margin: 0 auto; padding: var(--e-6) var(--gutter); }
+    .guia section { margin-bottom: var(--e-6); }
+    .guia h1 { font-size: var(--t-1); font-weight: 300; margin: var(--e-2) 0 var(--e-3); }
+    .guia h2 { font-size: var(--t-2); margin: var(--e-1) 0 var(--e-3); }
+    .intro { max-width: var(--medida); }
+    .rejilla { display: grid; gap: var(--e-2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr)); }
+    .muestra { border: 1px solid var(--linea); border-radius: 10px; overflow: hidden; background: var(--sombra); }
+    .muestra .color { height: 6.5rem; }
+    .muestra .info { padding: var(--e-2); }
+    .muestra .nombre { font-family: var(--font-display); font-size: 1.35rem; color: var(--luz); line-height: 1.2; }
+    .muestra .uso { font-size: var(--t-small); line-height: 1.5; margin: 0.4em 0 0.6em; }
+    .grupo { margin: var(--e-4) 0 var(--e-2); }
+    .tipo { border-top: 1px solid var(--linea); padding: var(--e-4) 0; display: grid; gap: var(--e-3); grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); }
+    .tipo .ej-display { font-family: var(--font-display); font-size: var(--t-1); font-weight: 300; color: var(--luz); line-height: 1.05; }
+    .tipo .ej-texto { max-width: var(--medida); }
+    .tipo .ej-meta { font-family: var(--font-meta); font-size: 0.9rem; letter-spacing: 0.08em; color: var(--luz); }
+    .escala p { margin: 0 0 var(--e-2); color: var(--luz); font-family: var(--font-display); line-height: 1.1; }
+    .componentes { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+    .panel { border: 1px solid var(--linea); border-radius: 12px; padding: var(--e-3); background: rgba(14, 24, 16, 0.72); backdrop-filter: blur(6px); }
+    .habitacion { position: relative; border: 1px solid var(--linea); border-radius: 12px; padding: var(--e-3); background: rgba(19, 32, 21, 0.55); transition: border-color var(--medio) var(--curva), box-shadow var(--medio) var(--curva); }
+    .habitacion:hover { border-color: var(--acero); box-shadow: 0 0 60px var(--bahia-tenue); }
+    .habitacion h3 { font-size: var(--t-2); margin: var(--e-1) 0; }
+    .habitacion p { font-size: var(--t-small); margin: 0; }
+    .reglas { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+    .reglas ul { margin: 0; padding-left: 1.1em; }
+    .reglas li { margin-bottom: 0.5em; }
+    .reglas li::marker { color: var(--bahia); }
+    .no li::marker { color: var(--ceniza); }
+    .lento-demo { display: flex; gap: var(--e-2); flex-wrap: wrap; }
+    .lento-demo div { flex: 1 1 10rem; border: 1px solid var(--linea); border-radius: 10px; padding: var(--e-2); }
+    .lento-demo b { font-family: var(--font-meta); font-weight: 400; font-size: 1.4rem; color: var(--luz); display: block; }
+    @media (max-width: 640px) { .tipo { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <canvas id="cielo" data-densidad="0.6" data-niebla="0.7" aria-hidden="true"></canvas>
+  <div class="halo" aria-hidden="true"></div>
+  <div class="vineta" aria-hidden="true"></div>
+  <div class="grano" aria-hidden="true"></div>
+
+  <main class="guia capa">
+
+    <section>
+      <p class="meta">Guía visual · v0.1</p>
+      <h1>Cartas desde el <span class="acento">vacío</span></h1>
+      <div class="intro">
+        <p>Esta web es una carta escrita desde muy lejos, de noche, entre la niebla. Puede cambiar de vestuario por temporadas, pero siempre con la misma paleta. Quien entra la recibe en silencio, como una pista. Todo lo que construyamos debe sentirse frío, lejano y misterioso, con la melancolía del cine negro y sin solemnidad.</p>
+        <p>Esta página es la referencia: cualquier sección nueva toma sus colores, letras y ritmo de aquí.</p>
+      </div>
+    </section>
+
+    <section>
+      <p class="meta">01 · Color</p>
+      <h2>Una luz magenta y su sombra verde</h2>
+      <p class="intro">Toda la web nace de un solo color: la luz magenta. Sus acentos son la tríada del círculo, lima y cian, a 120° y 240°. Las sombras y los fondos se tiñen con su complementario, el verde, en lugar de usar negro o gris. Así se elige y se ajusta en el <a href="conceptos/paletas.html">taller de paletas</a>.</p>
+
+      <p class="meta grupo">Sombras · fondos</p>
+      <div class="rejilla">
+        <div class="muestra"><div class="color" style="background:#09110A"></div><div class="info"><div class="nombre">Fondo</div><p class="uso">Sombra profunda de toda la web.</p><span class="meta">#09110A</span></div></div>
+        <div class="muestra"><div class="color" style="background:#132015"></div><div class="info"><div class="nombre">Superficie</div><p class="uso">Capas elevadas, paneles.</p><span class="meta">#132015</span></div></div>
+        <div class="muestra"><div class="color" style="background:#2C3F2E"></div><div class="info"><div class="nombre">Línea</div><p class="uso">Bordes y separadores.</p><span class="meta">#2C3F2E</span></div></div>
+        <div class="muestra"><div class="color" style="background:#195721"></div><div class="info"><div class="nombre">Sombra</div><p class="uso">Sombras proyectadas: el verde complementario.</p><span class="meta">#195721</span></div></div>
+      </div>
+
+      <p class="meta grupo">Texto</p>
+      <div class="rejilla">
+        <div class="muestra"><div class="color" style="background:#C6B3C4"></div><div class="info"><div class="nombre">Texto</div><p class="uso">Lectura larga, teñida de luz.</p><span class="meta">#C6B3C4</span></div></div>
+        <div class="muestra"><div class="color" style="background:#F3E7F1"></div><div class="info"><div class="nombre">Títulos</div><p class="uso">Blanco rosado, nunca puro.</p><span class="meta">#F3E7F1</span></div></div>
+      </div>
+
+      <p class="meta grupo">Luz y tríada · con escasez</p>
+      <div class="rejilla">
+        <div class="muestra"><div class="color" style="background:#DA4EC7"></div><div class="info"><div class="nombre">Luz</div><p class="uso">Magenta. El acento principal de cada pantalla.</p><span class="meta">#DA4EC7</span></div></div>
+        <div class="muestra"><div class="color" style="background:#BAC954"></div><div class="info"><div class="nombre">Lima</div><p class="uso">Tríada 1. Detalles y estados.</p><span class="meta">#BAC954</span></div></div>
+        <div class="muestra"><div class="color" style="background:#73C6D3"></div><div class="info"><div class="nombre">Cian</div><p class="uso">Tríada 2. Enlaces.</p><span class="meta">#73C6D3</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="meta">02 · Tipografía</p>
+      <h2>Una carta, no una interfaz</h2>
+      <p class="intro">Tres voces y ninguna manuscrita. La elegancia viene del serif clásico; la precisión, de una monoespaciada usada en voz baja.</p>
+
+      <div class="tipo">
+        <div><p class="meta">La voz · títulos</p><p class="meta" style="color:var(--niebla)">Cormorant Garamond<br>300 · 400 · cursiva</p></div>
+        <div class="ej-display">El vacío nunca está <span class="acento">vacío</span> del todo</div>
+      </div>
+      <div class="tipo">
+        <div><p class="meta">La carta · lectura</p><p class="meta" style="color:var(--niebla)">EB Garamond<br>400 · cursiva · 1.75</p></div>
+        <div class="ej-texto"><p>Te escribo desde lejos, desde ese lugar silencioso donde las ecuaciones empiezan a parecerse a la música y las historias tienen la forma de una órbita. <em>Así se lee un texto largo:</em> con calma, a unos 65 caracteres por línea.</p></div>
+      </div>
+      <div class="tipo">
+        <div><p class="meta">El expediente · metadatos</p><p class="meta" style="color:var(--niebla)">IBM Plex Mono<br>mayúsculas · espaciada</p></div>
+        <div><p class="meta">Transmisión Nº 001 · Noviembre 2026</p><p class="ej-meta">dx/dt = σ(y − x) · 440 Hz</p></div>
+      </div>
+      <div class="tipo escala">
+        <div><p class="meta">Escala</p></div>
+        <div>
+          <p style="font-size:var(--t-hero);font-weight:300">Hero</p>
+          <p style="font-size:var(--t-1)">Título uno</p>
+          <p style="font-size:var(--t-2)">Título dos</p>
+          <p style="font-size:var(--t-3);font-style:italic">Título tres, en cursiva</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="meta">03 · Elementos</p>
+      <h2>Piezas del universo</h2>
+      <div class="componentes">
+        <div class="panel">
+          <p class="meta">Señal · botón</p>
+          <p style="font-size:var(--t-small)">Una invitación discreta, nunca un anuncio.</p>
+          <a class="senal" href="#">Leer el relato</a>
+        </div>
+        <div class="panel">
+          <p class="meta">Enlace</p>
+          <p style="font-size:var(--t-small)">Dentro del texto, <a href="#">un enlace subrayado en azul Cherenkov</a> que se disuelve al pasar.</p>
+        </div>
+        <div class="panel">
+          <p class="meta">Cita</p>
+          <blockquote class="cita">El azar también escribe, pero firma con otro nombre.<cite>— Daniel DB</cite></blockquote>
+        </div>
+        <div class="habitacion">
+          <p class="meta">Habitación · tarjeta</p>
+          <h3>Un lugar <span class="acento">por descubrir</span></h3>
+          <p>Así se presentará cada espacio de la web cuando lo construyamos. Al pasar, el borde se aclara como si alguien encendiera una lámpara.</p>
+        </div>
+      </div>
+      <hr class="orbita">
+      <p class="meta">Separador · órbita (arriba)</p>
+    </section>
+
+    <section>
+      <p class="meta">04 · Movimiento</p>
+      <h2>Todo es lento, como la niebla</h2>
+      <p class="intro">Nada salta ni rebota. Las cosas aparecen como una señal que llega de lejos: con desenfoque, sin prisa. Quien prefiera menos movimiento lo verá todo quieto.</p>
+      <div class="lento-demo">
+        <div><b>240 ms</b><span class="meta">Respuesta al tacto</span></div>
+        <div><b>700 ms</b><span class="meta">Transiciones</span></div>
+        <div><b>1.6 s</b><span class="meta">Revelados</span></div>
+        <div><b>3.2 s</b><span class="meta">Apariciones</span></div>
+      </div>
+      <p class="revelar" data-inicio="400" data-ritmo="60" style="margin-top:var(--e-3);font-family:var(--font-display);font-style:italic;font-size:var(--t-3);color:var(--luz)">Así llegan las palabras: una a una, desde muy lejos.</p>
+    </section>
+
+    <section>
+      <p class="meta">05 · Exploración</p>
+      <h2>La linterna</h2>
+      <p class="intro">El cursor es una linterna de detective en la oscuridad. Pásalo por los bordes de la portada: hay ecuaciones, frecuencias y versos escondidos. En el móvil, basta con tocar la pantalla.</p>
+    </section>
+
+    <section>
+      <p class="meta">06 · Reglas</p>
+      <h2>Lo que sí y lo que nunca</h2>
+      <div class="reglas">
+        <div class="panel">
+          <p class="meta" style="color:var(--faro)">Sí</p>
+          <ul>
+            <li>Mucho espacio negativo. El silencio también diseña.</li>
+            <li>La luz magenta se usa poco: si todo brilla, nada brilla.</li>
+            <li>Grano de película y viñeta: la web se ve como un fotograma.</li>
+            <li>Textos en primera persona, como una carta.</li>
+            <li>Detalles ocultos que premian a quien explora.</li>
+          </ul>
+        </div>
+        <div class="panel no">
+          <p class="meta">Nunca</p>
+          <ul>
+            <li>Barras de habilidades, logos de empresas, «servicios».</li>
+            <li>Tipografía manuscrita o decorativa.</li>
+            <li>Galaxias o nebulosas de colores: eso es astrología, no cine.</li>
+            <li>Negro o blanco puros, colores saturados.</li>
+            <li>Animaciones rápidas, rebotes o sonido automático.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="meta"><a href="index.html">← Volver a la carta</a></p>
+  </main>
+
+  <script src="js/cielo.js"></script>
+</body>
+</html>

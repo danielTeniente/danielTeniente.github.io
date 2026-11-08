@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 14 · Baldosas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --negro: var(--p-fondo); --blanco: var(--p-titulos); --texto: var(--p-texto); --rosa: var(--p-luz); --ambar: var(--p-triada1); --cian: var(--p-triada2); }
+    body { background: var(--negro); color: var(--texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.08rem, 0.5vw + 1rem, 1.25rem); line-height: 1.75; }
+    /* la acera que se ilumina al pisarla */
+    .acera { position: fixed; inset: 0; display: grid; gap: 4px; padding: 4px; background: #050A06; }
+    .acera i { background: #0E1810; border-radius: 3px; transition: background 1.2s ease-out, box-shadow 1.2s ease-out; }
+    .acera i.on { transition: none; }
+    .acera i.on.b { background: var(--blanco); box-shadow: 0 0 30px rgba(var(--p-titulos-rgb),0.6); }
+    .acera i.on.r { background: var(--rosa); box-shadow: 0 0 30px var(--rosa); }
+    .acera i.on.a { background: var(--ambar); box-shadow: 0 0 30px var(--ambar); }
+    .acera i.on.c { background: var(--cian); box-shadow: 0 0 30px var(--cian); }
+    main { position: relative; max-width: 38rem; margin: 0 auto; padding: 5rem 1.25rem 8rem; pointer-events: none; }
+    main a, main button { pointer-events: auto; }
+    .panel { background: rgba(var(--p-fondo-rgb), 0.86); border: 1px solid var(--p-linea); padding: 2rem 1.75rem; backdrop-filter: blur(4px); }
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: #8E7F8C; }
+    /* lentejuelas sobre el título */
+    h1 { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: clamp(2.2rem, 8.5vw, 4.6rem); line-height: 1.05; text-transform: uppercase; margin: 1rem 0 0.3rem;
+      background: linear-gradient(110deg, #9a9a9a 0%, #fff 20%, #9a9a9a 35%, #e9e9e9 50%, #7a7a7a 65%, #fff 80%, #9a9a9a 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: brillo 3.5s linear infinite; }
+    @keyframes brillo { to { background-position: -250% 0; } }
+    .sub { font-family: 'Syncopate', sans-serif; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--rosa); margin-bottom: 2.2rem; }
+    .saludo { font-style: italic; color: var(--blanco); font-size: 1.3em; }
+    /* la firma se desliza hacia atrás */
+    .firma { font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blanco); margin-top: 2rem; animation: atras 2.6s 8.5s cubic-bezier(.3,0,.2,1) both; }
+    @keyframes atras { from { opacity: 0; transform: translateX(60%); } 20% { opacity: 1; } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="acera" id="acera" aria-hidden="true"></div>
+  <main>
+    <div class="panel">
+      <p class="meta surgir" style="--d:200ms">Gira mundial · Noche 001</p>
+      <h1 class="surgir" style="--d:500ms">Daniel DB</h1>
+      <p class="sub surgir" style="--d:900ms">Artista · Escritor · Músico</p>
+      <p class="saludo revelar" data-inicio="1600" data-ritmo="70">Querido visitante:</p>
+      <p class="revelar" data-ritmo="34">Cada paso que das aquí enciende algo. Prueba: mueve el cursor por el suelo. Aquí no hay un currículum, hay ritmo: números que intentan explicar el mundo, relatos que se mueven en la oscuridad y una guitarra que marca el compás.</p>
+      <p class="revelar" data-ritmo="34">Para avanzar, a veces hay que deslizarse hacia atrás.</p>
+      <p class="firma">— Daniel DB</p>
+    </div>
+  </main>
+
+  <nav class="nav-conceptos"><a href="10-terminal.html">← Anterior</a><span>14 · Baldosas</span><a href="index.html">Galería →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    const acera = document.getElementById('acera');
+    let celdas = [], cols = 0, filas = 0;
+    const colores = ['b', 'r', 'a', 'c'];
+    function construir() {
+      const lado = innerWidth < 600 ? 64 : 92;
+      cols = Math.ceil(innerWidth / lado); filas = Math.ceil(innerHeight / lado);
+      acera.style.gridTemplateColumns = `repeat(${cols}, 1fr)`; acera.style.gridTemplateRows = `repeat(${filas}, 1fr)`;
+      acera.innerHTML = ''; celdas = [];
+      for (let i = 0; i < cols * filas; i++) { const d = document.createElement('i'); acera.appendChild(d); celdas.push(d); }
+    }
+    function encender(celda, color) {
+      if (!celda) return;
+      celda.className = 'on ' + (color || colores[Math.floor(Math.random() * colores.length)]);
+      requestAnimationFrame(() => requestAnimationFrame(() => { celda.className = celda.className.replace('on ', ''); }));
+    }
+    construir(); addEventListener('resize', construir);
+    let ultima = -1;
+    addEventListener('pointermove', (e) => {
+      const x = Math.floor(e.clientX / (innerWidth / cols)), y = Math.floor(e.clientY / (innerHeight / filas));
+      const i = y * cols + x; if (i !== ultima) { ultima = i; encender(celdas[i], 'b'); }
+    }, { passive: true });
+    // un paso cada pulso, a 117 pulsaciones por minuto
+    if (!quieto) setInterval(() => encender(celdas[Math.floor(Math.random() * celdas.length)]), 60000 / 117);
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 11 · Ópera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400;1,900&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --negro: #040303; --oro: #D9B451; --carmesi: #9B111E; --marfil: #F3EADA; --texto: #C7BCA8; }
+    body { background: var(--negro); color: var(--texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.08rem, 0.5vw + 1rem, 1.25rem); line-height: 1.75; }
+    /* focos de escenario que barren */
+    .foco { position: fixed; top: -10vh; width: 60vw; height: 130vh; pointer-events: none; transform-origin: 50% 0; mix-blend-mode: screen;
+      background: conic-gradient(from 180deg at 50% 0, transparent 165deg, rgba(243, 234, 218, 0.10) 176deg, rgba(243, 234, 218, 0.16) 180deg, rgba(243, 234, 218, 0.10) 184deg, transparent 195deg); }
+    .foco.izq { left: -10vw; animation: barrer 9s ease-in-out infinite alternate; }
+    .foco.der { right: -10vw; animation: barrer 11s ease-in-out infinite alternate-reverse; background: conic-gradient(from 180deg at 50% 0, transparent 165deg, rgba(217, 180, 81, 0.10) 176deg, rgba(217, 180, 81, 0.18) 180deg, rgba(217, 180, 81, 0.10) 184deg, transparent 195deg); }
+    @keyframes barrer { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
+    main { position: relative; max-width: 40rem; margin: 0 auto; padding: 5rem 1.25rem 7rem; text-align: center; }
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--oro); }
+    /* el título con eco, como una toma multiplicada */
+    h1 { position: relative; font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; font-size: clamp(3.6rem, 13vw, 8rem); line-height: 1; color: var(--marfil); margin: 1.5rem 0 3rem; }
+    h1 .eco { position: absolute; inset: 0; color: transparent; -webkit-text-stroke: 1px var(--oro); opacity: 0; animation: eco 4s ease-out infinite; }
+    h1 .eco:nth-child(2) { animation-delay: 0.25s; } h1 .eco:nth-child(3) { animation-delay: 0.5s; } h1 .eco:nth-child(4) { animation-delay: 0.75s; }
+    @keyframes eco { 0% { opacity: 0.7; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(14px, 18px) scale(1.12); } }
+    /* cuatro rostros en diamante, iluminados desde arriba */
+    .diamante { display: grid; grid-template-columns: repeat(3, 7.5rem); grid-template-rows: repeat(3, 6.2rem); justify-content: center; margin: 0 auto 3.5rem; }
+    .cara { display: grid; place-items: end center; padding-bottom: 0.8rem; font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--marfil);
+      background: radial-gradient(ellipse 22% 26% at 50% 34%, rgba(243, 234, 218, 0.9), rgba(243, 234, 218, 0.25) 60%, transparent 100%), radial-gradient(ellipse 48% 60% at 50% 40%, rgba(217, 180, 81, 0.28), transparent 75%); opacity: 0; animation: encender 1.6s ease-out forwards; }
+    .cara:nth-child(1) { grid-area: 1 / 2; animation-delay: 1.4s; } .cara:nth-child(2) { grid-area: 2 / 1; animation-delay: 1.8s; }
+    .cara:nth-child(3) { grid-area: 2 / 3; animation-delay: 2.2s; } .cara:nth-child(4) { grid-area: 3 / 2; animation-delay: 2.6s; }
+    @keyframes encender { 0% { opacity: 0; filter: brightness(3); } 100% { opacity: 1; filter: none; } }
+    .carta { text-align: left; }
+    .saludo { font-style: italic; color: var(--marfil); font-size: 1.3em; }
+    .firma { font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; color: var(--oro); font-size: 2rem; margin-top: 2.5rem; text-align: center; }
+    .telon { position: fixed; top: 0; bottom: 0; width: 51%; background: linear-gradient(90deg, #5A0A12, var(--carmesi) 30%, #5A0A12 50%, var(--carmesi) 70%, #5A0A12); background-size: 80px 100%; z-index: 45; animation: abrir 1.8s 0.3s cubic-bezier(.6,0,.2,1) forwards; }
+    .telon.i { left: 0; } .telon.d { right: 0; --dir: 1; }
+    .telon.i { animation-name: abrirI; } .telon.d { animation-name: abrirD; }
+    @keyframes abrirI { to { transform: translateX(-100%); } } @keyframes abrirD { to { transform: translateX(100%); } }
+    @media (max-width: 480px) { .diamante { grid-template-columns: repeat(3, 6.2rem); grid-template-rows: repeat(3, 5.4rem); } .cara { font-size: 0.9rem; } }
+  </style>
+</head>
+<body>
+  <div class="telon i" aria-hidden="true"></div><div class="telon d" aria-hidden="true"></div>
+  <div class="foco izq" aria-hidden="true"></div><div class="foco der" aria-hidden="true"></div>
+
+  <main>
+    <p class="meta surgir" style="--d:1200ms">Esta noche · Función única</p>
+    <h1 aria-label="Daniel DB"><span aria-hidden="true">Daniel DB</span><span class="eco" aria-hidden="true">Daniel DB</span><span class="eco" aria-hidden="true">Daniel DB</span><span class="eco" aria-hidden="true">Daniel DB</span></h1>
+
+    <div class="diamante" aria-label="Las cuatro caras: pensador, narrador, músico, explorador">
+      <div class="cara">Pensador</div><div class="cara">Narrador</div><div class="cara">Músico</div><div class="cara">Explorador</div>
+    </div>
+
+    <div class="carta">
+      <p class="saludo revelar" data-inicio="3400" data-ritmo="70">Querido visitante:</p>
+      <p class="revelar" data-ritmo="34">Siéntate, que se apagan las luces y sube el telón. Aquí no hay un currículum. Hay números que intentan explicar el mundo, relatos que se representan en la oscuridad y una guitarra que no sabe tocar en voz baja.</p>
+      <p class="revelar" data-ritmo="34">El espectáculo debe continuar. Y empieza ahora.</p>
+      <p class="firma surgir" style="--d:11000ms">Daniel DB</p>
+    </div>
+  </main>
+
+  <nav class="nav-conceptos"><a href="10-evangelion.html">← Anterior</a><span>11 · Ópera</span><a href="12-robot.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+</body>
+</html>

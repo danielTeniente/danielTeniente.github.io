@@ -1,0 +1,12 @@
+# Imágenes de referencia de terceros (pósters, capturas): solo para trabajar, no se publican
+referencias/
+
+# Configuración local de Claude Code (launch.json sí se guarda)
+.claude/settings.local.json
+
+# Archivos del sistema y del editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+*.swp

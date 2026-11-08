@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Página de Daniel DB</title>
+  <meta name="description" content="La página personal de Daniel DB: relatos, terror, cine, discos, pixel art y matemáticas. En construcción desde 1998.">
+  <meta name="theme-color" content="#0B2A6B">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Tinos:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/paleta.css?v=20261108j">
+  <link rel="stylesheet" href="css/senor-x.css?v=20261108j">
+</head>
+<body>
+  <!--
+    Los textos de esta página se editan en textos/portada.md.
+    Cuando cambie el CSS o el JS, sube el número de ?v=... en los enlaces de abajo
+    para que los navegadores no usen la versión vieja guardada.
+    Lo que hay aquí es solo el texto por defecto, por si el archivo no se puede leer.
+  -->
+  <div class="pagina">
+
+    <div class="obras"><span><span class="obrero" aria-hidden="true">⚒</span> <span data-texto="obras" data-formato="plano">PÁGINA EN CONSTRUCCIÓN</span> <span class="obrero" aria-hidden="true">⚒</span></span></div>
+
+    <p class="bienvenidos" data-texto="bienvenidos">¡¡¡BIENVENIDOS!!!</p>
+    <h1 class="wordart" data-texto="titulo" data-formato="lineas">La Página de<br>Daniel DB</h1>
+    <p class="lema"><span data-texto="lema">«Lo que los demás no se atreven a contar»</span><small data-texto="lema-pequeno">en construcción desde 1998 · actualizada cuando me acuerdo</small></p>
+
+    <div class="marquesina" role="marquee" aria-label="Estado del artista"><span id="marquesina">*** Escribiendo una novela de detectives ***</span></div>
+
+    <table class="marco" role="presentation"><tbody><tr>
+
+      <td class="menu-lateral">
+        <span class="titulo-caja">Menú</span>
+        <nav aria-label="Menú principal">
+          <ul data-texto="menu" data-formato="menu">
+            <li><a class="boton-menu" href="#">No ficción (demasiado pretensioso)</a></li>
+            <li><a class="boton-menu" href="https://payhip.com/danieldb" target="_blank" rel="noopener">Mis libros (evita que me muera de hambre)</a></li>
+          </ul>
+        </nav>
+        <span class="titulo-caja">Visitas</span>
+        Eres el visitante nº<br>
+        <span class="contador" id="contador" aria-label="Contador de visitas"><i>0</i><i>0</i><i>0</i><i>3</i><i>4</i><i>7</i></span>
+        <p class="minuscula" data-texto="contador-nota">(los primeros 346 fueron mi mamá recargando la página)</p>
+      </td>
+
+      <td class="columna-centro">
+        <h2 class="carta-titulo" data-texto="carta-titulo">Una carta para ti</h2>
+        <p class="saludo" data-texto="saludo">Querido internauta:</p>
+        <div data-texto="carta" data-formato="parrafos-fijos">
+          <p>Si estás leyendo esto, encontraste mi página secreta.</p>
+        </div>
+        <p class="firma" data-texto="firma">— <b>Daniel DB</b>, también conocido como <i>el Señor DB</i></p>
+        <p class="minuscula" data-texto="posdata" data-formato="aleatorio">P. D.: La derivada de esta página respecto al tiempo es casi cero, salvo cuando tengo tiempo.</p>
+      </td>
+
+      <td class="columna-derecha">
+        <span class="titulo-caja" data-texto="noticias-titulo" data-formato="plano">Grandes sucesos</span>
+        <ul class="noticias" data-texto="noticias" data-formato="noticias">
+          <li><b>1998</b><br>Empecé esta página. Sigue en construcción.</li>
+        </ul>
+        <span class="titulo-caja">Libro de visitas</span>
+        <p class="minuscula" data-texto="libro-visitas">¡Firma mi libro de visitas! Lo leo todos los días.</p>
+      </td>
+
+    </tr></tbody></table>
+
+    <hr class="arcoiris">
+
+    <div class="reproductor" role="group" aria-label="Reproductor de música">
+      <span aria-hidden="true">♪</span>
+      <span id="pista" aria-live="polite">cancion.mid</span>
+      <span class="barra-carga" id="barra-carga" hidden aria-hidden="true"><i></i></span>
+      <button type="button" id="play">▶ PLAY</button>
+    </div>
+
+    <div class="insignias" aria-label="Insignias" data-texto="insignias" data-formato="insignias">
+      <span class="boton88" style="background:#C0C0C0;color:#000">Hecho con Bloc de notas</span>
+    </div>
+
+    <p class="pie"><span data-texto="pie">Se ve mejor a 800×600 con Netscape Navigator</span> <button type="button" class="giratorio" id="arroba" aria-label="Arroba giratoria. ¿Qué pasa si la pulsas?">@</button></p>
+  </div>
+
+  <!-- Easter egg: se abre al pulsar la arroba giratoria del pie -->
+  <div class="ventana-fondo" id="secreto" hidden>
+    <div class="ventana" role="dialog" aria-modal="true" aria-labelledby="secreto-titulo">
+      <div class="ventana-barra"><span id="secreto-titulo" data-texto="secreto-titulo" data-formato="plano">Mensaje de El Señor DB</span><button type="button" class="ventana-x" data-cerrar aria-label="Cerrar">×</button></div>
+      <div class="ventana-cuerpo">
+        <span class="ventana-icono" aria-hidden="true">X</span>
+        <div data-texto="secreto" data-formato="parrafos-fijos"><p><b>¡¡¡Felicitationces!!!</b></p></div>
+      </div>
+      <div class="ventana-botones"><button type="button" class="ventana-boton" data-cerrar data-texto="secreto-boton" data-formato="plano">Aceptar</button></div>
+    </div>
+  </div>
+
+  <!-- Libro de visitas: «Firmar» muestra un error; «Leer» muestra las firmas -->
+  <div class="ventana-fondo" id="ventana-firmar" hidden>
+    <div class="ventana" role="alertdialog" aria-modal="true" aria-labelledby="firmar-titulo" aria-describedby="firmar-aviso">
+      <div class="ventana-barra"><span id="firmar-titulo" data-texto="firmar-titulo" data-formato="plano">Error</span><button type="button" class="ventana-x" data-cerrar aria-label="Cerrar">×</button></div>
+      <div class="ventana-cuerpo">
+        <span class="ventana-icono error" aria-hidden="true">!</span>
+        <p id="firmar-aviso" data-texto="firmar-aviso" data-formato="aleatorio">El libro de visitas está temporalmente fuera de servicio.</p>
+      </div>
+      <div class="ventana-botones"><button type="button" class="ventana-boton" data-cerrar>Aceptar</button></div>
+    </div>
+  </div>
+
+  <div class="ventana-fondo" id="ventana-leer" hidden>
+    <div class="ventana ventana-ancha" role="dialog" aria-modal="true" aria-labelledby="leer-titulo">
+      <div class="ventana-barra"><span id="leer-titulo" data-texto="leer-titulo" data-formato="plano">Libro de visitas</span><button type="button" class="ventana-x" data-cerrar aria-label="Cerrar">×</button></div>
+      <ul class="firmas" data-texto="firmas" data-formato="firmas">
+        <li><b>Abuelita</b><br>Muy linda tu página, mijo.</li>
+      </ul>
+      <div class="ventana-botones"><button type="button" class="ventana-boton" data-cerrar>Cerrar</button></div>
+    </div>
+  </div>
+
+  <script src="js/textos.js?v=20261108j"></script>
+  <script src="js/senor-x.js?v=20261108j"></script>
+</body>
+</html>

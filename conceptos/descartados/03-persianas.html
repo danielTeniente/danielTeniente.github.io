@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 03 · Persianas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Libre+Baskerville:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --fondo: #120B07; --caoba: #2A160D; --ambar: #D99B4E; --crema: #F0E2C4; --texto: #C9B593; --granate: #7A231B; }
+    body { background: var(--fondo); color: var(--texto); font-family: 'Libre Baskerville', Georgia, serif; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.15rem); line-height: 1.85; }
+    /* luz de tarde entrando por una persiana */
+    .persiana { position: fixed; inset: -20%; pointer-events: none; transform: rotate(-14deg);
+      background: repeating-linear-gradient(180deg, rgba(217, 155, 78, 0.0) 0px, rgba(217, 155, 78, 0.0) 34px, rgba(240, 190, 120, 0.10) 40px, rgba(240, 190, 120, 0.13) 62px, rgba(217, 155, 78, 0.0) 68px);
+      -webkit-mask-image: radial-gradient(ellipse 55% 60% at 70% 40%, #000 0%, transparent 75%); mask-image: radial-gradient(ellipse 55% 60% at 70% 40%, #000 0%, transparent 75%);
+      animation: tarde 40s linear infinite alternate, surgir 4s both; }
+    @keyframes tarde { from { background-position: 0 0; } to { background-position: 0 220px; } }
+    .humo { position: fixed; width: 60vmax; height: 60vmax; border-radius: 50%; pointer-events: none; filter: blur(60px); background: radial-gradient(circle, rgba(240, 226, 196, 0.06), transparent 65%); animation: humo 26s ease-in-out infinite alternate; }
+    .humo.uno { left: -10vmax; top: 30vh; } .humo.dos { right: -15vmax; top: -10vh; animation-duration: 34s; }
+    @keyframes humo { from { transform: translate(0, 0) scale(1); } to { transform: translate(8vmax, -6vmax) scale(1.25); } }
+    main { position: relative; max-width: 36rem; margin: 0 auto; padding: 7rem 1.25rem 7rem; text-align: center; }
+    .deco { display: flex; align-items: center; gap: 1rem; justify-content: center; color: var(--ambar); font: 0.7rem 'IBM Plex Mono', monospace; letter-spacing: 0.35em; text-transform: uppercase; }
+    .deco::before, .deco::after { content: ''; height: 1px; flex: 0 1 5rem; background: linear-gradient(90deg, transparent, var(--ambar)); }
+    .deco::after { transform: scaleX(-1); }
+    .presenta { font-style: italic; color: var(--texto); margin: 2.5rem 0 0.5rem; }
+    h1 { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: clamp(3.4rem, 12vw, 7.5rem); line-height: 1; color: var(--crema); letter-spacing: -0.01em; }
+    h1 b { font-weight: 400; font-style: normal; color: var(--ambar); }
+    .sub { font-family: 'Bodoni Moda', serif; text-transform: uppercase; letter-spacing: 0.4em; font-size: 0.8rem; color: var(--ambar); margin: 1.2rem 0 3.5rem; }
+    .carta { text-align: left; }
+    .saludo { font-style: italic; color: var(--crema); font-size: 1.2em; }
+    .firma { font-family: 'Bodoni Moda', serif; font-style: italic; color: var(--crema); font-size: 1.8rem; margin-top: 2.5rem; text-align: right; }
+    .firma small { display: block; font: 0.7rem 'IBM Plex Mono', monospace; font-style: normal; letter-spacing: 0.3em; text-transform: uppercase; color: var(--granate); color: #A0503F; }
+  </style>
+</head>
+<body>
+  <div class="humo uno" aria-hidden="true"></div>
+  <div class="humo dos" aria-hidden="true"></div>
+  <div class="persiana" aria-hidden="true"></div>
+
+  <main>
+    <p class="deco surgir" style="--d:300ms">Los Ángeles · 1947</p>
+    <p class="presenta surgir" style="--d:900ms">Un relato de</p>
+    <h1 class="surgir" style="--d:1300ms">Daniel <b>DB</b></h1>
+    <p class="sub surgir" style="--d:2000ms">Artista · Escritor · Músico</p>
+
+    <div class="carta">
+      <p class="saludo revelar" data-inicio="2800" data-ritmo="70">Querido visitante:</p>
+      <p class="revelar" data-ritmo="34">Pase, siéntese. La tarde entra a rayas por la persiana y el humo todavía no se ha ido del todo. Aquí no encontrará un currículum. Encontrará números que intentan explicar el mundo, relatos que se esconden en la niebla y una guitarra que suena a jazz de medianoche.</p>
+      <p class="revelar" data-ritmo="34">Cada historia tiene un precio. Esta se la cuento gratis.</p>
+      <p class="firma surgir" style="--d:10000ms">Daniel DB<small>Oficina 3B · Segunda planta</small></p>
+    </div>
+  </main>
+
+  <nav class="nav-conceptos"><a href="02-neon.html">← Anterior</a><span>03 / 06 · Persianas</span><a href="04-codice.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+</body>
+</html>

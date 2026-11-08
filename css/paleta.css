@@ -1,0 +1,43 @@
+/* ==========================================================
+   Paleta global de Daniel DB
+   Elegida en el taller de paletas (conceptos/paletas.html):
+   luz magenta a 308° en el círculo de pantalla (RGB), intensidad 65.
+
+   Reglas:
+   - La luz (magenta) tiñe títulos y texto, y es el acento principal.
+   - Tríada a 120° y 240°: lima y cian, acentos secundarios.
+   - Sombras y fondos con el complementario de la luz: verde.
+   ========================================================== */
+:root {
+  --p-fondo:      #09110A;  /* sombra profunda */
+  --p-superficie: #132015;  /* capa elevada */
+  --p-linea:      #2C3F2E;  /* bordes */
+  --p-texto:      #C6B3C4;  /* lectura */
+  --p-titulos:    #F3E7F1;  /* blanco teñido de luz */
+  --p-luz:        #DA4EC7;  /* magenta: el acento de la luz */
+  --p-triada1:    #BAC954;  /* lima */
+  --p-triada2:    #73C6D3;  /* cian */
+  --p-sombra:     #195721;  /* verde: sombra complementaria */
+
+  /* versiones en canales RGB para transparencias: rgba(var(--p-luz-rgb), 0.3) */
+  --p-fondo-rgb:    9, 17, 10;
+  --p-titulos-rgb:  243, 231, 241;
+  --p-luz-rgb:      218, 78, 199;
+  --p-triada1-rgb:  186, 201, 84;
+  --p-triada2-rgb:  115, 198, 211;
+  --p-sombra-rgb:   25, 87, 33;
+
+  /* variante saturada: mismos tonos (308°, 68°, 188° y sombra 128°) al máximo.
+     Para la portada amateur de 1998, donde nadie había oído hablar de la sutileza. */
+  --p-luz-sat:     #FF1FE1;
+  --p-triada1-sat: #DDFF00;
+  --p-triada2-sat: #00DDFF;
+  --p-sombra-sat:  #00660E;
+  --p-fondo-sat:   #022B07;
+
+  /* variante clara (papel) para páginas luminosas */
+  --p-papel:      #F3E7F1;
+  --p-papel-2:    #E4D3E1;
+  --p-tinta:      #09110A;
+  --p-tinta-2:    #2C3F2E;
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 13 · Simetría</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --rosa: #F2C6CF; --rosa2: #E8A9B6; --vino: #7B2E3B; --mostaza: #E1B43F; --menta: #A8D5BA; --crema: #FBF1E3; --texto: #4A2A30; }
+    body { background: var(--rosa); color: var(--texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.05rem, 0.4vw + 1rem, 1.2rem); line-height: 1.7; }
+    .futura { font-family: 'Jost', 'Futura', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28em; }
+    main { position: relative; max-width: 34rem; margin: 0 auto; padding: 3.5rem 1.25rem 7rem; text-align: center; }
+    /* paneo lateral rápido al entrar */
+    .paneo { animation: paneo 0.7s cubic-bezier(.7,0,.2,1) both; }
+    @keyframes paneo { from { transform: translateX(100vw); filter: blur(8px); } to { transform: none; filter: none; } }
+    .capitulo { font-size: 0.72rem; color: var(--vino); }
+    .capitulo b { display: block; font-family: 'EB Garamond', serif; font-style: italic; font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 1.15rem; margin-top: 0.3rem; }
+    .orla { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin: 2rem 0 0.4rem; color: var(--vino); }
+    .orla::before, .orla::after { content: ''; width: 3rem; height: 7px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+    h1 { font-family: 'Jost', sans-serif; font-weight: 500; font-size: clamp(2.4rem, 9vw, 4.4rem); letter-spacing: 0.18em; text-transform: uppercase; color: var(--vino); line-height: 1.05; margin-right: -0.18em; }
+    .sub { font-size: 0.7rem; color: var(--vino); margin-bottom: 2.5rem; }
+    /* el sobre */
+    .sobre { position: relative; background: var(--crema); border: 1px solid var(--rosa2); padding: 2.2rem 1.8rem 2rem; text-align: left; box-shadow: 0 12px 0 -4px var(--rosa2), 0 30px 50px -20px rgba(123, 46, 59, 0.35);
+      background-image: repeating-linear-gradient(-45deg, var(--vino) 0 10px, var(--crema) 10px 20px, #6E8FB8 20px 30px, var(--crema) 30px 40px); background-size: 100% 8px; background-repeat: no-repeat; background-position: top; }
+    .sello { position: absolute; top: 1.4rem; right: 1.4rem; width: 4.6rem; height: 5.6rem; background: var(--menta); display: grid; place-items: center; text-align: center; padding: 0.5rem; color: var(--vino); font-size: 0.55rem; line-height: 1.3;
+      -webkit-mask: radial-gradient(circle 4px at 4px 4px, transparent 98%, #000) -4px -4px / 8px 8px; mask: radial-gradient(circle 4px at 4px 4px, transparent 98%, #000) -4px -4px / 8px 8px; transform: rotate(3deg); }
+    .sello span { font-size: 1.4rem; font-family: 'EB Garamond', serif; letter-spacing: 0; display: block; }
+    .matasellos { position: absolute; top: 2.2rem; right: 4.6rem; width: 4.4rem; height: 4.4rem; border: 2px solid rgba(123, 46, 59, 0.55); border-radius: 50%; display: grid; place-items: center; font-size: 0.48rem; color: rgba(123, 46, 59, 0.75); transform: rotate(-14deg); text-align: center; line-height: 1.3; }
+    .destino { font-size: 0.68rem; color: var(--vino); margin: 0 0 1.8rem; line-height: 2; }
+    .saludo { font-style: italic; color: var(--vino); font-size: 1.25em; }
+    .firma { font-family: 'Jost', sans-serif; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.85rem; color: var(--vino); text-align: center; margin-top: 2rem; }
+    .pie { margin-top: 2.5rem; font-size: 0.65rem; color: var(--vino); }
+    .pie i { display: inline-block; width: 0.6rem; height: 0.6rem; margin: 0 0.3rem; background: var(--mostaza); transform: rotate(45deg); }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="capitulo futura paneo" style="animation-delay:.1s">Capítulo uno<b>En el que el visitante recibe una carta</b></p>
+    <div class="orla futura paneo" style="animation-delay:.35s;font-size:.7rem">Una producción de</div>
+    <h1 class="paneo" style="animation-delay:.5s">Daniel DB</h1>
+    <p class="sub futura paneo" style="animation-delay:.65s">Artista · Escritor · Músico</p>
+
+    <article class="sobre paneo" style="animation-delay:.9s">
+      <div class="matasellos futura" aria-hidden="true">Correo<br>de lejos<br>· 2026 ·</div>
+      <div class="sello futura" aria-hidden="true"><div><span>DB</span>Correo<br>nº 001</div></div>
+      <p class="destino futura">Para: el visitante<br>Hotel del fin del mundo<br>Habitación 6</p>
+      <p class="saludo revelar" data-inicio="1800" data-ritmo="70">Querido visitante:</p>
+      <p class="revelar" data-ritmo="32">Le escribo con una caligrafía impecable y una puntualidad casi suiza. Aquí no encontrará un currículum. Encontrará, en este orden exacto: números que intentan explicar el mundo, relatos con un misterio en cada capítulo y una guitarra que convierte el sonido en luz.</p>
+      <p class="revelar" data-ritmo="32">Por favor, no toque nada. Todo está perfectamente centrado.</p>
+      <p class="firma surgir" style="--d:9000ms">— Daniel DB</p>
+    </article>
+
+    <p class="pie futura"><i></i>Fin del capítulo uno<i></i></p>
+  </main>
+
+  <nav class="nav-conceptos"><a href="12-robot.html">← Anterior</a><span>13 · Simetría</span><a href="14-baldosas.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+</body>
+</html>

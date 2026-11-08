@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 02 · Neón bajo la lluvia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --negro: var(--p-fondo); --neon: var(--p-luz); --sodio: var(--p-triada1); --vapor: var(--p-triada2); --luz: var(--p-titulos); --texto: var(--p-texto); }
+    body { background: var(--negro); color: var(--texto); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.08rem, 0.5vw + 1rem, 1.25rem); line-height: 1.75; }
+    #lluvia { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+    .cristal { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 80% at 50% 110%, rgba(var(--p-sombra-rgb), 0.22), transparent 60%), linear-gradient(180deg, rgba(var(--p-fondo-rgb),0.2), rgba(var(--p-fondo-rgb),0.65)); }
+    main { position: relative; max-width: 38rem; margin: 0 auto; padding: 8rem 1.25rem 7rem; }
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--vapor); }
+    h1 { font-family: 'Oswald', sans-serif; font-weight: 200; font-size: clamp(3.4rem, 13vw, 8.5rem); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.06em; color: #FBE3F6; margin: 1rem 0 2.5rem; text-shadow: 0 0 6px rgba(var(--p-luz-rgb), 0.9), 0 0 22px rgba(var(--p-luz-rgb), 0.7), 0 0 60px rgba(var(--p-luz-rgb), 0.45); animation: zumbido 7s 2.5s infinite; }
+    h1 span { display: inline-block; }
+    h1 .falla { animation: falla 5s 3s infinite; }
+    @keyframes falla { 0%, 91%, 93%, 96%, 100% { opacity: 1; } 92%, 95% { opacity: 0.15; } }
+    @keyframes zumbido { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.12); } }
+    .letrero { display: inline-block; font-family: 'Oswald', sans-serif; font-weight: 300; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.8rem; color: var(--sodio); border: 1px solid rgba(var(--p-triada1-rgb), 0.6); padding: 0.4rem 0.9rem; box-shadow: 0 0 18px rgba(var(--p-triada1-rgb), 0.25), inset 0 0 12px rgba(var(--p-triada1-rgb), 0.15); margin-bottom: 2.5rem; }
+    .saludo { font-style: italic; color: var(--luz); font-size: 1.3em; }
+    .carta p { text-shadow: 0 1px 12px rgba(var(--p-fondo-rgb),0.95); }
+    .firma { font-family: 'Oswald', sans-serif; font-weight: 300; text-transform: uppercase; letter-spacing: 0.3em; color: var(--neon); text-shadow: 0 0 12px rgba(var(--p-luz-rgb), 0.6); margin-top: 2.5rem; }
+  </style>
+</head>
+<body>
+  <canvas id="lluvia" aria-hidden="true"></canvas>
+  <div class="cristal" aria-hidden="true"></div>
+
+  <main>
+    <p class="meta surgir" style="--d:300ms">Calle 42 · Sigue lloviendo</p>
+    <h1 class="surgir" style="--d:800ms"><span>Dan</span><span class="falla">i</span><span>el</span><br><span>DB</span></h1>
+    <div class="letrero surgir" style="--d:1800ms">Abierto toda la noche</div>
+
+    <div class="carta">
+      <p class="saludo revelar" data-inicio="2600" data-ritmo="70">Querido visitante:</p>
+      <p class="revelar" data-ritmo="36">Te escribo desde el asiento trasero de la ciudad, con la lluvia golpeando el cristal. Aquí no hay un currículum. Hay números que intentan explicar el mundo, relatos que se esconden en los callejones y una guitarra que convierte el sonido en luz.</p>
+      <p class="revelar" data-ritmo="36">La ciudad nunca duerme. Yo tampoco.</p>
+      <p class="firma surgir" style="--d:9000ms">— Daniel DB</p>
+    </div>
+  </main>
+
+  <nav class="nav-conceptos"><a href="01-expediente.html">← Anterior</a><span>02 · Neón bajo la lluvia</span><a href="04-codice.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    // Luces desenfocadas de la ciudad tras el cristal + lluvia diagonal
+    let luces = [], gotas = [];
+    lienzo('lluvia', (ctx, { W, H }, t) => {
+      ctx.fillStyle = '#09110A'; ctx.fillRect(0, 0, W, H);
+      for (const l of luces) {
+        const a = l.a * (0.75 + 0.25 * Math.sin(t * l.v + l.f));
+        const g = ctx.createRadialGradient(l.x, l.y, 0, l.x, l.y, l.r);
+        g.addColorStop(0, `rgba(${l.c},${a})`); g.addColorStop(0.5, `rgba(${l.c},${a * 0.4})`); g.addColorStop(1, `rgba(${l.c},0)`);
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(l.x, l.y, l.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.strokeStyle = 'rgba(205, 225, 210, 0.22)'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (const g of gotas) {
+        ctx.moveTo(g.x, g.y); ctx.lineTo(g.x - g.l * 0.18, g.y + g.l);
+        g.y += g.v; g.x -= g.v * 0.18;
+        if (g.y > H) { g.y = -g.l; g.x = Math.random() * (W + 200); }
+      }
+      ctx.stroke();
+    }, (ctx, { W, H }) => {
+      const colores = ['218,78,199', '186,201,84', '115,198,211', '218,78,199', '25,87,33'];
+      luces = Array.from({ length: 26 }, () => ({
+        x: Math.random() * W, y: H * (0.35 + Math.random() * 0.7), r: 30 + Math.random() * 110,
+        c: colores[Math.floor(Math.random() * colores.length)], a: 0.05 + Math.random() * 0.14,
+        v: 0.0005 + Math.random() * 0.001, f: Math.random() * 6,
+      }));
+      gotas = Array.from({ length: Math.round(W / 6) }, () => ({ x: Math.random() * (W + 200), y: Math.random() * H, l: 10 + Math.random() * 26, v: 9 + Math.random() * 9 }));
+    });
+  </script>
+</body>
+</html>

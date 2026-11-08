@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taller de paletas — Daniel DB</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    body { background: #0C0C0C; color: #BDBAB2; font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; line-height: 1.6; }
+    main { max-width: 72rem; margin: 0 auto; padding: 4.5rem 1.25rem 5rem; }
+    .meta { font: 0.72rem 'IBM Plex Mono', monospace; letter-spacing: 0.18em; text-transform: uppercase; color: #7D7A72; }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); color: #EEEAE0; margin: 0.6rem 0 1rem; }
+    .reglas { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); margin: 2rem 0 3rem; }
+    .regla { border: 1px solid #262626; border-radius: 12px; padding: 1.1rem 1.25rem; background: #111; }
+    .regla h2 { font-size: 1.25rem; color: #EEEAE0; margin-bottom: 0.4rem; }
+    .regla p { margin: 0; font-size: 1rem; }
+    .rueda-modo { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+    .rueda-modo button, .acciones button { font: 0.72rem 'IBM Plex Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; color: #D8D4CA; border: 1px solid #3A3A3A; border-radius: 999px; padding: 0.5rem 0.9rem; cursor: pointer; }
+    .rueda-modo button[aria-pressed="true"] { background: #EEEAE0; color: #111; border-color: #EEEAE0; }
+    .lista { display: grid; gap: 1.25rem; }
+    .paleta { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) minmax(0, 17rem); gap: 1.5rem; align-items: center; border: 1px solid #262626; border-radius: 14px; padding: 1.25rem; background: #101010; }
+    .paleta.fav { border-color: #8C8678; }
+    .paleta h2 { font-size: 1.45rem; color: #EEEAE0; }
+    .paleta .refs { font: 0.68rem 'IBM Plex Mono', monospace; color: #8C887F; letter-spacing: 0.06em; margin-bottom: 0.6rem; }
+    .rueda { width: 100%; max-width: 13rem; aspect-ratio: 1; display: block; }
+    .muestras { display: grid; grid-template-columns: repeat(auto-fill, minmax(5.4rem, 1fr)); gap: 0.4rem; }
+    .muestra { border-radius: 8px; overflow: hidden; border: 1px solid #222; background: #151515; cursor: copy; }
+    .muestra div { height: 2.6rem; }
+    .muestra span { display: block; padding: 0.3rem 0.4rem; font: 0.62rem/1.35 'IBM Plex Mono', monospace; color: #A9A59B; }
+    .muestra span b { display: block; color: #E2DED4; font-weight: 400; }
+    .controles { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 0.9rem; font: 0.7rem 'IBM Plex Mono', monospace; color: #A9A59B; }
+    .controles label { display: flex; align-items: center; gap: 0.5rem; }
+    .controles input[type=range] { width: 8rem; accent-color: #D8D4CA; }
+    .escena { position: relative; border-radius: 12px; height: 15rem; overflow: hidden; padding: 1.1rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .escena .t { font-size: 1.8rem; line-height: 1; }
+    .escena .p { font-size: 0.85rem; line-height: 1.45; max-width: 11rem; }
+    .escena .b { align-self: flex-start; font: 0.62rem 'IBM Plex Mono', monospace; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 999px; }
+    .escena .esfera { position: absolute; right: 1.2rem; top: 2.4rem; width: 5.2rem; height: 5.2rem; border-radius: 50%; }
+    .escena .proyectada { position: absolute; right: 0.4rem; top: 7.4rem; width: 7rem; height: 1.3rem; border-radius: 50%; filter: blur(4px); }
+    .escena .punto { position: absolute; right: 1.4rem; bottom: 1.2rem; display: flex; gap: 0.35rem; }
+    .escena .punto i { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
+    .aviso { position: fixed; left: 50%; bottom: 4rem; transform: translateX(-50%); background: #EEEAE0; color: #111; font: 0.75rem 'IBM Plex Mono', monospace; padding: 0.5rem 0.9rem; border-radius: 999px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 60; }
+    .aviso.si { opacity: 1; }
+    @media (max-width: 900px) { .paleta { grid-template-columns: minmax(0, 10rem) minmax(0, 1fr); } .escena { grid-column: 1 / -1; } }
+    @media (max-width: 560px) { .paleta { grid-template-columns: 1fr; } .rueda { max-width: 10rem; margin: 0 auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="meta">Daniel DB · Taller de paletas</p>
+    <h1>Una luz, su tríada y su sombra</h1>
+    <p style="max-width:40rem">Cada página nace de un solo color: el de su luz. De ese color salen todos los demás con dos reglas de pintor. Gira la luz de cada concepto con el control hasta que te convenza y marca tus favoritas. Haz clic en cualquier muestra para copiar su código.</p>
+
+    <div class="reglas">
+      <div class="regla"><h2>1 · La luz</h2><p>Es el color dominante de la escena: la farola, el neón, la vela. Tiñe los títulos y el texto, y es el acento principal.</p></div>
+      <div class="regla"><h2>2 · La tríada</h2><p>Los dos acentos secundarios están a 120° y 240° de la luz en el círculo cromático. Uno se usa poco y el otro casi nada.</p></div>
+      <div class="regla"><h2>3 · Sombras complementarias</h2><p>Las sombras y los fondos nunca son negro o gris: se tiñen con el color opuesto a la luz, a 180°. Luz cálida, sombra fría, como en Rembrandt y en los impresionistas.</p></div>
+    </div>
+
+    <div class="rueda-modo" role="group" aria-label="Círculo cromático">
+      <span class="meta">Círculo:</span>
+      <button data-modo="ryb" aria-pressed="true">De pintor (rojo · amarillo · azul)</button>
+      <button data-modo="rgb" aria-pressed="false">De luz (rojo · verde · azul)</button>
+      <span class="acciones" style="margin-left:auto"><button id="copiar-todo">Copiar favoritas</button> <button id="reiniciar">Reiniciar</button></span>
+    </div>
+
+    <div class="lista" id="lista"></div>
+  </main>
+  <div class="aviso" id="aviso" role="status"></div>
+
+  <nav class="nav-conceptos"><a href="index.html">← Galería</a><span>Taller de paletas</span><a href="../index.html">Portada →</a></nav>
+
+  <script>
+    const CONCEPTOS = [
+      { id: 'niebla',     n: '00', nombre: 'Niebla de sodio', refs: 'Portada actual', h: 64,  s: 70, tema: 'oscuro' },
+      { id: 'expediente', n: '01', nombre: 'Expediente',      refs: 'Mindhunter · Insomnia', h: 122, s: 55, tema: 'oscuro' },
+      { id: 'neon',       n: '02', nombre: 'Neón bajo la lluvia', refs: 'Taxi Driver · The Batman · Casino', h: 0, s: 90, tema: 'oscuro' },
+      { id: 'codice',     n: '04', nombre: 'Códice de Rafael', refs: 'Rafael · cifrado César · geometría no euclidiana', h: 14, s: 75, tema: 'oscuro' },
+      { id: 'bolsilibro', n: '06', nombre: 'Bolsilibro',      refs: 'Stephen King · Goodfellas · Los Simpson', h: 120, s: 80, tema: 'claro' },
+      { id: 'cartucho',   n: '07', nombre: 'Cartucho',        refs: 'Super Nintendo', h: 110, s: 85, tema: 'oscuro' },
+      { id: 'mision',     n: '08', nombre: 'Misión',          refs: 'Misión Imposible', h: 60, s: 95, tema: 'oscuro' },
+      { id: 'senorx',     n: '09', nombre: 'Señor X',         refs: 'Homero como el Señor X', h: 120, s: 100, tema: 'oscuro' },
+      { id: 'terminal',   n: '10', nombre: 'Terminal',        refs: 'Mr. Robot', h: 180, s: 45, tema: 'oscuro' },
+      { id: 'baldosas',   n: '14', nombre: 'Baldosas',        refs: 'Michael Jackson', h: 330, s: 90, tema: 'oscuro' },
+    ];
+
+    // Círculo de pintor (RYB) → tono HSL. Rojo 0, naranja 60, amarillo 120, verde 180, azul 240, violeta 300.
+    const ANCLAS = [[0, 0], [60, 30], [120, 58], [180, 120], [240, 225], [300, 280], [360, 360]];
+    let modo = 'ryb';
+    try { modo = localStorage.getItem('paletas-db-modo') || 'ryb'; } catch (e) {}
+    const norm = (x) => ((x % 360) + 360) % 360;
+    function tono(h) {
+      h = norm(h);
+      if (modo === 'rgb') return h;
+      for (let i = 0; i < ANCLAS.length - 1; i++) {
+        const [a, ha] = ANCLAS[i], [b, hb] = ANCLAS[i + 1];
+        if (h >= a && h <= b) return norm(ha + (h - a) / (b - a) * (hb - ha));
+      }
+      return h;
+    }
+    function hex(h, s, l) {
+      s /= 100; l /= 100;
+      const k = (n) => (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
+      const f = (n) => Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))))).toString(16).padStart(2, '0');
+      return ('#' + f(0) + f(8) + f(4)).toUpperCase();
+    }
+    function paleta(c) {
+      const L = tono(c.h), C = tono(c.h + 180), T1 = tono(c.h + 120), T2 = tono(c.h + 240), s = c.s;
+      if (c.tema === 'claro') return [
+        ['fondo', 'Papel teñido por la luz', hex(L, 45, 88)],
+        ['superficie', 'Capa elevada', hex(L, 38, 80)],
+        ['línea', 'Bordes', hex(C, 14, 58)],
+        ['texto', 'Lectura', hex(C, 28, 20)],
+        ['títulos', 'Tinta más densa', hex(C, 35, 10)],
+        ['luz', 'Acento de la luz', hex(L, s, 52)],
+        ['tríada 1', 'Acento secundario', hex(T1, s * 0.85, 46)],
+        ['tríada 2', 'Detalle mínimo', hex(T2, s * 0.85, 46)],
+        ['sombra', 'Sombra complementaria', hex(C, 40, 38)],
+      ];
+      return [
+        ['fondo', 'Sombra profunda', hex(C, 30, 5)],
+        ['superficie', 'Capa elevada', hex(C, 24, 10)],
+        ['línea', 'Bordes', hex(C, 18, 21)],
+        ['texto', 'Lectura', hex(L, 14, 74)],
+        ['títulos', 'Blanco teñido de luz', hex(L, 32, 93)],
+        ['luz', 'Acento de la luz', hex(L, s, 58)],
+        ['tríada 1', 'Acento secundario', hex(T1, s * 0.8, 56)],
+        ['tríada 2', 'Detalle mínimo', hex(T2, s * 0.8, 64)],
+        ['sombra', 'Sombra complementaria', hex(C, 55, 22)],
+      ];
+    }
+
+    // Estado guardado en este navegador
+    let estado = {};
+    try { estado = JSON.parse(localStorage.getItem('paletas-db') || '{}'); } catch (e) {}
+    const guardar = () => { try { localStorage.setItem('paletas-db', JSON.stringify(estado)); } catch (e) {} };
+    const val = (c) => Object.assign({ h: c.h, s: c.s, fav: false }, estado[c.id] || {});
+
+    function rueda(c, v) {
+      const seg = 36, R = 46, r = 30;
+      let svg = '<svg class="rueda" viewBox="-60 -60 120 120" role="img" aria-label="Círculo cromático con la luz, la tríada y la sombra">';
+      for (let i = 0; i < seg; i++) {
+        const a0 = (i / seg) * 2 * Math.PI - Math.PI / 2, a1 = ((i + 1) / seg) * 2 * Math.PI - Math.PI / 2;
+        const p = (rad, a) => `${(rad * Math.cos(a)).toFixed(2)} ${(rad * Math.sin(a)).toFixed(2)}`;
+        svg += `<path d="M${p(R, a0)} A${R} ${R} 0 0 1 ${p(R, a1)} L${p(r, a1)} A${r} ${r} 0 0 0 ${p(r, a0)}Z" fill="${hex(tono(i * 10 + 5), 70, 52)}"/>`;
+      }
+      const pos = (h, rad) => { const a = (norm(h) / 360) * 2 * Math.PI - Math.PI / 2; return [rad * Math.cos(a), rad * Math.sin(a)]; };
+      const [lx, ly] = pos(v.h, 38), [ax, ay] = pos(v.h + 120, 38), [bx, by] = pos(v.h + 240, 38), [cx, cy] = pos(v.h + 180, 38);
+      svg += `<polygon points="${lx},${ly} ${ax},${ay} ${bx},${by}" fill="none" stroke="#EEEAE0" stroke-width="1"/>`;
+      svg += `<line x1="${lx}" y1="${ly}" x2="${cx}" y2="${cy}" stroke="#EEEAE0" stroke-width="0.8" stroke-dasharray="2 2"/>`;
+      svg += `<circle cx="${lx}" cy="${ly}" r="5.5" fill="${hex(tono(v.h), 80, 55)}" stroke="#fff" stroke-width="1.5"/>`;
+      for (const [x, y] of [[ax, ay], [bx, by]]) svg += `<circle cx="${x}" cy="${y}" r="3.5" fill="#111" stroke="#fff" stroke-width="1.2"/>`;
+      svg += `<rect x="${cx - 3.5}" y="${cy - 3.5}" width="7" height="7" fill="#111" stroke="#fff" stroke-width="1.2"/>`;
+      svg += `<text x="0" y="3" text-anchor="middle" font-size="8" fill="#A9A59B" font-family="IBM Plex Mono">${Math.round(norm(v.h))}°</text></svg>`;
+      return svg;
+    }
+
+    function partes(c) {
+      const v = val(c), p = paleta(Object.assign({}, c, v)), col = Object.fromEntries(p.map(([k, , x]) => [k, x]));
+      return {
+        v,
+        rueda: rueda(c, v),
+        muestras: p.map(([k, d, x]) => `<button class="muestra" data-hex="${x}" title="Copiar ${x}" style="padding:0;text-align:left"><div style="background:${x}"></div><span><b>${k}</b>${x}</span></button>`).join(''),
+        escena: `<div><div class="t" style="color:${col['títulos']}">Daniel <i style="color:${col['luz']}">DB</i></div><p class="p" style="margin:0.5rem 0 0">La luz cae desde arriba; la sombra se tiñe del color opuesto.</p></div>
+            <span class="b" style="border:1px solid ${col['luz']};color:${col['luz']}">Leer</span>
+            <div class="proyectada" style="background:${col['sombra']}"></div>
+            <div class="esfera" style="background:radial-gradient(circle at 34% 28%, ${col['títulos']} 0%, ${col['luz']} 22%, ${col['sombra']} 72%, ${col['fondo']} 100%)"></div>
+            <div class="punto"><i style="background:${col['tríada 1']}"></i><i style="background:${col['tríada 2']}"></i></div>`,
+        fondo: col['fondo'], texto: col['texto'],
+      };
+    }
+    function refrescar(el, c) {
+      const x = partes(c);
+      el.className = 'paleta' + (x.v.fav ? ' fav' : '');
+      el.querySelector('.r').innerHTML = x.rueda;
+      el.querySelector('.muestras').innerHTML = x.muestras;
+      const e = el.querySelector('.escena'); e.innerHTML = x.escena; e.style.background = x.fondo; e.style.color = x.texto;
+      el.querySelectorAll('.muestra').forEach((b) => b.addEventListener('click', () => copiar(b.dataset.hex)));
+    }
+    function pintar() {
+      const lista = document.getElementById('lista');
+      lista.innerHTML = '';
+      for (const c of CONCEPTOS) {
+        const v = val(c);
+        const el = document.createElement('section');
+        el.innerHTML = `
+          <div class="r"></div>
+          <div>
+            <p class="meta">${c.n}</p><h2>${c.nombre}</h2><p class="refs">${c.refs}</p>
+            <div class="muestras"></div>
+            <div class="controles">
+              <label>Luz <input type="range" min="0" max="359" step="1" value="${Math.round(norm(v.h))}" data-campo="h"></label>
+              <label>Intensidad <input type="range" min="20" max="100" step="1" value="${v.s}" data-campo="s"></label>
+              <label><input type="checkbox" data-campo="fav" ${v.fav ? 'checked' : ''}> Favorita</label>
+            </div>
+          </div>
+          <div class="escena"></div>`;
+        el.querySelectorAll('input').forEach((inp) => inp.addEventListener(inp.type === 'checkbox' ? 'change' : 'input', () => {
+          const e = estado[c.id] = Object.assign(val(c), estado[c.id] || {});
+          e[inp.dataset.campo] = inp.type === 'checkbox' ? inp.checked : parseInt(inp.value, 10);
+          guardar(); refrescar(el, c);
+        }));
+        lista.appendChild(el);
+        refrescar(el, c);
+      }
+    }
+    function avisar(t) { const a = document.getElementById('aviso'); a.textContent = t; a.classList.add('si'); clearTimeout(avisar.t); avisar.t = setTimeout(() => a.classList.remove('si'), 1400); }
+    function copiar(t) { (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => avisar('Copiado: ' + (t.length > 12 ? 'variables CSS' : t)), () => avisar('No se pudo copiar')); }
+
+    document.querySelectorAll('[data-modo]').forEach((b) => b.addEventListener('click', () => {
+      modo = b.dataset.modo; try { localStorage.setItem('paletas-db-modo', modo); } catch (e) {}
+      document.querySelectorAll('[data-modo]').forEach((x) => x.setAttribute('aria-pressed', x === b)); pintar();
+    }));
+    document.getElementById('reiniciar').addEventListener('click', () => { estado = {}; guardar(); pintar(); });
+    document.getElementById('copiar-todo').addEventListener('click', () => {
+      const favs = CONCEPTOS.filter((c) => val(c).fav);
+      if (!favs.length) return avisar('Marca primero alguna favorita');
+      const css = favs.map((c) => `/* ${c.n} ${c.nombre} · luz ${Math.round(norm(val(c).h))}° (${modo}) */\n.${c.id} {\n` + paleta(Object.assign({}, c, val(c))).map(([k, , x]) => `  --${k.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-')}: ${x};`).join('\n') + '\n}').join('\n\n');
+      copiar(css);
+    });
+    document.querySelectorAll('[data-modo]').forEach((x) => x.setAttribute('aria-pressed', x.dataset.modo === modo));
+    pintar();
+  </script>
+</body>
+</html>

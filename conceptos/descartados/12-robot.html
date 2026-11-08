@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concepto 12 · Robot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;400&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comun.css">
+  <style>
+    :root { --negro: #050505; --cromo1: #F5F5F5; --cromo2: #8E8E8E; --texto: #BDBDBD; }
+    body { background: var(--negro); color: var(--texto); font-family: 'Space Grotesk', sans-serif; font-weight: 300; font-size: clamp(1.05rem, 0.5vw + 0.95rem, 1.2rem); line-height: 1.75; }
+    /* suelo de neón en perspectiva */
+    .suelo { position: fixed; left: -50%; right: -50%; bottom: 0; height: 45vh; pointer-events: none; transform: perspective(300px) rotateX(62deg); transform-origin: 50% 100%;
+      background-image: linear-gradient(rgba(255, 60, 200, 0.55) 1px, transparent 1px), linear-gradient(90deg, rgba(60, 200, 255, 0.45) 1px, transparent 1px); background-size: 60px 60px; animation: avanzar 1.2s linear infinite;
+      -webkit-mask-image: linear-gradient(transparent, #000 40%); mask-image: linear-gradient(transparent, #000 40%); }
+    @keyframes avanzar { to { background-position: 0 60px; } }
+    main { position: relative; max-width: 46rem; margin: 0 auto; padding: 5rem 1.25rem 9rem; }
+    .meta { font-family: 'Orbitron', sans-serif; font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--cromo2); }
+    /* casco: visor con matriz LED */
+    .visor { position: relative; margin: 2rem 0 1rem; border-radius: 22px; background: linear-gradient(180deg, #1a1a1a, #000 40%, #0b0b0b); border: 2px solid #2a2a2a; box-shadow: inset 0 2px 0 rgba(255,255,255,0.18), 0 20px 60px rgba(0,0,0,0.8); padding: 1.2rem; overflow: hidden; }
+    .visor::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0.12) 0%, transparent 30%); pointer-events: none; }
+    #led { display: block; width: 100%; height: clamp(110px, 22vw, 190px); }
+    .cinta-led { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: #FF3B3B; text-shadow: 0 0 6px #FF3B3B; white-space: nowrap; overflow: hidden; margin-top: 0.6rem; letter-spacing: 0.25em; }
+    .cinta-led span { display: inline-block; padding-left: 100%; animation: desplazar 14s linear infinite; }
+    @keyframes desplazar { to { transform: translateX(-100%); } }
+    .cromo { font-family: 'Orbitron', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; font-size: clamp(0.8rem, 2vw, 1rem); background: linear-gradient(180deg, #fff 0%, #c9c9c9 45%, #5a5a5a 50%, #e8e8e8 55%, #8e8e8e 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 3rem; }
+    .saludo { font-weight: 400; color: var(--cromo1); font-size: 1.25em; }
+    .firma { font-family: 'Orbitron', sans-serif; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cromo1); margin-top: 2.5rem; }
+  </style>
+</head>
+<body>
+  <div class="suelo" aria-hidden="true"></div>
+  <main>
+    <p class="meta surgir" style="--d:200ms">Transmisión · Año 2049</p>
+    <div class="visor surgir" style="--d:400ms">
+      <canvas id="led" role="img" aria-label="Daniel DB en una pantalla LED"></canvas>
+      <div class="cinta-led" aria-hidden="true"><span>UN MENSAJE DESDE EL FUTURO · MÁS LENTO · MÁS HUMANO · MÁS FUERTE · </span></div>
+    </div>
+    <p class="cromo surgir" style="--d:1200ms">Artista · Escritor · Músico</p>
+
+    <p class="saludo revelar" data-inicio="2200" data-ritmo="70">Hola, humano:</p>
+    <p class="revelar" data-ritmo="34">Te escribo desde dentro del casco. Aquí no hay un currículum: hay números que intentan explicar el mundo, relatos para leer con las luces bajas y un programa que convierte cada nota de guitarra en luz, como estos píxeles que ves arriba.</p>
+    <p class="revelar" data-ritmo="34">Sube el volumen. La máquina también siente.</p>
+    <p class="firma surgir" style="--d:9500ms">— Daniel DB</p>
+  </main>
+
+  <nav class="nav-conceptos"><a href="11-opera.html">← Anterior</a><span>12 · Robot</span><a href="13-simetria.html">Siguiente →</a></nav>
+  <script src="comun.js"></script>
+  <script>
+    // Matriz LED: el texto se rasteriza a baja resolución y cada píxel es un LED con color de arcoíris
+    const c = document.getElementById('led'), ctx = c.getContext('2d');
+    const fuente = document.createElement('canvas'), f = fuente.getContext('2d');
+    let cols = 0, filas = 0, mapa = [], paso = 0;
+    function preparar() {
+      const dpr = Math.min(devicePixelRatio || 1, 2), W = c.clientWidth, H = c.clientHeight;
+      if (!W || !H) return;
+      c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // el tamaño de la matriz se ajusta al ancho del texto
+      const alto = 11;
+      f.font = `700 ${alto}px Orbitron, sans-serif`;
+      const ancho = Math.ceil(f.measureText('DANIEL DB').width) + 4;
+      filas = alto + 4;
+      paso = Math.min(H / filas, W / ancho);
+      cols = Math.floor(W / paso);
+      fuente.width = cols; fuente.height = filas;
+      f.clearRect(0, 0, cols, filas); f.fillStyle = '#fff'; f.textBaseline = 'middle'; f.textAlign = 'center';
+      f.font = `700 ${alto}px Orbitron, sans-serif`;
+      f.fillText('DANIEL DB', cols / 2, filas / 2 + 1);
+      const d = f.getImageData(0, 0, cols, filas).data;
+      mapa = []; for (let y = 0; y < filas; y++) for (let x = 0; x < cols; x++) mapa.push(d[(y * cols + x) * 4 + 3] > 110);
+    }
+    function dibujar(t) {
+      if (!cols) return;
+      const W = c.clientWidth, H = c.clientHeight; ctx.clearRect(0, 0, W, H);
+      const r = paso * 0.36;
+      for (let y = 0; y < filas; y++) for (let x = 0; x < cols; x++) {
+        const on = mapa[y * cols + x];
+        const cx = x * paso + paso / 2 + (W - cols * paso) / 2, cy = y * paso + paso / 2 + (H - filas * paso) / 2;
+        if (on) {
+          const tono = (x * 6 - t * 0.08 + y * 4) % 360;
+          ctx.fillStyle = `hsl(${tono}, 95%, 62%)`; ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 8;
+        } else { ctx.fillStyle = 'rgba(255,255,255,0.05)'; ctx.shadowBlur = 0; }
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+    }
+    const iniciar = () => { preparar(); if (quieto) dibujar(0); };
+    document.fonts.ready.then(iniciar); addEventListener('resize', iniciar);
+    if (!quieto) (function bucle(t) { dibujar(t); requestAnimationFrame(bucle); })(0);
+  </script>
+</body>
+</html>
