@@ -22,6 +22,21 @@ python -m http.server 5173
 
 y abre <http://localhost:5173>. (En Claude Code el servidor está configurado en `.claude/launch.json` con el nombre `web-artista`.)
 
+### Publicada en internet
+La web vive en **https://danielteniente.github.io/danieldb/** (GitHub Pages, rama `master`, carpeta raíz).
+Repositorio: <https://github.com/danielTeniente/danieldb>.
+
+**Para publicar una actualización**, desde la carpeta del proyecto:
+
+```bash
+git add -A
+git commit -m "Qué cambié, en una frase"
+git push
+```
+
+GitHub actualiza la web sola en uno o dos minutos. Si tus amigos no ven el cambio, que recarguen con Ctrl + F5.
+Antes de publicar, revisa en `localhost` que todo se vea bien: lo que subes es lo que verán.
+
 ---
 
 ## 2. Cómo editar los textos (para Daniel)
@@ -189,13 +204,13 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 1. [ ] **Revisar la página del archivo de expedientes** (`no-ficcion/index.html`) hasta dejarla terminada, e incluir un easter egg que diga que es un homenaje a las películas de *Misión Imposible*.
 2. [ ] **Definir el formato universal de los artículos** (`no-ficcion/articulo.html` + `textos/no-ficcion/*.md`): una sola plantilla que sirva para todos los textos, sin diseñar artículo por artículo.
 
-- [x] Página **No ficción** conectada desde la portada (concepto Misión, archivo de expedientes, expediente 000).
+- [x] Página **No ficción** creada (concepto Misión, archivo de expedientes, expediente 000). **De momento el botón de la portada lleva al Substack**; cuando la página esté lista, cambia su enlace en `textos/portada.md` a `no-ficcion/index.html`.
 - [ ] Pegar el texto del primer artículo (Taleb) en `textos/no-ficcion/comentando-libros-1-nassim-taleb.md` y traer los demás de Substack/Medium.
 - [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, videojuego, pixel art, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.
 - [ ] Icono de pestaña (favicon) e imagen para compartir en redes.
-- [ ] Crear el repositorio en GitHub y publicar en GitHub Pages.
+- [x] Repositorio en GitHub y publicación en GitHub Pages.
 - [ ] Más adelante: relatos del Detective Homero (hoy en Inkspired) publicados aquí, con comunidad.
 
 Otros recursos de Daniel: [Substack «La mente del artista»](https://danieldbarte.substack.com/) · [Libros en Payhip](https://payhip.com/danieldb).
