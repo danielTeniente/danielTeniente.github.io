@@ -58,7 +58,7 @@ PÁGINA EN CONSTRUCCIÓN (PERMANENTEMENTE)
 
 ## menu
 <!-- Cada elemento: - [Texto del botón](enlace). Añade ¡NUEVO! al final para que parpadee. -->
-- [No ficción (demasiado pretensioso)](no-ficcion/index.html)
+- [No ficción (demasiado pretensioso)](https://danieldbarte.substack.com/)
 - [Mis libros (evita que me muera de hambre)](https://payhip.com/danieldb)
 
 ## contador-nota
