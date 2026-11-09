@@ -58,7 +58,7 @@ PÁGINA EN CONSTRUCCIÓN (PERMANENTEMENTE)
 
 ## menu
 <!-- Cada elemento: - [Texto del botón](enlace). Añade ¡NUEVO! al final para que parpadee. -->
-- [No ficción (demasiado pretensioso)](#)
+- [No ficción (demasiado pretensioso)](no-ficcion/index.html)
 - [Mis libros (evita que me muera de hambre)](https://payhip.com/danieldb)
 
 ## contador-nota
@@ -142,10 +142,9 @@ Libro de visitas
   Con fuente y varias líneas: [traducción Wolfram|Alpha] Etiqueta: valor // Etiqueta: valor // …
 -->
 - **Abuelita** · desde la computadora del vecino: Muy linda tu página, mijo.
-- **Stephen Wolfram** · desde Wolfram|Alpha: Nice page. [traducción Wolfram|Alpha] Interpretación: «página bonita». Resultado: 0,3 % bonita. Solución paso a paso disponible con Wolfram|Alpha Pro.
-- **Tu mejor amigo** · desde el cíber de la esquina: Juguemos al Marvel Rivals.
 - **Nassim Nicholas Taleb** · desde Twitter: You didn't understand any of my books. Blocked. [traducción] No entendiste ninguno de mis libros. Bloqueado.
-
+- **Tu mejor amigo** · desde el cíber de la esquina: Juguemos al Marvel Rivals.
+- **Stephen Wolfram** · desde Wolfram|Alpha: Nice page. [traducción Wolfram|Alpha] Interpretación: «página bonita». Resultado: 0,3 % bonita. Solución paso a paso disponible con Wolfram|Alpha Pro.
 
 ## reproductor
 <!--

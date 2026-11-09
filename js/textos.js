@@ -35,7 +35,8 @@ const Textos = (() => {
   }
 
   const escapar = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  const URL_SEGURA = /^(https?:\/\/|mailto:|#|\.{0,2}\/|[\w-]+\.html)/i;
+  // enlaces permitidos: web, correo, anclas y rutas internas (p. ej. no-ficcion/index.html)
+  const URL_SEGURA = /^(https?:\/\/|mailto:|#|\.{0,2}\/|[\w-]+(\/[\w-]+)*(\.html)?\/?(\?[\w=&%-]*)?(#[\w-]*)?$)/i;
 
   function enLinea(s) {
     let h = escapar(s);
@@ -45,6 +46,8 @@ const Textos = (() => {
       return `<a href="${destino}"${externo}>${texto}</a>`;
     });
     h = h.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g, '$1<i>$2</i>');
+    // ||texto|| = texto tachado como en un expediente; se revela al pasar el cursor o al tocarlo
+    h = h.replace(/\|\|(.+?)\|\|/g, '<span class="tachado" tabindex="0" title="Información clasificada">$1</span>');
     return h;
   }
 
@@ -140,5 +143,5 @@ const Textos = (() => {
     }
   }
 
-  return { cargar, parsear, formatear };
+  return { cargar, parsear, formatear, enLinea };
 })();

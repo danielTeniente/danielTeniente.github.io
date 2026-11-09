@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expediente — Daniel DB</title>
+  <meta name="theme-color" content="#09110A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- Cada artículo vive en textos/no-ficcion/<nombre>.md y se abre con articulo.html?id=<nombre>.
+       Al cambiar CSS o JS, sube el número de ?v=…  -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261108d">
+  <link rel="stylesheet" href="../css/no-ficcion.css?v=20261108d">
+</head>
+<body>
+  <div class="rejilla" aria-hidden="true"></div>
+
+  <main>
+    <div class="hud"><a href="index.html">← Archivo de expedientes</a><span class="rec" id="estado">Expediente desclasificado</span></div>
+
+    <article id="articulo">
+      <header class="articulo-cabecera">
+        <p class="meta" id="categoria"></p>
+        <h1 id="titulo">Cargando expediente…</h1>
+        <p class="subtitulo" id="subtitulo"></p>
+        <p class="meta" id="fecha"></p>
+      </header>
+      <div class="cuerpo" id="cuerpo"></div>
+
+      <footer class="final">
+        <a href="index.html" class="meta" style="color:var(--p-triada2)">← Volver al archivo</a>
+        <a id="original" class="meta" style="color:var(--p-triada2)" target="_blank" rel="noopener" hidden>Leer en Substack ↗</a>
+        <button class="boton" type="button" id="autodestruir">Autodestruir expediente</button>
+      </footer>
+      <p class="aviso" id="aviso" aria-live="polite"></p>
+    </article>
+  </main>
+
+  <script src="../js/textos.js?v=20261108d"></script>
+  <script src="../js/articulo.js?v=20261108d"></script>
+</body>
+</html>

@@ -67,6 +67,35 @@ Si borras una sección entera, la página usa su texto por defecto (el que está
 | `pie` | Pie de página | texto |
 | `secreto-titulo`, `secreto`, `secreto-boton` | Easter egg al pulsar la **@** giratoria | párrafos |
 
+### Página «No ficción» — [`textos/no-ficcion.md`](textos/no-ficcion.md)
+Se entra desde el botón «No ficción (demasiado pretensioso)» de la portada. Usa el concepto **Misión**:
+un briefing que se autodestruye y, detrás, el **archivo de expedientes**. Quien ya aceptó la misión entra directo al archivo (hay un botón «Repetir el briefing»).
+
+| Sección | Qué controla |
+|---|---|
+| `hud-izquierda`, `hud-derecha`, `para`, `titulo`, `mision`, `aceptar`, `cuenta` | El briefing. En `cuenta`, `{n}` son los segundos. |
+| `archivo-titulo`, `archivo-intro`, `repetir`, `pie` | El archivo de expedientes |
+| `expedientes` | Lista: `- [Título](destino) · Categoría · fecha · subtítulo`. Si el destino es un **nombre de archivo** (sin `.md`) el texto vive en `textos/no-ficcion/`; si es un **enlace https** sale como «En Substack ↗». Se numeran solos. |
+| `clasificado-titulo`, `clasificado-clave`, `clasificado-pista`, `clasificado-contenido` | **Expediente 000**: pide un código (hoy, `lupus`); si falla muestra la pista. |
+| `autodestruir-boton`, `autodestruir-mensaje` | El botón del final de cada artículo (que no destruye nada) |
+
+### Artículos — `textos/no-ficcion/<nombre>.md`
+Cada artículo es un archivo con las secciones `titulo`, `subtitulo`, `categoria`, `fecha`, `original` (enlace a Substack/Medium) y `cuerpo`.
+Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
+
+| Escribes | Se ve |
+|---|---|
+| una línea en blanco | separa párrafos |
+| `### Título` | título de sección |
+| `> texto` | cita destacada |
+| `- texto` | lista |
+| `---` | separador |
+| `\|\|texto\|\|` | **texto tachado de expediente**: se revela al pasar el cursor o al tocarlo (también funciona en la portada) |
+
+Sin imágenes: todo es texto. Al pegar desde Substack, cambia las cursivas `_así_` por `*así*`.
+
+**Para traer un artículo nuevo:** crea `textos/no-ficcion/<nombre>.md` copiando la estructura del de Taleb, pega el texto en `## cuerpo` y en `textos/no-ficcion.md` cambia su destino de `https://…` a `<nombre>`.
+
 ---
 
 ## 3. Estructura del proyecto
@@ -78,6 +107,14 @@ css/paleta.css          Paleta global (variables --p-*), compartida por toda la 
 css/senor-x.css         Estilos de la portada (y sus colores propios --x-*)
 js/textos.js            Lee el .md y coloca cada sección (objeto global `Textos`)
 js/senor-x.js           Comportamiento de la portada (marquesina, contador, reproductor, ventanas, chispas)
+
+no-ficcion/index.html   Página «No ficción»: briefing de misión y archivo de expedientes
+no-ficcion/articulo.html  Lectura de un artículo (?id=<nombre>)
+textos/no-ficcion.md    Textos de la página No ficción y lista de expedientes
+textos/no-ficcion/      Un .md por artículo
+css/no-ficcion.css      Estilos de No ficción (paleta global, concepto Misión)
+js/no-ficcion.js        Briefing, archivo y expediente clasificado
+js/articulo.js          Convierte el .md de un artículo en la página
 
 guia-visual.html        Guía visual (paleta, tipografía, reglas)
 css/tokens.css, css/base.css, css/portada.css, js/cielo.js
@@ -135,7 +172,7 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 
 ## 5. Notas técnicas importantes
 
-- **Caché del navegador.** Los enlaces a CSS/JS de `index.html` llevan `?v=AAAAMMDDx`. **Cada vez que cambies un `.css` o un `.js`, sube ese número en los cuatro enlaces** o los visitantes seguirán viendo la versión vieja. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
+- **Caché del navegador.** Los enlaces a CSS/JS de cada página HTML (`index.html`, `no-ficcion/*.html`) llevan `?v=AAAAMMDDx`. **Cada vez que cambies un `.css` o un `.js`, sube ese número en los cuatro enlaces** o los visitantes seguirán viendo la versión vieja. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
 - **Textos por defecto.** Cada elemento con `data-texto="nombre"` en `index.html` tiene un texto de respaldo por si el `.md` no se puede leer. Al añadir una sección nueva, añade en el HTML el elemento con su `data-texto` y su `data-formato`.
 - **Secciones que no usan `data-texto`:** `marquesina`, `marquesina-visitante` y `reproductor` las lee directamente `js/senor-x.js` (necesitan lógica: horas, orden, Fibonacci). No las borres del `.md` pensando que sobran.
 - **Formatos disponibles** (`data-formato`, en `js/textos.js`): `plano`, `lineas`, `parrafos`, `parrafos-fijos`, `aleatorio`, `firmas`, `menu`, `noticias`, `insignias`. Sin formato = una línea con negrita/cursiva/enlaces.
@@ -148,7 +185,12 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 
 ## 6. Lo que sigue
 
-- [ ] Primer contenido: al menos un artículo del Substack/Medium dentro de la web (blog de **No ficción**), y conectar ese botón del menú.
+**Próxima sesión (en este orden):**
+1. [ ] **Revisar la página del archivo de expedientes** (`no-ficcion/index.html`) hasta dejarla terminada, e incluir un easter egg que diga que es un homenaje a las películas de *Misión Imposible*.
+2. [ ] **Definir el formato universal de los artículos** (`no-ficcion/articulo.html` + `textos/no-ficcion/*.md`): una sola plantilla que sirva para todos los textos, sin diseñar artículo por artículo.
+
+- [x] Página **No ficción** conectada desde la portada (concepto Misión, archivo de expedientes, expediente 000).
+- [ ] Pegar el texto del primer artículo (Taleb) en `textos/no-ficcion/comentando-libros-1-nassim-taleb.md` y traer los demás de Substack/Medium.
 - [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, videojuego, pixel art, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.

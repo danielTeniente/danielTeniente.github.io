@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No ficción — Daniel DB</title>
+  <meta name="description" content="Textos de no ficción de Daniel DB: cine, libros, música, ajedrez y ensayo.">
+  <meta name="theme-color" content="#09110A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- Los textos de esta página se editan en textos/no-ficcion.md.
+       Al cambiar CSS o JS, sube el número de ?v=… para que los navegadores no usen la versión vieja. -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261108d">
+  <link rel="stylesheet" href="../css/no-ficcion.css?v=20261108d">
+</head>
+<body>
+  <div class="rejilla" aria-hidden="true"></div>
+  <div class="mecha" id="mecha" aria-hidden="true"></div>
+
+  <main>
+    <div class="hud"><a href="../index.html">← La Página de Daniel DB</a><span class="rec" data-texto="hud-izquierda" data-formato="plano">Transmisión segura</span><span data-texto="hud-derecha" data-formato="plano">Canal 7 · Cifrado 256</span></div>
+
+    <section class="informe esquinas" id="informe" aria-labelledby="titulo">
+      <p class="meta" data-texto="para" data-formato="plano">Para: el visitante · De: Daniel DB</p>
+      <h1 id="titulo" data-texto="titulo" data-formato="plano">No ficción</h1>
+      <p class="mision" data-texto="mision">Su misión, si decide aceptarla, es leer textos que no son ficción.</p>
+      <button class="boton" id="aceptar" type="button" data-texto="aceptar" data-formato="plano">Aceptar la misión</button>
+      <p class="aviso" id="aviso" aria-live="polite"></p>
+    </section>
+
+    <section class="archivo" id="archivo" hidden aria-labelledby="archivo-titulo">
+      <h2 id="archivo-titulo" tabindex="-1" data-texto="archivo-titulo" data-formato="plano">Archivo de expedientes</h2>
+      <p data-texto="archivo-intro">Estos son los expedientes desclasificados.</p>
+
+      <ul class="lista-expedientes" id="lista">
+        <!-- Se llena desde la sección "## expedientes" de textos/no-ficcion.md -->
+      </ul>
+
+      <div class="repetir"><button type="button" id="repetir" data-texto="repetir" data-formato="plano">Repetir el briefing</button></div>
+      <p class="pie" data-texto="pie">Ningún economista fue consultado para escribir estos textos.</p>
+    </section>
+  </main>
+
+  <script src="../js/textos.js?v=20261108d"></script>
+  <script src="../js/no-ficcion.js?v=20261108d"></script>
+</body>
+</html>
