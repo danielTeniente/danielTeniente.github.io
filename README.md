@@ -23,8 +23,8 @@ python -m http.server 5173
 y abre <http://localhost:5173>. (En Claude Code el servidor está configurado en `.claude/launch.json` con el nombre `web-artista`.)
 
 ### Publicada en internet
-La web vive en **https://danielteniente.github.io/danieldb/** (GitHub Pages, rama `master`, carpeta raíz).
-Repositorio: <https://github.com/danielTeniente/danieldb>.
+La web vive en **https://danielteniente.github.io/** (GitHub Pages, rama `master`, carpeta raíz).
+Repositorio: <https://github.com/danielTeniente/danielTeniente.github.io>.
 
 **Para publicar una actualización**, desde la carpeta del proyecto:
 

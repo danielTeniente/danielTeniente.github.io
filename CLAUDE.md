@@ -20,9 +20,9 @@ Web de artista de Daniel DB. Lee primero el [README.md](README.md): explica la e
 - Daniel decide mejor viendo: muestra prototipos que funcionen en lugar de describir opciones.
 
 ## Publicar
-- Repositorio `danielTeniente/danieldb`, rama `master`; GitHub Pages sirve la raíz en https://danielteniente.github.io/danieldb/ (hay `.nojekyll`).
+- Repositorio `danielTeniente/danielTeniente.github.io`, rama `master`; GitHub Pages sirve la raíz en https://danielteniente.github.io/ (hay `.nojekyll`).
 - Publicar = commit + `git push`, **solo cuando Daniel lo pida**. Revisa en localhost antes.
-- Todas las rutas son relativas (la web vive en la subcarpeta `/danieldb/`): no uses rutas que empiecen con `/`.
+- Usa siempre rutas relativas (sin `/` inicial): así la web funciona igual en localhost, en la raíz del dominio o en una subcarpeta.
 
 ## Comprobar
 - Servidor: `python -m http.server 5173` (o `web-artista` en `.claude/launch.json`).
