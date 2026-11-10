@@ -84,18 +84,25 @@ Si borras una sección entera, la página usa su texto por defecto (el que está
 
 ### Página «No ficción» — [`textos/no-ficcion.md`](textos/no-ficcion.md)
 Se entra desde el botón «No ficción (demasiado pretensioso)» de la portada. Usa el concepto **Misión**:
-un briefing que se autodestruye y, detrás, el **archivo de expedientes**. Quien ya aceptó la misión entra directo al archivo (hay un botón «Repetir el briefing»).
+un briefing que se autodestruye (al pulsar «Aceptar la misión» o cuando la mecha se consume, a los 14 s) y, detrás, el **archivo de expedientes**. Al aceptar sale, debajo de «Este mensaje se autodestruirá», que la sección está inspirada en las películas de *Misión Imposible*. El briefing sale **siempre** que se entra desde la portada; solo se salta al volver de un artículo con «Volver al archivo» o con el botón «atrás».
+
+El **último expediente publicado** (el de fecha más reciente) está **en custodia**: un **minijuego** elegido al azar cada vez que se abre la página tapa su tarjeta, y al ganarlo aparece «Leer el expediente» ([`js/minijuegos.js`](js/minijuegos.js)): todos siguen el modelo de los láseres: la tarjeta se sigue viendo, el efecto la cruza por encima y debajo va la instrucción (izquierda) con el botón (derecha); el efecto nunca tapa la instrucción. Hoy hay seis: láseres, código para memorizar, caja fuerte (un número), contraseña desordenada, descenso desde el techo e inmersión (la tarjeta se hunde en el agua y al llegar al fondo se abre la cerradura). Al fallar sale un mensaje corto unos segundos y el juego vuelve a empezar solo; al tercer fallo «llegan los refuerzos» (ese mensaje se queda) y se abre igual. **Provisional:** en localhost (o con `?probar` en la dirección) sale una barra para probar cada minijuego; en la web publicada no aparece. Los demás son **evidencia recolectada** y se abren directo. (El enlace directo a un artículo funciona sin juego, para poder compartirlo.)
 
 | Sección | Qué controla |
 |---|---|
 | `hud-izquierda`, `hud-derecha`, `para`, `titulo`, `mision`, `aceptar`, `cuenta` | El briefing. En `cuenta`, `{n}` son los segundos. |
+| `homenaje` | Mensaje discreto al aceptar la misión |
+| `estado-custodia`, `custodia-leer`, `estado-evidencia` | Etiquetas del último expediente (en custodia) y de los anteriores |
+| `juego-laseres`, `juego-codigo`, `juego-caja`, `juego-anagrama`, `juego-descenso`, `juego-bucear` | Instrucción de cada minijuego (`juego-anagrama` es el de la contraseña) |
+| `juego-bucear-fondo` | Mensaje de la inmersión al llegar al fondo |
+| `juego-palabras` | Diccionario del juego de la contraseña: una palabra por línea (`- palabra`); para añadir otra, una línea nueva. Cada error destapa una letra (`--s----`); al tercero llegan los refuerzos |
+| `juego-exito`, `juego-fallo`, `juego-refuerzos` | Mensajes al ganar, al perder (dura unos segundos) y al tercer fallo (se queda) |
 | `archivo-titulo`, `archivo-intro`, `repetir`, `pie` | El archivo de expedientes |
-| `expedientes` | Lista: `- [Título](destino) · Categoría · fecha · subtítulo`. Si el destino es un **nombre de archivo** (sin `.md`) el texto vive en `textos/no-ficcion/`; si es un **enlace https** sale como «En Substack ↗». Se numeran solos. |
-| `clasificado-titulo`, `clasificado-clave`, `clasificado-pista`, `clasificado-contenido` | **Expediente 000**: pide un código (hoy, `lupus`); si falla muestra la pista. |
+| `expedientes` | Lista de artículos: solo el **nombre del archivo** de cada uno (`- mi-articulo`, sin `.md`). Título, categoría, fecha y subtítulo se leen del propio `.md`. Se ordenan solos por fecha (el más reciente, en custodia) y se numeran por antigüedad. La primera página muestra 3 (el minijuego ocupa sitio) y las demás 4: si hay más, aparecen flechas (y en el móvil se puede deslizar el dedo). Los que siguen en Substack están en un comentario debajo, por traer. |
 | `autodestruir-boton`, `autodestruir-mensaje` | El botón del final de cada artículo (que no destruye nada) |
 
 ### Artículos — `textos/no-ficcion/<nombre>.md`
-Cada artículo es un archivo con las secciones `titulo`, `subtitulo`, `categoria`, `fecha`, `original` (enlace a Substack/Medium) y `cuerpo`.
+Cada artículo es un archivo con las secciones `titulo`, `subtitulo`, `categoria`, `fecha`, `original` (enlace a Substack/Medium, solo de referencia: no se muestra) y `cuerpo`.
 Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
 
 | Escribes | Se ve |
@@ -109,7 +116,7 @@ Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
 
 Sin imágenes: todo es texto. Al pegar desde Substack, cambia las cursivas `_así_` por `*así*`.
 
-**Para traer un artículo nuevo:** crea `textos/no-ficcion/<nombre>.md` copiando la estructura del de Taleb, pega el texto en `## cuerpo` y en `textos/no-ficcion.md` cambia su destino de `https://…` a `<nombre>`.
+**Para publicar un artículo nuevo:** copia [`textos/no-ficcion/_plantilla.md`](textos/no-ficcion/_plantilla.md) en la misma carpeta con un nombre en minúsculas y guiones (`mi-articulo.md`), pega el texto en `## cuerpo`, rellena título, subtítulo, categoría y fecha, y añade `- mi-articulo` a la sección `## expedientes` de `textos/no-ficcion.md`. (Esa línea hace falta porque GitHub Pages no deja que la página vea qué archivos hay en una carpeta.) Los artículos de prueba en *lorem ipsum* siguen en la carpeta con `_` delante (así no se publican); para usarlos, quítales el `_` y añade su nombre a la lista.
 
 ---
 
@@ -128,7 +135,8 @@ no-ficcion/articulo.html  Lectura de un artículo (?id=<nombre>)
 textos/no-ficcion.md    Textos de la página No ficción y lista de expedientes
 textos/no-ficcion/      Un .md por artículo
 css/no-ficcion.css      Estilos de No ficción (paleta global, concepto Misión)
-js/no-ficcion.js        Briefing, archivo y expediente clasificado
+js/no-ficcion.js        Briefing, archivo y expediente en custodia
+js/minijuegos.js        Los cinco minijuegos del expediente en custodia
 js/articulo.js          Convierte el .md de un artículo en la página
 
 guia-visual.html        Guía visual (paleta, tipografía, reglas)
@@ -201,10 +209,10 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 ## 6. Lo que sigue
 
 **Próxima sesión (en este orden):**
-1. [ ] **Revisar la página del archivo de expedientes** (`no-ficcion/index.html`) hasta dejarla terminada, e incluir un easter egg que diga que es un homenaje a las películas de *Misión Imposible*.
+1. [x] **Página del archivo de expedientes** con un artículo de ejemplo, el homenaje a *Misión Imposible* y los minijuegos del expediente en custodia.
 2. [ ] **Definir el formato universal de los artículos** (`no-ficcion/articulo.html` + `textos/no-ficcion/*.md`): una sola plantilla que sirva para todos los textos, sin diseñar artículo por artículo.
 
-- [x] Página **No ficción** creada (concepto Misión, archivo de expedientes, expediente 000). **De momento el botón de la portada lleva al Substack**; cuando la página esté lista, cambia su enlace en `textos/portada.md` a `no-ficcion/index.html`.
+- [x] Página **No ficción** creada (concepto Misión, archivo de expedientes, minijuegos). El botón de la portada ya lleva a `no-ficcion/index.html`.
 - [ ] Pegar el texto del primer artículo (Taleb) en `textos/no-ficcion/comentando-libros-1-nassim-taleb.md` y traer los demás de Substack/Medium.
 - [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, videojuego, pixel art, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.

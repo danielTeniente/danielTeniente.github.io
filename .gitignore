@@ -10,3 +10,7 @@ desktop.ini
 .DS_Store
 .vscode/
 *.swp
+
+# Artículos de prueba (lorem ipsum) ocultos con "_": no se publican. La plantilla sí.
+textos/no-ficcion/_*.md
+!textos/no-ficcion/_plantilla.md

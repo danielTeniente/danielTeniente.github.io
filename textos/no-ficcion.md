@@ -10,7 +10,22 @@
 Transmisión segura
 
 ## hud-derecha
-Canal 7 · Cifrado 256
+<!-- {canal} = un número al azar entre 0 y 255; {cifrado} = uno de la lista de abajo, al azar en cada visita. -->
+Canal {canal} · Cifrado {cifrado}
+
+## cifrados
+<!-- Cifrados que pueden salir en la barra de arriba. Uno por línea. Mejor nombres cortos (en el móvil no hay mucho sitio).
+     «Alienígena 2» es el segundo alfabeto alienígena de Futurama: un cifrado de suma modular de verdad. -->
+- AES-256
+- RSA-4096
+- Enigma
+- César
+- Vigenère
+- ROT13
+- ChaCha20
+- Blowfish
+- Libreta de un solo uso
+- Alienígena 2
 
 ## para
 Para: el visitante · De: Daniel DB
@@ -32,54 +47,122 @@ Este mensaje se autodestruirá en {n}
 Archivo de expedientes
 
 ## archivo-intro
-Estos son los expedientes desclasificados. Los que dicen «En Substack» todavía viven allá; poco a poco los iré trayendo aquí.
+Puede leer los expedientes recuperados, agente. O puede aventurarse para obtener uno nuevo.
 
 ## repetir
-Repetir el briefing
+Volver a empezar
 
 ## expedientes
 <!--
-  Un expediente por línea:
-  - [Título](destino) · Categoría · fecha · subtítulo
-  El destino puede ser:
-    - un nombre de archivo de textos/no-ficcion/ sin ".md" (el texto vive en esta web), o
-    - un enlace https://… (el texto todavía vive en Substack o Medium).
-  Se muestran en este orden.
+  LISTA DE ARTÍCULOS
+  Cada artículo es un archivo .md en la carpeta textos/no-ficcion/.
+  Para publicar uno nuevo:
+    1. Copia textos/no-ficcion/_plantilla.md, ponle un nombre (minúsculas y guiones, p. ej. mi-articulo.md)
+       y pega tu texto.
+    2. Añade aquí una línea con ese nombre, sin ".md":  - mi-articulo
+  El título, la categoría, la fecha y el subtítulo se leen del propio .md.
+  El orden no importa: se ordenan solos por fecha. El más reciente queda «en custodia» (con minijuego)
+  y los demás salen como «evidencia recolectada».
+  (Esta lista hace falta porque GitHub Pages no deja que la página vea qué archivos hay en una carpeta.)
 -->
-- [Comentando libros 1: Nassim Taleb](comentando-libros-1-nassim-taleb) · Libros · 17/06/2026 · Mi maestro de vida
-- [Todo en contra](https://danieldbarte.substack.com/p/todo-en-contra) · Ajedrez · 24/09/2026 · Una historia de ajedrez: Ding Liren
-- [Le digo adiós al ajedrez](https://danieldbarte.substack.com/p/le-digo-adios-al-ajedrez) · Ajedrez · 22/08/2026 · Toda historia tiene un inicio y un fin
-- [Cine en 2025](https://danieldbarte.substack.com/p/cine-en-2025) · Cine · 14/03/2026 · Una revisión del cine de 2025
-- [Historias de detectives](https://danieldbarte.substack.com/p/historias-de-detectives) · Literatura · 06/01/2026 · El mejor género que existe
-- [No sé si, después de ti, quedaría algo más](https://danieldbarte.substack.com/p/no-se-si-despues-de-ti-quedaria-algo) · Música · 12/12/2025 · Recomendando el primer álbum de mi cantante favorita
-- [Terror y comedia, hermanas de sangre](https://danieldbarte.substack.com/p/terror-y-comedia-hermanas-de-sangre) · Cine · 19/11/2025 · La relación narrativa entre dos géneros tan distintos
-- [Cine en 2024](https://danieldbarte.substack.com/p/cine-en-2024) · Cine · 15/11/2025 · Una revisión del cine de 2024
-- [Western: un género magnífico](https://danieldbarte.substack.com/p/western-un-genero-magnifico) · Cine · 13/11/2025 · Una revisión del cine del oeste
-- [Her Story: una joya del relato policiaco](https://danieldbarte.substack.com/p/her-story-una-joya-del-relato-policiaco) · Videojuegos · 09/11/2025 · Una recomendación para los amantes de los detectives
-- [Mis películas favoritas de 2023](https://danieldbarte.substack.com/p/mis-peliculas-favoritas-de-2023) · Cine · 07/11/2025 · Un recuerdo y un recuento
-- [La necesidad de expresarnos](https://danieldbarte.substack.com/p/coming-soon) · Ensayo · 07/11/2025 · Una pequeña presentación
+- no-preguntes-por-que
+- sobre-virus-de-arn
+<!-- Pendiente de pegar su texto (hoy tiene un texto de ejemplo):
+- comentando-libros-1-nassim-taleb
+-->
 
-## clasificado-titulo
-Expediente 000
+## homenaje
+<!-- Sale al aceptar la misión, debajo de «Este mensaje se autodestruirá». -->
+Esta sección de la web está inspirada en las películas de Misión Imposible protagonizadas por Tom Cruise.
 
-## clasificado-pista
-<!-- La pista que sale si alguien escribe mal el código. -->
-Pista: un médico gruñón diría que nunca es esto.
+## estado-custodia
+<!-- El último expediente publicado (por fecha) está en custodia: un minijuego lo tapa y hay que ganarlo para leerlo. -->
+En custodia
 
-## clasificado-clave
-<!-- El código de acceso (no distingue mayúsculas). -->
-lupus
+## custodia-leer
+<!-- Botón que sale tras el tercer fallo (cuando llegan los refuerzos). -->
+Leer el expediente
 
-## clasificado-contenido
-**Acceso concedido, agente.** Encontraste el expediente 000. Aquí guardaré los textos que todavía no me atrevo a publicar.
+## estado-evidencia
+<!-- Los expedientes anteriores se abren directo. -->
+Recuperado
 
-De momento está vacío. Como mi cuenta bancaria.
+## juego-laseres
+<!-- MINIJUEGOS: uno al azar cada vez que se abre la página. -->
+Cruce cuando se apaguen los láseres.
+
+## juego-codigo
+Memorice el código. Tiene dos segundos y medio para hacerlo.
+
+## juego-caja
+Abra la caja fuerte: pulse «Fijar» cuando el dial marque el número de la combinación.
+
+## juego-anagrama
+La contraseña está desordenada. Ordénela antes de que alguien se dé cuenta.
+
+## juego-palabras
+<!--
+  Diccionario del juego de la contraseña: se elige una palabra al azar y se muestra desordenada.
+  Cada error destapa una letra en su sitio (western → --s----); al tercer error llegan los refuerzos.
+  Una palabra por línea, empezando por «- ». Para añadir otra, escribe una línea nueva y guarda.
+  No importan tildes ni mayúsculas. Mejor palabras sueltas (sin espacios).
+-->
+- cisne
+- misterio
+- homero
+- simpson
+- detective
+- ajedrez
+- western
+- terror
+- futurama
+- pista
+
+## juego-descenso
+<!-- Colgado del techo de la bóveda. -->
+Descienda desde el techo y frene en la franja verde: el suelo tiene sensores de presión. (Y de vergüenza.)
+
+## juego-bucear
+<!-- Inmersión: la tarjeta se hunde en el agua y al llegar al fondo se abre la cerradura. -->
+Contenga la respiración, agente. (No tiene que hacerlo, pero es divertido.)
+
+## juego-bucear-fondo
+<!-- Sustituye al de arriba al llegar al fondo. -->
+Hemos llegado al fondo, agente. Ya puede respirar.
+
+## juego-exito
+Bien hecho, agente.
+
+## juego-fallo
+<!-- Sale unos segundos y el juego vuelve a empezar solo. -->
+Misión fallida. Tranquilo: esta saga tiene secuela.
+
+## juego-refuerzos
+<!-- Sale al tercer fallo: el expediente se abre igual. -->
+Tres misiones fallidas. Llegaron los refuerzos y desactivaron la seguridad por usted. No se lo contaremos a nadie.
 
 ## autodestruir-boton
-Autodestruir expediente
+Destruir expediente
 
 ## autodestruir-mensaje
-Es broma. Los buenos textos no se autodestruyen.
+Es broma. Los buenos textos no se destruyen.
 
 ## pie
-Ningún economista fue consultado para escribir estos textos.
+<!-- Sale una frase al azar en cada visita. Una por línea. Las de abajo de la primera son propuestas: borra las que no te gusten. -->
+- Ningún economista fue consultado para escribir estos textos.
+- Ningún becario resultó herido durante la redacción de estos expedientes.
+- Cualquier parecido con la realidad es, en este caso, el objetivo.
+- Leer más de tres expedientes seguidos puede provocar opiniones.
+- Ningún algoritmo le recomendó esta página. Llegó usted solo, qué admirable.
+- Su dispositivo se autodestruirá en 3, 2, 1… bueno, mañana.
+- Las opiniones vertidas en estos textos no reflejan necesariamente las del autor. A veces cambia de opinión.
+- Si usted fuera un espía, ya habría notado que el canal y el cifrado de arriba cambian en cada visita. Y eso no significa nada. ¿O sí?
+- Si usted es un espía de verdad, sepa que aquí no hay secretos (sólo los del autor).
+- Un economista predijo que estos textos le gustarían. Le deseamos suerte a los dos.
+- La demanda de estos textos es baja, pero la oferta no se rinde.
+- Estos textos son gratis, y aun así algún economista diría que están sobrevalorados.
+- Si usted fuera inteligente, notaría que este pie cambia cada vez que entra. Ya lo notó. Felicidades.
+- Si usted fuera inteligente, no leería los pies de página. Y nosotros no los escribiríamos.
+- Sólo un espía se detiene a leer un pie de página. Bien hecho.
+- Si usted fuera inteligente, no habría contenido la respiración en la inmersión. Le dijimos que no hacía falta.
+- Le advertimos que el autor era pretensioso.

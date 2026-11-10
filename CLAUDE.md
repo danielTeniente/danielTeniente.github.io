@@ -3,6 +3,7 @@
 Web de artista de Daniel DB. Lee primero el [README.md](README.md): explica la estructura, cada sección de texto y las decisiones de diseño.
 
 ## No romper
+- **No leas los artículos de Daniel** (`textos/no-ficcion/*.md`, salvo `_plantilla.md` y los de prueba en *lorem ipsum*) **a menos que lo pida explícitamente.** No abras, resumas, corrijas ni proceses su contenido. Para comprobar que un artículo se ve bien, mira solo la estructura (que cargue, cuántos párrafos o secciones hay, errores en consola), no el texto. Para probar el diseño, usa los artículos de prueba.
 - **Los textos son de Daniel.** Viven en `textos/` (`portada.md`, `no-ficcion.md` y un `.md` por artículo en `textos/no-ficcion/`). No reescribas sus frases ni sus chistes sin que lo pida: si algo se ve mal (desborda, lista mal escrita), avisa y propone. Cuando diga «el texto ha sido actualizado», relee el `.md` y comprueba que la página lo muestra bien.
 - **No renombres las secciones `## nombre`** del `.md` ni los atributos `data-texto` del HTML: están emparejados. Si añades una sección, añade su elemento en `index.html` con texto por defecto.
 - `marquesina`, `marquesina-visitante` y `reproductor` no tienen `data-texto`: las lee `js/senor-x.js` directamente.
@@ -16,6 +17,7 @@ Web de artista de Daniel DB. Lee primero el [README.md](README.md): explica la e
 - La portada imita una página personal de 1998 (Señor X de *Los Simpson*) con humor de *Los Simpson* y *Futurama*: estructura en tres actos, remates que se conectan entre sí (callbacks) y chistes escondidos para quien se fija.
 - **Sin imágenes** en la web: todo es texto, juegos y easter eggs.
 - Homenajes de estilo, nunca copias: sin logotipos, personajes ni letras de canciones.
+- **Ortografía de Daniel** (en todo texto o chiste que propongas): *sólo* con tilde cuando significa «solamente» (sin tilde, *solo* = sin compañía); *éste/ésta/éstos/éstas* con tilde cuando son pronombre («quiero éste»), sin tilde cuando acompañan a un nombre («este auto»). No lo «corrijas» a la norma actual de la RAE.
 - Evitar: look corporativo, violetas/galaxias («astrología»), tipografía manuscrita, revelado lento de texto en la portada.
 - Daniel decide mejor viendo: muestra prototipos que funcionen en lugar de describir opciones.
 

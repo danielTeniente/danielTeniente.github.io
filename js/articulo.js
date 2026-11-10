@@ -1,12 +1,17 @@
 /* ==========================================================
    No ficción: lectura de un artículo.
    articulo.html?id=nombre  →  textos/no-ficcion/nombre.md
-   Secciones del .md: titulo, subtitulo, categoria, fecha, original, cuerpo.
+   Secciones del .md: titulo, subtitulo, categoria, fecha, original (solo de referencia, no se muestra), cuerpo.
    ========================================================== */
 (async () => {
   const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (id) => document.getElementById(id);
   const id = new URLSearchParams(location.search).get('id') || '';
+
+  // Al volver al archivo desde aquí no se repite el briefing (no-ficcion.js lee esta marca)
+  document.querySelectorAll('a[href="index.html"]').forEach((a) => a.addEventListener('click', () => {
+    try { sessionStorage.setItem('db-no-ficcion-volver', '1'); } catch (e) {}
+  }));
 
   // Solo nombres de archivo simples: nada de rutas raras
   const valido = /^[a-z0-9-]+$/i.test(id);
@@ -27,10 +32,6 @@
   $('subtitulo').innerHTML = Textos.enLinea(plano(a.subtitulo));
   $('categoria').innerHTML = Textos.enLinea(plano(a.categoria));
   $('fecha').innerHTML = Textos.enLinea(plano(a.fecha));
-  if (a.original && /^https?:\/\//i.test(plano(a.original))) {
-    $('original').href = plano(a.original);
-    $('original').hidden = false;
-  }
 
   // Cuerpo: bloques separados por línea en blanco
   const bloques = (a.cuerpo || '').split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);

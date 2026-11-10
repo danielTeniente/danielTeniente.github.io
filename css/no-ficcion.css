@@ -68,14 +68,16 @@ h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: c
 .expediente .estado.fuera { color: var(--p-triada2); }
 .expediente .titulo { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 1.55rem; line-height: 1.15; color: var(--p-titulos); margin: 0.35rem 0 0.15rem; }
 .expediente .subtitulo { display: block; font-style: italic; font-size: 1rem; }
-.expediente.clasificado { border-style: dashed; border-color: var(--p-luz); }
-.abrir-clasificado { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
-.expediente.clasificado .titulo { color: var(--p-luz); }
-.acceso { margin-top: 0.8rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-.acceso[hidden], .revelado[hidden] { display: none; }
-.acceso input { font: 0.9rem 'IBM Plex Mono', monospace; background: var(--p-fondo); color: var(--p-triada1); border: 1px solid var(--p-linea); padding: 0.4rem 0.6rem; letter-spacing: 0.2em; width: 12rem; }
-.acceso .respuesta { font: 0.72rem 'IBM Plex Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--p-luz); flex-basis: 100%; min-height: 1.2em; }
-.revelado { margin-top: 0.8rem; border-left: 2px solid var(--p-triada1); padding-left: 1rem; }
+/* páginas del archivo: de 5 en 5 */
+.lista-expedientes > li[hidden] { display: none; }
+.paginador { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin-top: 1.4rem; font: 0.72rem 'IBM Plex Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; color: var(--p-texto); }
+.paginador button { font: 1.1rem/1 'IBM Plex Mono', monospace; background: none; color: var(--p-triada2); border: 1px solid var(--p-linea); width: 2.6rem; height: 2.6rem; cursor: pointer; transition: border-color 0.3s, color 0.3s; }
+.paginador button:hover:not(:disabled), .paginador button:focus-visible { border-color: var(--p-triada2); color: var(--p-titulos); }
+.paginador button:disabled { opacity: 0.3; cursor: default; }
+.lista-expedientes.desde-derecha { animation: desde-derecha 0.35s ease both; }
+.lista-expedientes.desde-izquierda { animation: desde-izquierda 0.35s ease both; }
+@keyframes desde-derecha { from { opacity: 0; transform: translateX(40px); } }
+@keyframes desde-izquierda { from { opacity: 0; transform: translateX(-40px); } }
 .repetir { margin-top: 2.5rem; }
 .repetir button { background: none; border: 0; padding: 0; cursor: pointer; font: 0.7rem 'IBM Plex Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; color: #8E7F8C; text-decoration: underline; }
 .pie { margin-top: 3rem; font: 0.68rem 'IBM Plex Mono', monospace; letter-spacing: 0.1em; color: #8E7F8C; }
@@ -91,6 +93,14 @@ h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: c
 .cuerpo li::marker { color: var(--p-triada1); }
 .cuerpo hr { border: 0; border-top: 1px dashed var(--p-linea); margin: 2.5rem 0; }
 .cuerpo i, .cuerpo em { color: var(--p-titulos); }
+/* lectura más cómoda: letra más grande, texto casi blanco y la rejilla de fondo apagada */
+.pagina-articulo .rejilla { opacity: 0.25; }
+.pagina-articulo .cuerpo { max-width: 40rem; font-size: clamp(1.3rem, 0.8vw + 1.1rem, 1.55rem); line-height: 1.75; font-weight: 400; color: var(--p-titulos); }
+.pagina-articulo .cuerpo p { margin-bottom: 1.3em; }
+.pagina-articulo .cuerpo blockquote { color: var(--p-titulos); }
+.pagina-articulo .cuerpo a { color: var(--p-triada2); text-underline-offset: 0.18em; }
+.pagina-articulo .articulo-cabecera .subtitulo { font-size: 1.35em; }
+.pagina-articulo .articulo-cabecera .meta, .pagina-articulo .final .meta { color: var(--p-texto); font-size: 0.8rem; }
 .final { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--p-linea); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
 
 /* texto tachado de expediente: se revela al pasar el cursor, enfocarlo o tocarlo */
@@ -98,6 +108,82 @@ h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: c
 .tachado:hover, .tachado:focus, .tachado.visto { background: rgba(var(--p-luz-rgb), 0.2); color: var(--p-titulos); }
 
 @media (max-width: 560px) { .hud > :last-child:not(:first-child):not(.rec) { display: none; } }
+
+/* ---------- homenaje: sale al aceptar, debajo de la cuenta atrás ---------- */
+.homenaje { margin: 0.6rem 0 0; font-size: 1.05rem; color: var(--p-titulos); border-left: 2px solid var(--p-triada2); padding-left: 0.8rem; }
+.homenaje[hidden] { display: none; }
+
+/* ---------- expediente en custodia: el minijuego se superpone a la tarjeta (js/minijuegos.js) ----------
+   Modelo de los láseres: la tarjeta se sigue viendo, el efecto la cruza (.efecto) y debajo va
+   la fila con la instrucción a la izquierda y los controles a la derecha (.juego-pie).
+   La caja fuerte y el descenso usan una franja a la derecha: la ficha y la fila les dejan sitio. */
+.expediente.en-custodia { overflow: hidden; border-color: rgba(var(--p-luz-rgb), 0.6); }
+.expediente.en-custodia.superado { border-color: var(--p-triada1); }
+.expediente .estado.custodia { color: var(--p-luz); }
+.custodia-capa { padding-top: 0.9rem; }
+.efecto { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.juego-pie, .custodia-capa.resultado { position: relative; z-index: 2; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 0.7rem 1.2rem; }
+.juego-instruccion, .juego-resultado { flex: 1 1 15rem; margin: 0; font: 0.75rem/1.6 'IBM Plex Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+.juego-instruccion { color: var(--p-triada2); }
+.juego-resultado { color: var(--p-luz); }
+.juego-resultado.exito { color: var(--p-triada1); }
+.juego-controles { display: flex; flex-wrap: wrap; gap: 0.5rem 0.8rem; align-items: center; justify-content: flex-end; margin-left: auto; }
+.juego-dato { margin: 0; font: 0.8rem 'IBM Plex Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--p-texto); }
+.juego-dato b { color: var(--p-titulos); font-size: 1.3em; }
+.custodia-capa .boton { padding: 0.55rem 1.3rem; }
+.custodia-capa .boton[hidden] { display: none; }
+.custodia-capa .boton:disabled { opacity: 0.6; cursor: default; background: transparent; color: var(--p-luz); }
+.juego-form { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+.juego-form[hidden] { display: none; }
+.juego-form input { font: 1rem 'IBM Plex Mono', monospace; background: var(--p-fondo); color: var(--p-triada1); border: 1px solid var(--p-linea); padding: 0.45rem 0.6rem; letter-spacing: 0.2em; width: 13rem; text-transform: uppercase; }
+.expediente.alarma { animation: alarma 0.25s steps(2) 2; }
+@keyframes alarma { 50% { background: rgba(var(--p-luz-rgb), 0.22); transform: translateX(4px); } }
+
+/* 1. láseres */
+.laseres i { position: absolute; left: -10%; width: 120%; height: 2px; background: var(--p-luz); box-shadow: 0 0 6px 1px var(--p-luz), 0 0 18px 4px rgba(var(--p-luz-rgb), 0.35); transition: opacity 0.12s; }
+.laseres i:nth-child(1) { top: 24%; transform: rotate(6deg); }
+.laseres i:nth-child(2) { top: 50%; transform: rotate(-5deg); }
+.laseres i:nth-child(3) { top: 76%; transform: rotate(3deg); }
+.apagados .laseres i { opacity: 0.06; box-shadow: none; }
+
+/* 2. código: proyectado sobre la ficha (el alto lo pone minijuegos.js) */
+.proyeccion { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center; margin: 0; font: 600 clamp(2.4rem, 10vw, 4.4rem)/1 'IBM Plex Mono', monospace; letter-spacing: 0.3em; color: var(--p-triada2); text-shadow: 0 0 18px rgba(var(--p-triada2-rgb), 0.7); background: rgba(var(--p-fondo-rgb), 0.6); opacity: 0; transition: opacity 0.3s; }
+.efecto.visible .proyeccion { opacity: 1; }
+
+/* 3. caja fuerte: dial en la franja derecha */
+.en-custodia[data-juego="caja"] .custodia-ficha { padding-right: 8rem; min-height: 8.6rem; }
+.dial { position: absolute; right: 1.2rem; top: 2.2rem; width: 6.4rem; height: 6.4rem; border-radius: 50%; border: 2px solid rgba(var(--p-luz-rgb), 0.7); box-shadow: 0 0 16px rgba(var(--p-luz-rgb), 0.35), inset 0 0 16px rgba(var(--p-luz-rgb), 0.25); display: flex; align-items: center; justify-content: center; font: 600 2.3rem/1 'IBM Plex Mono', monospace; color: var(--p-titulos); background: rgba(var(--p-fondo-rgb), 0.6); }
+.dial::before { content: ''; position: absolute; top: -9px; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--p-triada1); }
+
+/* 4. contraseña: letras flotando sobre la ficha (las posiciones las pone minijuegos.js) */
+.letra { position: absolute; font: 600 clamp(1.6rem, 5vw, 2.4rem)/1 'IBM Plex Mono', monospace; color: rgba(var(--p-luz-rgb), 0.85); text-shadow: 0 0 12px rgba(var(--p-luz-rgb), 0.6); animation: flotar 3s ease-in-out infinite alternate; }
+@keyframes flotar { to { transform: translateY(10px) rotate(6deg); } }
+
+.juego-pista b { letter-spacing: 0.35em; color: var(--p-triada1); }
+.juego-pista[hidden] { display: none; }
+
+/* 5. descenso: pozo en la franja derecha con zona de freno y suelo con sensores */
+.en-custodia[data-juego="descenso"] .custodia-ficha, .en-custodia[data-juego="descenso"] .custodia-capa { padding-right: 2.6rem; }
+.pozo { position: absolute; top: 0; bottom: 0; right: 0.7rem; width: 1.5rem; border-left: 1px dashed var(--p-linea); border-right: 1px dashed var(--p-linea); }
+.cuerda { position: absolute; top: 0; left: 50%; width: 2px; margin-left: -1px; height: 0; background: var(--p-texto); }
+.agente { position: absolute; bottom: -0.6rem; left: 50%; transform: translateX(-50%); font-size: 1.1rem; line-height: 1; color: var(--p-titulos); text-shadow: 0 0 8px var(--p-titulos); }
+.zona-freno { position: absolute; left: 0; right: 0; top: 78%; height: 16%; background: rgba(var(--p-triada1-rgb), 0.18); border-top: 1px dashed rgba(var(--p-triada1-rgb), 0.7); }
+.suelo { position: absolute; left: 0; right: 0; bottom: 0; height: 6%; background: repeating-linear-gradient(90deg, rgba(var(--p-luz-rgb), 0.7) 0 4px, transparent 4px 8px); box-shadow: 0 0 14px rgba(var(--p-luz-rgb), 0.5); }
+
+/* 6. inmersión: la tarjeta se hunde; --hondo va de 0 a 1 (lo pone minijuegos.js) */
+.agua { position: absolute; inset: 0; --h: var(--hondo, 0);
+  background: linear-gradient(180deg, rgba(var(--p-triada2-rgb), calc(0.08 + var(--h) * 0.22)), rgba(var(--p-fondo-rgb), calc(var(--h) * 0.85)));
+  box-shadow: inset 0 0 calc(var(--h) * 60px) rgba(var(--p-fondo-rgb), 0.9); }
+.sumergido .agua { border-top: 2px solid rgba(var(--p-triada2-rgb), 0.6); }
+.burbujas { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+.sumergido .burbujas { opacity: 1; }
+.burbujas i { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; border: 1px solid rgba(var(--p-triada2-rgb), 0.8); animation: burbuja 4.2s ease-in infinite; }
+@keyframes burbuja { to { transform: translate(-10px, -260px); opacity: 0; } }
+
+/* PROVISIONAL: botones para probar los minijuegos (solo en localhost) */
+.probador { margin: 1.5rem 0 -1rem; padding: 0.6rem 0.8rem; border: 1px dashed var(--p-triada1); display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; font: 0.68rem 'IBM Plex Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--p-triada1); }
+.probador button { font: inherit; letter-spacing: inherit; text-transform: inherit; background: none; color: var(--p-texto); border: 1px solid var(--p-linea); padding: 0.3rem 0.6rem; cursor: pointer; }
+.probador button[aria-pressed="true"] { border-color: var(--p-triada1); color: var(--p-triada1); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
