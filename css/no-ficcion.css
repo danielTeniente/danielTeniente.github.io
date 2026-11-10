@@ -146,16 +146,21 @@ h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: c
 .laseres i:nth-child(3) { top: 76%; transform: rotate(3deg); }
 .apagados .laseres i { opacity: 0.06; box-shadow: none; }
 
-/* 2. código: proyectado sobre la ficha (el alto lo pone minijuegos.js) */
-.proyeccion { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center; margin: 0; font: 600 clamp(2.4rem, 10vw, 4.4rem)/1 'IBM Plex Mono', monospace; letter-spacing: 0.3em; color: var(--p-triada2); text-shadow: 0 0 18px rgba(var(--p-triada2-rgb), 0.7); background: rgba(var(--p-fondo-rgb), 0.6); opacity: 0; transition: opacity 0.3s; }
-.efecto.visible .proyeccion { opacity: 1; }
+/* capa sobre la ficha (título, subtítulo, fecha): toma su tamaño por CSS y llega hasta los bordes de la tarjeta.
+   Ahí van la proyección del código y las letras de la contraseña, sin tapar la instrucción. */
+.custodia-ficha { position: relative; }
+.efecto-ficha { position: absolute; top: -1rem; left: -1.2rem; right: -1.2rem; bottom: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+
+/* 2. código: proyectado sobre la ficha */
+.proyeccion { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; margin: 0; font: 600 clamp(2.4rem, 10vw, 4.4rem)/1 'IBM Plex Mono', monospace; letter-spacing: 0.3em; color: var(--p-triada2); text-shadow: 0 0 18px rgba(var(--p-triada2-rgb), 0.7); background: rgba(var(--p-fondo-rgb), 0.6); opacity: 0; transition: opacity 0.3s; }
+.efecto-ficha.visible .proyeccion { opacity: 1; }
 
 /* 3. caja fuerte: dial en la franja derecha */
 .en-custodia[data-juego="caja"] .custodia-ficha { padding-right: 8rem; min-height: 8.6rem; }
 .dial { position: absolute; right: 1.2rem; top: 2.2rem; width: 6.4rem; height: 6.4rem; border-radius: 50%; border: 2px solid rgba(var(--p-luz-rgb), 0.7); box-shadow: 0 0 16px rgba(var(--p-luz-rgb), 0.35), inset 0 0 16px rgba(var(--p-luz-rgb), 0.25); display: flex; align-items: center; justify-content: center; font: 600 2.3rem/1 'IBM Plex Mono', monospace; color: var(--p-titulos); background: rgba(var(--p-fondo-rgb), 0.6); }
 .dial::before { content: ''; position: absolute; top: -9px; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--p-triada1); }
 
-/* 4. contraseña: letras flotando sobre la ficha (las posiciones las pone minijuegos.js) */
+/* 4. contraseña: letras flotando sobre la ficha (posiciones en % de la ficha, desde minijuegos.js) */
 .letra { position: absolute; font: 600 clamp(1.6rem, 5vw, 2.4rem)/1 'IBM Plex Mono', monospace; color: rgba(var(--p-luz-rgb), 0.85); text-shadow: 0 0 12px rgba(var(--p-luz-rgb), 0.6); animation: flotar 3s ease-in-out infinite alternate; }
 @keyframes flotar { to { transform: translateY(10px) rotate(6deg); } }
 

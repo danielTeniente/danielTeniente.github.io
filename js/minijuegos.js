@@ -30,10 +30,20 @@ window.Minijuegos = (() => {
     capa.innerHTML = `<div class="efecto" aria-hidden="true">${efecto}</div><div class="juego-pie">${instr}<div class="juego-controles">${controles}</div></div>`;
     return { efecto: capa.querySelector('.efecto'), pie: capa.querySelector('.juego-pie') };
   };
-  // alto de la ficha (título, subtítulo, fecha) dentro de la tarjeta: ahí flota lo que no debe tapar la instrucción
-  const altoFicha = (capa) => {
+  // Lo que debe quedarse sobre la ficha (título, subtítulo, fecha) sin tapar la instrucción va en una capa
+  // dentro de la propia ficha: así toma su tamaño por CSS, sin medir nada. (Medir no sirve: el juego se
+  // dibuja mientras el archivo sigue oculto tras el briefing, y oculto todo mide 0 px.)
+  // Devuelve la capa y la función que la quita.
+  const sobreFicha = (capa, html) => {
     const ficha = capa.parentElement.querySelector('.custodia-ficha');
-    return ficha ? ficha.offsetTop + ficha.offsetHeight : 150;
+    if (!ficha) return { capaFicha: document.createElement('div'), quitar: () => {} };
+    ficha.querySelectorAll('.efecto-ficha').forEach((e) => e.remove());
+    const capaFicha = document.createElement('div');
+    capaFicha.className = 'efecto-ficha';
+    capaFicha.setAttribute('aria-hidden', 'true');
+    capaFicha.innerHTML = html;
+    ficha.appendChild(capaFicha);
+    return { capaFicha, quitar: () => capaFicha.remove() };
   };
 
   // 1. Láseres: pulsar «Cruzar» cuando están apagados
@@ -59,7 +69,7 @@ window.Minijuegos = (() => {
   // 2. Código: 5 cifras proyectadas sobre la ficha durante 2,5 segundos
   function codigo(capa, textos, fin) {
     const clave = String(10000 + azar(90000));
-    const { efecto } = montar(capa, `<p class="proyeccion">${clave}</p>`,
+    montar(capa, '',
       instruccion(textos, 'juego-codigo', 'Memorice el código.'),
       `<button type="button" class="boton juego-accion juego-ver">Ver el código</button>
        <form class="juego-form" hidden>
@@ -67,14 +77,15 @@ window.Minijuegos = (() => {
          <input id="juego-entrada" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="·····">
          <button class="boton juego-accion" type="submit">Leer</button>
        </form>`);
-    efecto.querySelector('.proyeccion').style.height = `${altoFicha(capa)}px`;
+    // la proyección va sobre la ficha y toma su tamaño por CSS
+    const { capaFicha, quitar } = sobreFicha(capa, `<p class="proyeccion">${clave}</p>`);
     const form = capa.querySelector('form'), entrada = capa.querySelector('input');
     let t;
     capa.querySelector('.juego-ver').addEventListener('click', (e) => {
       e.currentTarget.hidden = true;
-      efecto.classList.add('visible');
+      capaFicha.classList.add('visible');
       t = setTimeout(() => {
-        efecto.classList.remove('visible');
+        capaFicha.classList.remove('visible');
         form.hidden = false; entrada.focus();
       }, 2500);
     });
@@ -82,7 +93,7 @@ window.Minijuegos = (() => {
       e.preventDefault();
       entrada.value.trim() === clave ? fin.ganar() : fin.perder();
     });
-    return () => clearTimeout(t);
+    return () => { clearTimeout(t); quitar(); };
   }
 
   // 3. Caja fuerte: un dial gira en la franja derecha de la tarjeta; fijarlo en un número
@@ -111,7 +122,7 @@ window.Minijuegos = (() => {
     const letras = [...limpio(palabra)];
     let mezcla;
     do { mezcla = barajar(letras); } while (mezcla.join('') === letras.join('') && letras.length > 1);
-    montar(capa, mezcla.map((l) => `<span class="letra">${l.toUpperCase()}</span>`).join(''),
+    montar(capa, '',
       instruccion(textos, 'juego-anagrama', 'La contraseña está desordenada. Ordénela.'),
       `<p class="juego-dato juego-pista" aria-live="polite" hidden></p>
        <form class="juego-form">
@@ -119,13 +130,10 @@ window.Minijuegos = (() => {
          <input id="juego-entrada" autocomplete="off" spellcheck="false" placeholder="CONTRASEÑA">
          <button class="boton juego-accion" type="submit">Leer</button>
        </form>`);
-    // repartidas a lo ancho y a alturas al azar, sin bajar de la ficha (dejan libre la instrucción)
-    const tope = Math.max(20, altoFicha(capa) - 56);
-    capa.querySelectorAll('.letra').forEach((el, i) => {
-      el.style.left = `${6 + (i * 86) / Math.max(1, mezcla.length - 1)}%`;
-      el.style.top = `${8 + azar(tope)}px`;
-      el.style.animationDelay = `${-azar(3000)}ms`;
-    });
+    // las letras flotan sobre la ficha (dejan libre la instrucción): repartidas a lo ancho, a alturas al azar
+    // en % de la ficha, así se recolocan solas si cambia de tamaño
+    const { quitar } = sobreFicha(capa, mezcla.map((l, i) =>
+      `<span class="letra" style="left:${6 + (i * 86) / Math.max(1, mezcla.length - 1)}%;top:${5 + azar(55)}%;animation-delay:${-azar(3000)}ms">${l.toUpperCase()}</span>`).join(''));
     // cada error destapa una letra en su sitio (western → --s----); al tercero llegan los refuerzos
     const pista = capa.querySelector('.juego-pista'), entrada = capa.querySelector('input');
     const destapadas = new Set();
@@ -142,7 +150,7 @@ window.Minijuegos = (() => {
       if (tarjeta) { tarjeta.classList.remove('alarma'); void tarjeta.offsetWidth; tarjeta.classList.add('alarma'); }
       entrada.select();
     });
-    return () => {};
+    return quitar;
   }
 
   // 5. Descenso: bajar colgado del techo por la franja derecha y frenar antes del suelo
