@@ -1,6 +1,6 @@
 # Reglas para trabajar en este proyecto
 
-Web de artista de Daniel DB. Lee primero el [README.md](README.md): explica la estructura, cada sección de texto y las decisiones de diseño.
+Web de artista de Daniel DB. Lee primero [docs/DOCUMENTACION.md](docs/DOCUMENTACION.md): explica la estructura, cada sección de texto y las decisiones de diseño. El `README.md` de la raíz es sólo la carta de presentación para quien visita el repositorio en GitHub: mantenlo corto y pon la documentación en `docs/`.
 
 ## No romper
 - **No leas los artículos de Daniel** (`textos/no-ficcion/*.md`, salvo `_plantilla.md` y los de prueba en *lorem ipsum*) **a menos que lo pida explícitamente.** No abras, resumas, corrijas ni proceses su contenido. Para comprobar que un artículo se ve bien, mira solo la estructura (que cargue, cuántos párrafos o secciones hay, errores en consola), no el texto. Para probar el diseño, usa los artículos de prueba.
