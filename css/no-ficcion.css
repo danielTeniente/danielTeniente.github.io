@@ -107,7 +107,13 @@ h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: c
 .tachado { background: var(--p-titulos); color: transparent; border-radius: 1px; padding: 0 0.15em; cursor: help; transition: background 0.4s, color 0.4s; }
 .tachado:hover, .tachado:focus, .tachado.visto { background: rgba(var(--p-luz-rgb), 0.2); color: var(--p-titulos); }
 
-@media (max-width: 560px) { .hud > :last-child:not(:first-child):not(.rec) { display: none; } }
+/* En el móvil no caben las tres piezas de la barra: en el archivo se va «Transmisión segura» y queda
+   el canal y el cifrado, que hereda el punto rojo que parpadea. (En el artículo, «Expediente desclasificado»
+   es la última pieza y se queda.) */
+@media (max-width: 560px) {
+  .hud .rec:not(:last-child) { display: none; }
+  .hud #hud-canal::before { content: '● '; color: var(--p-luz); animation: parpadeo 1s steps(1) infinite; }
+}
 
 /* ---------- homenaje: sale al aceptar, debajo de la cuenta atrás ---------- */
 .homenaje { margin: 0.6rem 0 0; font-size: 1.05rem; color: var(--p-titulos); border-left: 2px solid var(--p-triada2); padding-left: 0.8rem; }
