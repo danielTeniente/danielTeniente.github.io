@@ -164,7 +164,9 @@ h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: c
 /* 3. caja fuerte: dial en la franja derecha */
 .en-custodia[data-juego="caja"] .custodia-ficha { padding-right: 8rem; min-height: 8.6rem; }
 .dial { position: absolute; right: 1.2rem; top: 2.2rem; width: 6.4rem; height: 6.4rem; border-radius: 50%; border: 2px solid rgba(var(--p-luz-rgb), 0.7); box-shadow: 0 0 16px rgba(var(--p-luz-rgb), 0.35), inset 0 0 16px rgba(var(--p-luz-rgb), 0.25); display: flex; align-items: center; justify-content: center; font: 600 2.3rem/1 'IBM Plex Mono', monospace; color: var(--p-titulos); background: rgba(var(--p-fondo-rgb), 0.6); }
-.dial::before { content: ''; position: absolute; top: -9px; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--p-triada1); }
+.dial::before { content: ''; position: absolute; top: -9px; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--p-triada1);
+  /* gira alrededor del centro del dial (--giro lo pone minijuegos.js) */
+  transform-origin: 5px calc(3.2rem + 7px); transform: rotate(var(--giro, 0deg)); transition: transform 0.11s linear; }
 
 /* 4. contraseña: letras flotando sobre la ficha (posiciones en % de la ficha, desde minijuegos.js) */
 .letra { position: absolute; font: 600 clamp(1.6rem, 5vw, 2.4rem)/1 'IBM Plex Mono', monospace; color: rgba(var(--p-luz-rgb), 0.85); text-shadow: 0 0 12px rgba(var(--p-luz-rgb), 0.6); animation: flotar 3s ease-in-out infinite alternate; }

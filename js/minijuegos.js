@@ -106,7 +106,12 @@ window.Minijuegos = (() => {
        <button type="button" class="boton juego-accion">Fijar</button>`);
     const dial = efecto.querySelector('.dial');
     let valor = azar(40), vivo = true;
-    const t = setInterval(() => { valor = (valor + 1) % 40; dial.textContent = fmt(valor); }, 110);
+    // la flecha da la vuelta al dial con los números: 40 posiciones, 9° cada una.
+    // El ángulo se acumula (no vuelve a 0) para que al cerrar la vuelta no gire hacia atrás.
+    let giro = valor * 9;
+    const marcar = () => { dial.textContent = fmt(valor); dial.style.setProperty('--giro', `${giro}deg`); };
+    marcar();
+    const t = setInterval(() => { valor = (valor + 1) % 40; giro += 9; marcar(); }, 110);
     capa.querySelector('.juego-accion').addEventListener('click', () => {
       if (!vivo) return;
       vivo = false; clearInterval(t);
