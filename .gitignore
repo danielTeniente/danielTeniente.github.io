@@ -14,3 +14,10 @@ desktop.ini
 # Artículos de prueba (lorem ipsum) ocultos con "_": no se publican. La plantilla sí.
 textos/no-ficcion/_*.md
 !textos/no-ficcion/_plantilla.md
+
+# Reseñas de prueba ocultas con "_" (igual que en No ficción). La plantilla sí se sube.
+textos/videojuegos/_*.md
+!textos/videojuegos/_plantilla.md
+
+# Libreta de ideas de Daniel: no se publica
+ideas-sin-implementar.md

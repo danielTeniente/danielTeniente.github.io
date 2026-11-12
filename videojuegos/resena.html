@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reseña — Daniel DB</title>
+  <meta name="theme-color" content="#09110A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <!-- Cada reseña vive en textos/videojuegos/<nombre>.md y se abre con resena.html?id=<nombre>.
+       Al cambiar CSS o JS, sube el número de ?v=…  -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261110a">
+  <link rel="stylesheet" href="../css/videojuegos.css?v=20261112c">
+</head>
+<body class="pagina-resena">
+  <canvas id="paisaje" aria-hidden="true"></canvas>
+  <div class="escanlineas" aria-hidden="true"></div>
+
+  <main>
+    <div class="hud"><a href="index.html#resenas">← Selecciona partida</a><span id="estado">Partida cargada</span></div>
+
+    <article class="ventana" id="resena">
+      <header class="resena-cabecera">
+        <p class="ficha" id="ficha"></p>
+        <h1 id="titulo">Cargando partida…</h1>
+        <p class="subtitulo" id="subtitulo"></p>
+        <p class="fecha" id="fecha"></p>
+      </header>
+      <div class="cuerpo" id="cuerpo"></div>
+
+      <footer class="final">
+        <a href="index.html#resenas">← Volver a la selección</a>
+        <button class="boton" type="button" id="guardar">Guardar partida</button>
+      </footer>
+      <p class="aviso" id="aviso" aria-live="polite"></p>
+    </article>
+  </main>
+
+  <script src="../js/textos.js?v=20261110a"></script>
+  <script src="../js/paisaje.js?v=20261109h"></script>
+  <script src="../js/resena.js?v=20261112a"></script>
+</body>
+</html>

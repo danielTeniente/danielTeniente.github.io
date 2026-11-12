@@ -103,6 +103,39 @@ El **último expediente publicado** (el de fecha más reciente) está **en custo
 | `expedientes` | Lista de artículos: solo el **nombre del archivo** de cada uno (`- mi-articulo`, sin `.md`). Título, categoría, fecha y subtítulo se leen del propio `.md`. Se ordenan solos por fecha (el más reciente, en custodia) y se numeran por antigüedad. La primera página muestra 3 (el minijuego ocupa sitio) y las demás 4: si hay más, aparecen flechas (y en el móvil se puede deslizar el dedo). Los que siguen en Substack están en un comentario debajo, por traer. |
 | `autodestruir-boton`, `autodestruir-mensaje` | El botón del final de cada artículo (que no destruye nada) |
 
+### Página «Videojuegos» — [`textos/videojuegos.md`](../textos/videojuegos.md)
+Se entra desde el botón «Videojuegos (consulta al Gran Mago, gratis)» de la portada. Usa el concepto **Cartucho** ([`conceptos/07-cartucho.html`](../conceptos/07-cartucho.html)): pantalla de título de una consola de 16 bits sobre un paisaje en píxeles con paralaje, y ventanas de RPG. Arriba van las **reseñas** («Selecciona partida») y abajo la **galería de pixel art**. **Hasta pulsar START y terminar el mensaje de bienvenida solo se ve la pantalla de título**; al volver de una reseña («Volver a la selección» o el botón atrás) se salta la bienvenida.
+
+**Tres horas del día**, según el reloj del visitante ([`js/paisaje.js`](../js/paisaje.js)), con colores saturados: **mañana** (6 a 12, «montes rosados»: cielo cian claro, sol lima a la izquierda, opuesto a la luna, nubes, montes rosa y magenta, ventanas magenta oscuro), **tarde** (12 a 19, «hora dorada lima»: de magenta arriba a lima en el horizonte, sol blanco tras montes magenta oscuro, ventanas magenta) y **noche** (19 a 6, «noche cian»: cian muy oscuro que brilla en el horizonte, luna rosa, estrellas lima, ventanas cian). Todos los colores salen de la paleta global. Los colores del cielo y los montes están al inicio de `js/paisaje.js`; los de las ventanas y el título, en las variables `--v-*` al inicio de `css/videojuegos.css` (una tanda por hora). Para ver una hora concreta: `?hora=manana`, `?hora=tarde` o `?hora=noche` en la dirección. **Provisional:** en localhost (o con `?probar`) sale abajo a la derecha una barra para cambiar de hora; en la web publicada no aparece.
+
+| Sección | Qué controla |
+|---|---|
+| `hud-derecha`, `editor`, `titulo`, `lema`, `start` | Pantalla de título (`titulo`: cada línea es una línea) |
+| `quien`, `intro` | Caja de diálogo que se abre al pulsar START: cada párrafo es una página (se pasa con clic, Enter o espacio); al terminar baja a las reseñas |
+| `resenas-cabecera` | Título y frase de la lista de reseñas: `- Título \| frase`, sale una pareja al azar en cada visita |
+| `resenas-vacio` | Sale si no hay reseñas |
+| `resenas` | Lista de reseñas: solo el **nombre del archivo** (`- mi-resena`). Se ordenan por fecha (la más reciente arriba) y se numeran por antigüedad («Partida 01») |
+| `galeria-titulo`, `galeria-intro`, `galeria-vacia` | Galería (`galeria-vacia` sale mientras no haya dibujos) |
+| `galeria` | Un dibujo por línea: `- archivo.png \| Título \| nota opcional`. Las imágenes van en [`imagenes/pixel-art/`](../imagenes/pixel-art/) (pueden ir en subcarpetas). **Animaciones** de fotogramas sueltos: `- carpeta/dibujo_{0-3}.png \| Título \| nota \| 250` (`{0-3}` = fotogramas 0 a 3; el último número, opcional, son los milisegundos de cada fotograma). **Subsecciones:** una línea `### Título` abre una serie aparte, con dibujos más grandes; la línea siguiente sin `- ` es su descripción (así están las tres animaciones de Quito, hechas para un evento de cine) |
+| `obra-letrero`, `obra-quien`, `obra-dialogo` | **El camino cortado**, al final de la página: como en los RPG clásicos, una obra con valla y conos no deja pasar a la «Torre del mago». Al intentar pasar, el obrero dice las frases de `obra-dialogo` en orden (la última se repite) |
+| `guardar-boton`, `guardar-mensaje` | El botón del final de cada reseña (que no guarda nada) |
+| `pie` | Frase al azar al final |
+
+**Secretos (spoilers)** — [`js/secretos.js`](../js/secretos.js); textos al final de `textos/videojuegos.md`. Cuatro homenajes a juegos favoritos de Daniel (mecánicas, nunca personajes ni música):
+
+| Secreto | Homenaje | Cómo se encuentra | Qué pasa |
+|---|---|---|---|
+| Hierba alta | *Pokémon Rojo* | pasar el cursor (o el dedo) por la hierba que hay entre las reseñas y la galería | encuentro al azar, poco frecuente: la página se vuelve en blanco y negro y hay un combate contra un POLÍGONO salvaje escapado de la torre, que se vence con PÍXEL A PÍXEL (no se puede huir, ni con Escape) |
+| Base de datos | *Her Story* | un clic (o un toque) en «1 jugador · 16 bits» | el viajero revisa el interrogatorio al Gran Mago (noviembre de 1998): un chico amante de los juegos en 3D vino a pedirle consejo, despreció el pixel art y desapareció. El mago lo niega todo. Se busca por palabras en sus declaraciones (`## base-datos`, `- fecha \| texto`; empieza con «dimensiones») y, como en el juego, sólo se ven las cinco primeras. El final (fue una trampa: lo hizo entrar en la torre, que conecta con otros mundos que ni el mago conoce) está escondido: chico → libreta → otros. El buscador admite una sola palabra de 20 letras como máximo (quita espacios y signos mientras se escribe). Las palabras muy comunes no cuentan al buscar (`## base-palabra-comun`). Si alguien busca «píxel», el Gran Mago aparece en persona, dibujado en píxeles con CSS, y lo felicita (`## base-pixel-quien`, `## base-pixel-mago`). Daniel irá añadiendo declaraciones relacionadas con lo que construya |
+| Barril | *beat 'em up* | golpear tres veces el barril de la galería | «COMBO ×3», la pantalla tiembla y sale un premio al azar de `## barril-premios` (`- clave \| mensaje`): pollo, monedas, tubería, vida extra, pergamino, píxel de la torre o nada; la estatuilla dorada, súper coleccionable, sale 1 de cada 25 barriles. Al llegar a la galería parpadea «GO! →» |
+| Sacrificio | *LISA: The Painful* | pulsar «Guardar partida» tres veces en una reseña ([`js/resena.js`](../js/resena.js)) | hay que elegir qué sacrificar; las dos opciones acaban igual |
+
+Pendiente: la bomba de *Super Bomberman 4* con un pixel art secreto, apuntada en `ideas-sin-implementar.md` (no se sube a GitHub).
+
+**Reseñas — `textos/videojuegos/<nombre>.md`.** Secciones `titulo`, `subtitulo`, `ficha` (juego · consola · año), `fecha`, `original` (no se muestra) y `cuerpo`, con el mismo formato que los artículos de No ficción y dos añadidos, cada uno solo en su párrafo: `![texto alternativo](imagenes/games/foto.png)` pone una **imagen** (enmarcada como una pantalla) y `[Título](https://www.youtube.com/watch?v=…)` pone un **vídeo**: un televisor pequeño de los de antes, con antena y el título al lado; al pulsar ▶ el vídeo se reproduce dentro de su pantalla, sin agrandarse. YouTube (sin cookies, `youtube-nocookie.com`) sólo se carga al pulsarlo. Se abren con `videojuegos/resena.html?id=<nombre>`. Para publicar una: copia [`_plantilla.md`](../textos/videojuegos/_plantilla.md) y añade su nombre a `## resenas`. Publicadas: «Her Story» (con una captura y el tráiler) y «LISA: The Painful». La de prueba en *lorem ipsum* está oculta con `_` (`_ejemplo-lorem-ipsum.md`, no se sube a GitHub).
+
+**Pixel art.** Copia la imagen o la carpeta de fotogramas (png o gif) en `imagenes/pixel-art/` y añade su línea a `## galeria`. Da igual si se exportó ya agrandada (p. ej. 32×32 guardado a 512×512): la página calcula el tamaño de cada píxel y la agranda siempre un número entero de veces, sin difuminar; las animaciones cargan todos sus fotogramas antes de empezar y se quedan quietas con «reducir movimiento»; al pulsarla se abre en grande (se cierra con Escape o con un clic fuera).
+
 ### Artículos — `textos/no-ficcion/<nombre>.md`
 Cada artículo es un archivo con las secciones `titulo`, `subtitulo`, `categoria`, `fecha`, `original` (enlace a Substack/Medium, solo de referencia: no se muestra) y `cuerpo`.
 Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
@@ -141,6 +174,18 @@ js/no-ficcion.js        Briefing, archivo y expediente en custodia
 js/minijuegos.js        Los cinco minijuegos del expediente en custodia
 js/articulo.js          Convierte el .md de un artículo en la página
 
+videojuegos/index.html  Página «Videojuegos»: pantalla de título, reseñas y galería de pixel art
+videojuegos/resena.html Lectura de una reseña (?id=<nombre>)
+textos/videojuegos.md   Textos de la página Videojuegos, lista de reseñas y de dibujos
+textos/videojuegos/     Un .md por reseña
+imagenes/pixel-art/     Los dibujos de la galería
+imagenes/games/         Imágenes de las reseñas
+css/videojuegos.css     Estilos de Videojuegos (paleta global, concepto Cartucho)
+js/paisaje.js           Paisaje en píxeles con paralaje y tres horas del día (fondo de Videojuegos)
+js/videojuegos.js       Diálogo, selección de partida y galería
+js/resena.js            Convierte el .md de una reseña en la página (y el secreto de LISA)
+js/secretos.js          Los secretos de Videojuegos (hierba alta, base de datos, barril)
+
 guia-visual.html        Guía visual (paleta, tipografía, reglas)
 css/tokens.css, css/base.css, css/portada.css, js/cielo.js
                         Estilos y cielo animado de la guía visual y del concepto 00 «Niebla»
@@ -153,6 +198,7 @@ conceptos/              Laboratorio: pruebas de concepto visuales (no es la web 
   comun.css, comun.js   Utilidades compartidas por los conceptos
 
 referencias/            Imágenes de referencia (no se publican en la web)
+ideas-sin-implementar.md  Libreta de ideas de Daniel (no se sube a GitHub)
 .claude/launch.json     Servidor local para Claude Code
 ```
 
@@ -197,7 +243,7 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 
 ## 5. Notas técnicas importantes
 
-- **Caché del navegador.** Los enlaces a CSS/JS de cada página HTML (`index.html`, `no-ficcion/*.html`) llevan `?v=AAAAMMDDx`. **Cada vez que cambies un `.css` o un `.js`, sube ese número en los cuatro enlaces** o los visitantes seguirán viendo la versión vieja. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
+- **Caché del navegador.** Los enlaces a CSS/JS de cada página HTML (`index.html`, `no-ficcion/*.html`, `videojuegos/*.html`) llevan `?v=AAAAMMDDx`. **Cada vez que cambies un `.css` o un `.js`, sube ese número en los cuatro enlaces** o los visitantes seguirán viendo la versión vieja. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
 - **Textos por defecto.** Cada elemento con `data-texto="nombre"` en `index.html` tiene un texto de respaldo por si el `.md` no se puede leer. Al añadir una sección nueva, añade en el HTML el elemento con su `data-texto` y su `data-formato`.
 - **Secciones que no usan `data-texto`:** `marquesina`, `marquesina-visitante` y `reproductor` las lee directamente `js/senor-x.js` (necesitan lógica: horas, orden, Fibonacci). No las borres del `.md` pensando que sobran.
 - **Formatos disponibles** (`data-formato`, en `js/textos.js`): `plano`, `lineas`, `parrafos`, `parrafos-fijos`, `aleatorio`, `firmas`, `menu`, `noticias`, `insignias`. Sin formato = una línea con negrita/cursiva/enlaces.
@@ -222,9 +268,11 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 - [x] Repositorio en GitHub y publicación en GitHub Pages.
 
 **Siguiente paso: por decidir.** Ideas que quedaron abiertas, sin orden:
+- [ ] **Interrogatorio al Gran Mago** (`## base-datos` de `textos/videojuegos.md`): ir añadiendo declaraciones relacionadas con lo que se construya en la web. Después de cada cambio, revisar que el final siga escondido (ver el comentario de esa sección).
 - [ ] Traer más artículos: los 11 de Substack guardados en un comentario de `textos/no-ficcion.md` y el de Taleb (su archivo aún tiene un texto de ejemplo y está comentado en la lista).
 - [ ] Afinar la página del artículo si al leer los reales hace falta (por ejemplo, otra tipografía más fina o un blanco menos brillante).
-- [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, videojuego, pixel art, matemáticas).
+- [x] **Videojuegos** (concepto Cartucho, 09/11/2026, sin publicar): dos reseñas («Her Story», con captura y tráiler, y «LISA: The Painful») y galería de pixel art: el primer dibujo de Daniel y, en su propia subsección, las tres animaciones de Quito (títulos provisionales).
+- [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.
 - [ ] Icono de pestaña (favicon) e imagen para compartir en redes.

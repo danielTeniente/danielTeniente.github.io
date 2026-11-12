@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Videojuegos — Daniel DB</title>
+  <meta name="description" content="Reseñas de videojuegos y pixel art de Daniel DB.">
+  <meta name="theme-color" content="#09110A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <!-- Los textos de esta página se editan en textos/videojuegos.md.
+       Al cambiar CSS o JS, sube el número de ?v=… para que los navegadores no usen la versión vieja. -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261110a">
+  <link rel="stylesheet" href="../css/videojuegos.css?v=20261112c">
+</head>
+<body class="esperando">
+  <canvas id="paisaje" aria-hidden="true"></canvas>
+  <div class="escanlineas" aria-hidden="true"></div>
+
+  <main>
+    <div class="hud"><a href="../index.html">← La Página de Daniel DB</a><span id="hud-derecha" data-texto="hud-derecha" data-formato="plano">1 jugador · 16 bits</span></div>
+
+    <!-- Pantalla de título -->
+    <header class="titulo-pantalla">
+      <p class="editor" data-texto="editor" data-formato="plano">© 2026 DANIEL DB SOFT</p>
+      <h1 data-texto="titulo" data-formato="lineas">Video<br>juegos</h1>
+      <p class="lema" data-texto="lema" data-formato="plano">Reseñas · Pixel art</p>
+      <button class="start" id="start" type="button" data-texto="start" data-formato="plano">Pulsa start</button>
+    </header>
+
+    <!-- Caja de diálogo de RPG: se pasa de página con clic, Enter o espacio -->
+    <div class="dialogo" id="dialogo" hidden>
+      <p class="quien" data-texto="quien" data-formato="plano">Daniel DB</p>
+      <div class="texto" id="dialogo-texto" aria-live="polite"></div>
+      <button class="flecha" id="dialogo-flecha" type="button" aria-label="Seguir">▼</button>
+      <div hidden id="intro" data-texto="intro" data-formato="parrafos-fijos"><p>¡Hola, viajero! Aquí guardo lo que he escrito sobre videojuegos.</p></div>
+    </div>
+
+    <section class="seccion" id="resenas" aria-labelledby="resenas-titulo">
+      <!-- Título y frase: una pareja al azar de «## resenas-cabecera» (js/videojuegos.js) -->
+      <h2 id="resenas-titulo" tabindex="-1">Los pergaminos del Gran Mago</h2>
+      <p class="intro" id="resenas-intro">Cada pergamino guarda la sabiduría de una partida.</p>
+      <ul class="partidas" id="partidas">
+        <!-- Se llena desde la sección "## resenas" de textos/videojuegos.md -->
+      </ul>
+      <p class="vacio" id="resenas-vacio" hidden data-texto="resenas-vacio">No hay partidas guardadas.</p>
+    </section>
+
+    <!-- SECRETO: la hierba alta (Pokémon Rojo), entre las reseñas y la galería. js/secretos.js -->
+    <div class="suelo" id="suelo">
+      <div class="hierba" id="hierba" aria-hidden="true"></div>
+    </div>
+
+    <section class="seccion" id="galeria" aria-labelledby="galeria-titulo">
+      <!-- SECRETO (beat 'em up): un barril que se rompe a golpes. js/secretos.js -->
+      <button class="barril" id="barril" type="button" aria-label="Un barril"></button>
+      <h2 id="galeria-titulo" data-texto="galeria-titulo" data-formato="plano">Galería de pixel art</h2>
+      <p class="intro" data-texto="galeria-intro">Dibujos hechos píxel a píxel.</p>
+      <div id="cuadros">
+        <!-- Se llena desde la sección "## galeria" de textos/videojuegos.md (imágenes en imagenes/pixel-art/).
+             Cada «### Título» del .md es una subsección (una serie aparte, con dibujos más grandes). -->
+      </div>
+      <p class="vacio ranura" id="galeria-vacia" hidden data-texto="galeria-vacia">No se detecta ningún cartucho en esta ranura.</p>
+    </section>
+
+    <!-- El camino cortado, como en los RPG clásicos: una obra que no deja pasar. js/videojuegos.js -->
+    <div class="obra" id="obra">
+      <p class="obra-letrero" data-texto="obra-letrero" data-formato="plano">Torre del mago · En construcción</p>
+      <button class="obra-paso" id="obra-paso" type="button" aria-label="Intentar pasar a la torre del mago">
+        <span class="torre" aria-hidden="true"></span><span class="andamio" aria-hidden="true"></span>
+        <span class="pixel-obra" aria-hidden="true"></span><span class="pixel-obra pixel-obra-2" aria-hidden="true"></span>
+        <span class="escombros" aria-hidden="true"></span>
+        <span class="valla" aria-hidden="true"></span><span class="cono" aria-hidden="true"></span><span class="cono cono-2" aria-hidden="true"></span>
+      </button>
+      <div class="dialogo obra-dialogo" id="obra-dialogo" hidden>
+        <p class="quien" data-texto="obra-quien" data-formato="plano">Obrero</p>
+        <p class="texto" id="obra-texto" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <p class="pie" data-texto="pie" data-formato="aleatorio">Ningún cartucho fue soplado durante la creación de este bosque. Bueno, uno.</p>
+
+  </main>
+
+  <!-- «GO! →» de los beat 'em up: parpadea una vez al llegar a la galería -->
+  <p class="go" id="go" aria-hidden="true">GO! →</p>
+
+  <!-- SECRETO (Pokémon Rojo): combate en blanco y negro -->
+  <dialog class="dialogo combate" id="combate" aria-labelledby="combate-texto">
+    <p class="texto" id="combate-texto"></p>
+    <div class="combate-menu" id="combate-menu">
+      <button type="button" data-accion="luchar">Luchar</button>
+      <button type="button" data-accion="mochila">Mochila</button>
+      <button type="button" data-accion="huir">Huir</button>
+    </div>
+  </dialog>
+
+  <!-- SECRETO (Her Story): el interrogatorio al Gran Mago. Se abre con un clic en «1 jugador · 16 bits» -->
+  <dialog class="base" id="base" aria-labelledby="base-titulo">
+    <button class="cerrar" type="button" id="base-cerrar" aria-label="Cerrar">✕</button>
+    <p class="base-titulo" id="base-titulo" data-texto="base-titulo" data-formato="plano">Archivo del reino · Interrogatorio al Gran Mago</p>
+    <form class="base-buscar" id="base-form">
+      <label for="base-q">Buscar:</label>
+      <!-- Una sola palabra, de 20 letras como máximo (js/secretos.js quita los espacios) -->
+      <input id="base-q" type="text" autocomplete="off" spellcheck="false" maxlength="20">
+      <button type="submit">Buscar</button>
+    </form>
+    <p class="base-estado" id="base-estado" aria-live="polite"></p>
+    <ol class="base-resultados" id="base-resultados"></ol>
+    <!-- Sale si se busca «píxel»: el Gran Mago aparece y felicita al viajero (js/secretos.js) -->
+    <div class="mago-aparece" id="mago-aparece" hidden>
+      <div class="mago-sprite" aria-hidden="true"><span class="mago-dibujo" id="mago-dibujo"></span><span class="chispas"></span></div>
+      <div class="dialogo mago-dialogo">
+        <p class="quien" data-texto="base-pixel-quien" data-formato="plano">Gran Mago</p>
+        <p class="texto" id="mago-texto" aria-live="polite"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Visor de un dibujo en grande -->
+  <dialog class="visor" id="visor" aria-labelledby="visor-titulo">
+    <button class="cerrar" type="button" id="visor-cerrar" aria-label="Cerrar">✕</button>
+    <div class="visor-lienzo" id="visor-lienzo"><img id="visor-img" alt=""></div>
+    <p class="visor-titulo" id="visor-titulo"></p>
+    <p class="visor-nota" id="visor-nota"></p>
+  </dialog>
+
+  <script src="../js/textos.js?v=20261110a"></script>
+  <script src="../js/paisaje.js?v=20261109h"></script>
+  <script src="../js/videojuegos.js?v=20261111c"></script>
+  <script src="../js/secretos.js?v=20261112f"></script>
+</body>
+</html>

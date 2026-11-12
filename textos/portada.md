@@ -59,6 +59,7 @@ PÁGINA EN CONSTRUCCIÓN (PERMANENTEMENTE)
 ## menu
 <!-- Cada elemento: - [Texto del botón](enlace). Añade ¡NUEVO! al final para que parpadee. -->
 - [No ficción (demasiado pretensioso)](no-ficcion/index.html)
+- [Videojuegos (consulta al Gran Mago, gratis)](videojuegos/index.html) ¡NUEVO!
 - [Mis libros (evita que me muera de hambre)](https://payhip.com/danieldb)
 
 ## contador-nota
