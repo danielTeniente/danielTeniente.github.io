@@ -256,8 +256,8 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 
 ## 6. Estado actual y lo que sigue
 
-**Estado al 10/11/2026** (todo publicado en https://danielteniente.github.io/):
-- [x] **Portada** («La Página de Daniel DB», estilo 1998), con su menú: *No ficción* lleva a la página nueva y *Mis libros*, a Payhip.
+**Estado al 12/11/2026** (todo publicado en https://danielteniente.github.io/):
+- [x] **Portada** («La Página de Daniel DB», estilo 1998), con su menú: *No ficción* y *Videojuegos* llevan a sus páginas y *Mis libros*, a Payhip.
 - [x] **No ficción** (concepto Misión):
   - Briefing que se autodestruye (siempre al llegar desde la portada) con el homenaje a *Misión Imposible*; canal, cifrado y pie al azar en cada visita.
   - Archivo de expedientes ordenado por fecha y paginado (3 en la primera página, 4 en las demás).
@@ -271,7 +271,7 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 - [ ] **Interrogatorio al Gran Mago** (`## base-datos` de `textos/videojuegos.md`): ir añadiendo declaraciones relacionadas con lo que se construya en la web. Después de cada cambio, revisar que el final siga escondido (ver el comentario de esa sección).
 - [ ] Traer más artículos: los 11 de Substack guardados en un comentario de `textos/no-ficcion.md` y el de Taleb (su archivo aún tiene un texto de ejemplo y está comentado en la lista).
 - [ ] Afinar la página del artículo si al leer los reales hace falta (por ejemplo, otra tipografía más fina o un blanco menos brillante).
-- [x] **Videojuegos** (concepto Cartucho, 09/11/2026, sin publicar): dos reseñas («Her Story», con captura y tráiler, y «LISA: The Painful») y galería de pixel art: el primer dibujo de Daniel y, en su propia subsección, las tres animaciones de Quito (títulos provisionales).
+- [x] **Videojuegos** (concepto Cartucho, publicada el 12/11/2026): dos reseñas («Her Story», con captura y tráiler, y «LISA: The Painful») y galería de pixel art: el primer dibujo de Daniel y, en su propia subsección, las tres animaciones de Quito (títulos provisionales).
 - [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.
