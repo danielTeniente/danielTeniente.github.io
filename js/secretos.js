@@ -38,18 +38,23 @@
     }, quieto ? 0 : 900);
   };
   const terminarCombate = () => { combate.close(); };
-  combate.addEventListener('close', () => { document.documentElement.classList.remove('gameboy'); enCombate = false; recorrido = 0; });
-  // no se puede huir con Escape: sería demasiado fácil
-  combate.addEventListener('cancel', (e) => { e.preventDefault(); escribir(texto('hierba-huir', '¡No puedes huir de una reseña!')); });
+  // ▼ «Seguir»: los mensajes del ataque esperan a que el viajero termine de leer
+  const seguir = $('combate-seguir');
+  let alSeguir = null;
+  const esperar = (despues) => { alSeguir = despues; seguir.hidden = false; seguir.focus(); };
+  seguir.addEventListener('click', () => { seguir.hidden = true; const f = alSeguir; alSeguir = null; if (f) f(); });
+  combate.addEventListener('close', () => { document.documentElement.classList.remove('gameboy'); enCombate = false; recorrido = 0; seguir.hidden = true; alSeguir = null; });
+  // no se puede huir con Escape: sería demasiado fácil (pero mientras se lee el ataque, Escape no hace nada)
+  combate.addEventListener('cancel', (e) => { e.preventDefault(); if (!menu.hidden) escribir(texto('hierba-huir', '¡No puedes huir de una reseña!')); });
   menu.addEventListener('click', (e) => {
     const b = e.target.closest('button[data-accion]');
     if (!b) return;
     const accion = b.dataset.accion;
     if (accion === 'luchar') {
       menu.hidden = true;
-      escribir(texto('hierba-luchar', 'Usaste PÍXEL A PÍXEL. ¡Es súper eficaz!'), () => setTimeout(() => {
-        escribir(texto('hierba-final', '¡El POLÍGONO se deshizo en triangulitos!'), () => setTimeout(terminarCombate, 1800));
-      }, 1300));
+      escribir(texto('hierba-luchar', 'Usaste PÍXEL A PÍXEL. ¡Es súper eficaz!'), () => esperar(() => {
+        escribir(texto('hierba-final', '¡El POLÍGONO se deshizo en triangulitos!'), () => esperar(terminarCombate));
+      }));
     } else if (accion === 'mochila') escribir(texto('hierba-mochila', 'En la mochila sólo hay un cartucho.'));
     else escribir(texto('hierba-huir', '¡No puedes huir de una reseña!'));
   });
