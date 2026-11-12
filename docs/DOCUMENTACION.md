@@ -271,7 +271,7 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 - [ ] **Interrogatorio al Gran Mago** (`## base-datos` de `textos/videojuegos.md`): ir añadiendo declaraciones relacionadas con lo que se construya en la web. Después de cada cambio, revisar que el final siga escondido (ver el comentario de esa sección).
 - [ ] Traer más artículos: los 11 de Substack guardados en un comentario de `textos/no-ficcion.md` y el de Taleb (su archivo aún tiene un texto de ejemplo y está comentado en la lista).
 - [ ] Afinar la página del artículo si al leer los reales hace falta (por ejemplo, otra tipografía más fina o un blanco menos brillante).
-- [x] **Videojuegos** (concepto Cartucho, publicada el 12/11/2026): dos reseñas («Her Story», con captura y tráiler, y «LISA: The Painful») y galería de pixel art: el primer dibujo de Daniel y, en su propia subsección, las tres animaciones de Quito (títulos provisionales).
+- [x] **Videojuegos** (concepto Cartucho, publicada el 12/11/2026): dos reseñas («Her Story», con captura y tráiler, y «LISA: The Painful») y galería de pixel art: el primer dibujo de Daniel y, en su propia subsección, las tres animaciones de Quito (de día, paseo por la plaza y de noche).
 - [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.
