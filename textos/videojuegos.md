@@ -56,6 +56,7 @@ También encontrarás algo de pixel art que el mago ha realizado en su limitado 
 -->
 - her-story
 - lisa-the-painful
+- immortality
 <!-- La de prueba en lorem ipsum está oculta con «_» (textos/videojuegos/_ejemplo-lorem-ipsum.md): no se publica. -->
 
 ## resenas-vacio

@@ -23,6 +23,8 @@ LISA: The Painful · Austin Jorgensen · 2014
 <!-- Enlace a donde se publicó antes (Substack, Medium…). Solo de referencia: no se muestra. -->
 
 ## cuerpo
+![LISA: The Painful en mi biblioteca de Steam: 21 horas de juego](imagenes/games/lisa.png)
+
 Los videojuegos son un arte y merecen respeto. Lisa the painful es el ejemplo perfecto.
 
 Este videojuego RPG en pixel art es una de las mejores experiencias que he podido tener en mi vida. Nada duele como Lisa. Sólo la vida duele más. 
