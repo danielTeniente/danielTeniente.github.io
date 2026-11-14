@@ -13,7 +13,7 @@ Her Story · Sam Barlow · 2015
 
 ## fecha
 <!-- Propuesta: la fecha de hoy. Cámbiala si la reseña es de otro día. -->
-09/11/2025
+09/11/2024
 
 ## original
 
