@@ -41,6 +41,13 @@
     const lineas = b.split('\n').map((l) => l.trim());
     if (lineas.every((l) => l.startsWith('> '))) return `<blockquote><p>${Textos.enLinea(lineas.map((l) => l.slice(2)).join(' '))}</p></blockquote>`;
     if (lineas.every((l) => l.startsWith('- '))) return `<ul>${lineas.map((l) => `<li>${Textos.enLinea(l.slice(2))}</li>`).join('')}</ul>`;
+    // Tabla como en Markdown: filas con | y la segunda línea de guiones (:--- izquierda, :---: centro, ---: derecha)
+    if (lineas.length >= 2 && lineas.every((l) => l.startsWith('|')) && /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?$/.test(lineas[1])) {
+      const celdas = (l) => l.replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
+      const alinear = celdas(lineas[1]).map((c) => (c.startsWith(':') && c.endsWith(':') ? 'center' : c.endsWith(':') ? 'right' : 'left'));
+      const fila = (l, tag) => `<tr>${celdas(l).map((c, i) => `<${tag} style="text-align:${alinear[i] || 'left'}">${Textos.enLinea(c)}</${tag}>`).join('')}</tr>`;
+      return `<div class="tabla"><table><thead>${fila(lineas[0], 'th')}</thead><tbody>${lineas.slice(2).map((l) => fila(l, 'td')).join('')}</tbody></table></div>`;
+    }
     return `<p>${Textos.enLinea(lineas.join(' '))}</p>`;
   }).join('');
 

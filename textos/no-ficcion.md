@@ -67,6 +67,7 @@ Volver a empezar
 -->
 - no-preguntes-por-que
 - sobre-virus-de-arn
+- san-pablo-es-el-heroe-del-cristianismo
 <!-- Pendiente de pegar su texto (hoy tiene un texto de ejemplo):
 - comentando-libros-1-nassim-taleb
 -->
@@ -86,6 +87,8 @@ Leer el expediente
 ## estado-evidencia
 <!-- Los expedientes anteriores se abren directo. -->
 Recuperado
+
+<!-- Los textos de los «Expedientes Χ» (los textos fundacionales, fijados abajo, y su minijuego) están en textos/expedientes-x.md. -->
 
 ## juego-laseres
 <!-- MINIJUEGOS: uno al azar cada vez que se abre la página. -->

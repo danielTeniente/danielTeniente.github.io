@@ -98,6 +98,7 @@ El **último expediente publicado** (el de fecha más reciente) está **en custo
 | `juego-laseres`, `juego-codigo`, `juego-caja`, `juego-anagrama`, `juego-descenso`, `juego-bucear` | Instrucción de cada minijuego (`juego-anagrama` es el de la contraseña) |
 | `juego-bucear-fondo` | Mensaje de la inmersión al llegar al fondo |
 | `juego-palabras` | Diccionario del juego de la contraseña: una palabra por línea (`- palabra`); para añadir otra, una línea nueva. Cada error destapa una letra (`--s----`); al tercero llegan los refuerzos |
+| *(en [`textos/expedientes-x.md`](../textos/expedientes-x.md))* | **Expedientes χ** (ji griega minúscula, que la página no pasa a mayúsculas: como los expedientes X, pero sin alienígenas): los textos fundacionales. En `## expedientes-x` va uno por línea (`- nombre`, o `- nombre · piramide` / `- nombre · mundial` (el reto del gran maestro) si lleva minijuego); no entran en la fila por fecha y van fijados abajo del archivo, en todas las páginas, con cinta de escena, el sello `expedientes-x-sello` («Sin explicación oficial»). Se ordenan por fecha (el más reciente arriba) y se numeran por antigüedad (χ-001 el más antiguo). El minijuego **el negocio perfecto** (`piramide`, sin instrucción): el botón pone en marcha la pirámide un año, en versión dramática: cifras inventadas pero salidas de una simulación (la cuota sube de 500 a 30.000 $, promete el 15 % al mes de lo invertido, hasta 5.000 inscritos; las cabezas se quedan un 20 % de cada cuota y lo que sobre; ahorros al azar con semilla fija para saber quién pidió un préstamo y quién perdió su casa). La pirámide crece y se derrumba, y sale el balance en tres fichas (`piramide-titulo`, `piramide-cabezas`, `piramide-perdieron`, `piramide-cada-una`), una barra de quién perdió, los préstamos y las casas perdidas (`piramide-drama`), el remate (`piramide-final`) y «Leer el expediente». No se puede perder. Los textos del final de los dos minijuegos (`piramide-final`, `mundial-final`) van en celeste, con la tipografía de las instrucciones de los minijuegos de arriba. El minijuego **el reto del Gran Maestro** (`mundial`, en «Todo en contra»): `mundial-reto` (la frase en blanco, «Gran Maestro» en verde y el nombre en rosa) dice que para leer hay que derrotar al Gran Maestro `mundial-gm` (un ruso de parodia; `{gm}` es su nombre completo y `{nombre}`, el de pila). El botón `mundial-agente` («Usar habilidad de súper agente secreto») lo despacha con el mate del pastor, que se juega en un tablero casi transparente de fondo, a la derecha (piezas de texto); luego cae confeti de caracteres y sale `mundial-final`, y aparece «Leer el expediente». No se puede perder |
 | `juego-exito`, `juego-fallo`, `juego-refuerzos` | Mensajes al ganar, al perder (dura unos segundos) y al tercer fallo (se queda) |
 | `archivo-titulo`, `archivo-intro`, `repetir`, `pie` | El archivo de expedientes |
 | `expedientes` | Lista de artículos: solo el **nombre del archivo** de cada uno (`- mi-articulo`, sin `.md`). Título, categoría, fecha y subtítulo se leen del propio `.md`. Se ordenan solos por fecha (el más reciente, en custodia) y se numeran por antigüedad. La primera página muestra 3 (el minijuego ocupa sitio) y las demás 4: si hay más, aparecen flechas (y en el móvil se puede deslizar el dedo). Los que siguen en Substack están en un comentario debajo, por traer. |
@@ -148,6 +149,7 @@ Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
 | `- texto` | lista |
 | `---` | separador |
 | `\|\|texto\|\|` | **texto tachado de expediente**: se revela al pasar el cursor o al tocarlo (también funciona en la portada) |
+| `\| A \| B \|` + línea `\|---\|---:\|` + filas | **tabla**: la segunda línea (guiones) marca la cabecera; `:---` alinea a la izquierda, `:---:` al centro, `---:` a la derecha. En el móvil se desliza de lado si no cabe |
 
 Sin imágenes: todo es texto. Al pegar desde Substack, cambia las cursivas `_así_` por `*así*`.
 
@@ -168,6 +170,7 @@ js/senor-x.js           Comportamiento de la portada (marquesina, contador, repr
 no-ficcion/index.html   Página «No ficción»: briefing de misión y archivo de expedientes
 no-ficcion/articulo.html  Lectura de un artículo (?id=<nombre>)
 textos/no-ficcion.md    Textos de la página No ficción y lista de expedientes
+textos/expedientes-x.md Textos de los Expedientes Χ (los textos fundacionales, fijados abajo, y su minijuego)
 textos/no-ficcion/      Un .md por artículo
 css/no-ficcion.css      Estilos de No ficción (paleta global, concepto Misión)
 js/no-ficcion.js        Briefing, archivo y expediente en custodia

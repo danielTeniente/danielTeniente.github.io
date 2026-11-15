@@ -217,10 +217,211 @@ window.Minijuegos = (() => {
     return () => { vivo = false; cancelAnimationFrame(raf); };
   }
 
-  const JUEGOS = { laseres, codigo, caja, contrasena, descenso, bucear };
-  const nombres = Object.keys(JUEGOS);
+  // 7. La pirámide (sólo para los «Expedientes Χ»): «el negocio perfecto», versión dramática.
+  //    Un botón pone en marcha la pirámide un año. Cifras inventadas, pero salidas de esta simulación:
+  //    la codicia sube la cuota cada mes (de 500 a 30.000 $), se promete el 15 % al mes de lo invertido
+  //    (se paga primero a los más antiguos, mientras haya caja) y cada inscrito trae 0,68 personas al mes,
+  //    hasta 5.000 inscritos. Las cabezas se quedan un 20 % de cada cuota y lo que sobre al final.
+  //    Cada persona que pierde tiene unos ahorros al azar (media 5.000 $): si la cuota los superaba, pidió
+  //    un préstamo; si tenía casa (4 de cada 10) y el préstamo pasaba los 8.000 $, la puso de garantía y la perdió.
+  //    El azar usa siempre la misma semilla: el balance sale igual en cada visita. No se puede perder.
+  function piramide(capa, textos, fin) {
+    const FUNDADORES = 10, COMISION = 0.2, MAXIMO = 5000, CRECIMIENTO = 0.68, RENTA = 0.15;
+    const CUOTAS = [500, 500, 1000, 1500, 2500, 4000, 6000, 9000, 13000, 18000, 24000, 30000];
+    const AHORRO_MEDIO = 5000, CON_CASA = 0.4, PRESTAMO_CASA = 8000;
+    const num = (x) => Math.round(x).toLocaleString('es-ES');
+    const dinero = (x) => `${num(x)} $`;
+    // azar con semilla fija (mulberry32), para que las cifras no cambien de una visita a otra
+    const azarFijo = (semilla) => () => {
+      semilla = (semilla + 0x6D2B79F5) | 0;
+      let t = Math.imul(semilla ^ (semilla >>> 15), 1 | semilla);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    const texto = (clave, defecto, datos = {}) => {
+      let t = (textos[clave] || defecto).replace(/\s*\n\s*/g, ' ').trim();
+      Object.entries(datos).forEach(([k, v]) => { t = t.split(`{${k}}`).join(v); });
+      return Textos.enLinea(t);
+    };
+    const { efecto } = montar(capa, '<pre class="piramide-dibujo"></pre>',
+      '', // sin instrucción: el botón lo dice todo
+      `<div class="piramide-panel">
+         <div class="piramide-acciones"><button type="button" class="boton juego-accion piramide-iniciar">Iniciar el negocio perfecto</button></div>
+         <p class="juego-dato piramide-estado" aria-live="polite"></p>
+         <div class="piramide-resultado" role="status" hidden></div>
+       </div>`);
+    const dibujo = efecto.querySelector('.piramide-dibujo'), boton = capa.querySelector('.piramide-iniciar');
+    const estado = capa.querySelector('.piramide-estado'), resultado = capa.querySelector('.piramide-resultado');
+    let t, vivo = true;
+
+    const pintarPiramide = (inscritos) => {
+      // una fila más cada vez que se duplica la gente (hasta 9 filas)
+      const filas = Math.max(1, Math.min(9, Math.ceil(Math.log2(inscritos / FUNDADORES + 1))));
+      dibujo.textContent = Array.from({ length: filas }, (_, i) => ' '.repeat(filas - 1 - i) + '▲'.repeat(2 * i + 1)).join('\n');
+    };
+    const simular = () => {
+      const cohortes = [], meses = [];   // cohortes: [cuántos, cuota pagada, recibido por persona]
+      let inscritos = FUNDADORES, caja = 0, cabezas = 0;
+      CUOTAS.forEach((cuota, i) => {
+        for (const c of cohortes) { const puede = Math.min(c[0] * c[1] * RENTA, caja); c[2] += puede / c[0]; caja -= puede; }
+        const nuevos = Math.max(0, Math.min(Math.round(inscritos * CRECIMIENTO), MAXIMO - inscritos));
+        if (!nuevos) return;
+        cohortes.push([nuevos, cuota, 0]);
+        inscritos += nuevos;
+        cabezas += nuevos * cuota * COMISION;
+        caja += nuevos * cuota * (1 - COMISION);
+        meses.push({ mes: i + 1, cuota, inscritos, caja });
+      });
+      cabezas += caja; // al final las cabezas huyen con lo que queda
+      const perdidas = cohortes.filter((c) => c[2] < c[1]).map((c) => ({ cuanto: c[1] - c[2], gente: c[0], cuota: c[1] }));
+      const perdedores = perdidas.reduce((n, p) => n + p.gente, 0);
+      // quién pidió un préstamo para entrar y quién perdió su casa
+      const azar = azarFijo(1998);
+      let prestamos = 0, casas = 0;
+      for (const p of perdidas) {
+        for (let k = 0; k < p.gente; k++) {
+          const ahorros = -AHORRO_MEDIO * Math.log(1 - azar());
+          const prestamo = Math.max(0, p.cuota - ahorros);
+          if (prestamo > 0) {
+            prestamos++;
+            if (azar() < CON_CASA && prestamo > PRESTAMO_CASA) casas++;
+          }
+        }
+      }
+      return {
+        meses, cabezas, perdedores, prestamos, casas, entraron: inscritos - FUNDADORES,
+        minimo: Math.min(...perdidas.map((p) => p.cuanto)),
+        maximo: Math.max(...perdidas.map((p) => p.cuanto)),
+        promedio: perdidas.reduce((n, p) => n + p.cuanto * p.gente, 0) / perdedores,
+      };
+    };
+    boton.addEventListener('click', () => {
+      boton.disabled = true;
+      const r = simular();
+      let i = 0;
+      // el negocio circula mes a mes delante del lector
+      const paso = () => {
+        if (!vivo) return;
+        const m = r.meses[i];
+        estado.innerHTML = `Mes <b>${m.mes}</b> · Cuota <b>${dinero(m.cuota)}</b> · Inscritos <b>${num(m.inscritos)}</b> · Caja <b>${dinero(m.caja)}</b>`;
+        pintarPiramide(m.inscritos);
+        i++;
+        if (i < r.meses.length) { t = setTimeout(paso, quieto ? 0 : 320); return; }
+        dibujo.classList.add('derrumbe');
+        boton.closest('.piramide-acciones').hidden = true;
+        const pct = Math.round((r.perdedores / r.entraron) * 100);
+        const ANCHO = 30, llenos = Math.round((pct / 100) * ANCHO);
+        resultado.innerHTML = `<p class="balance-titulo">${texto('piramide-titulo', 'Balance del ejercicio')}</p>
+          <div class="balance">
+            <div class="ficha-balance ganancia"><span class="ficha-etiqueta">${texto('piramide-cabezas', 'Las cabezas ganaron')}</span>
+              <b class="ficha-cifra" data-hasta="${Math.round(r.cabezas)}" data-sufijo=" $">0 $</b><span class="ficha-nota">10 personas</span></div>
+            <div class="ficha-balance perdida"><span class="ficha-etiqueta">${texto('piramide-perdieron', 'Perdieron dinero')}</span>
+              <b class="ficha-cifra" data-hasta="${r.perdedores}" data-sufijo="">0</b><span class="ficha-nota">de ${num(r.entraron)} personas (${pct} %)</span></div>
+            <div class="ficha-balance perdida"><span class="ficha-etiqueta">${texto('piramide-cada-una', 'Cada una perdió')}</span>
+              <b class="ficha-cifra">${num(r.minimo)}–${num(r.maximo)} $</b><span class="ficha-nota">promedio ${dinero(r.promedio)}</span></div>
+          </div>
+          <p class="balance-barra" aria-label="${pct} % perdió dinero"><span class="perdieron">${'▓'.repeat(llenos)}</span><span class="ganaron">${'█'.repeat(ANCHO - llenos)}</span></p>
+          <p class="balance-leyenda"><span class="perdieron">▓ perdieron ${pct} %</span> · <span class="ganaron">█ ganaron ${100 - pct} %</span></p>
+          <p class="balance-drama">${texto('piramide-drama', '{prestamos} personas pidieron un préstamo para entrar. {casas} perdieron su casa.',
+            { prestamos: `**${num(r.prestamos)}**`, casas: `**${num(r.casas)}**` })}</p>
+          <p class="piramide-remate">${texto('piramide-final', 'Es el negocio perfecto para quien está en la punta. Para los demás, es una clase de geometría.')}</p>`;
+        resultado.hidden = false;
+        // las cifras suben como en un marcador (en un segundo); con «reducir movimiento», aparecen ya puestas
+        resultado.querySelectorAll('[data-hasta]').forEach((el) => {
+          const hasta = Number(el.dataset.hasta), sufijo = el.dataset.sufijo, PASOS = quieto ? 1 : 20;
+          let k = 0;
+          const subir = () => { k++; el.textContent = num((hasta * k) / PASOS) + sufijo; if (k < PASOS) setTimeout(subir, 50); };
+          subir();
+        });
+        vivo = false;
+        fin.ganar(null, { conservar: true }); // se queda el balance a la vista y aparece «Leer el expediente»
+      };
+      paso();
+    });
+    pintarPiramide(FUNDADORES);
+    return () => { vivo = false; clearTimeout(t); };
+  }
+
+  // 8. El reto del gran maestro (sólo para los «Expedientes χ», en «Todo en contra»): para leer el expediente
+  //    hay que derrotar a un Gran Maestro ruso (parodia). La habilidad de súper agente secreto lo despacha con el
+  //    mate del pastor, que se juega en un tablero casi transparente de fondo; luego, confeti (de caracteres, sin
+  //    imágenes), el mensaje de felicitación y «Leer el expediente». No se puede perder.
+  function mundial(capa, textos, fin) {
+    // {gm} = el nombre del gran maestro (## mundial-gm); {nombre} = sólo su nombre de pila
+    const gm = (textos['mundial-gm'] || 'Dmitri Zhelezovsky').replace(/\s*\n\s*/g, ' ').trim();
+    const nombre = gm.split(' ')[0];
+    const texto = (clave, defecto) => Textos.enLinea((textos[clave] || defecto).replace(/\s*\n\s*/g, ' ').trim()
+      .split('{gm}').join(gm).split('{nombre}').join(nombre));
+    // en el reto, «Gran Maestro» y el nombre van con un texto especial
+    const reto = texto('mundial-reto', 'Para leer este material debe derrotar al Gran Maestro {gm}.')
+      .replace(/gran maestro/i, (m) => `<span class="gm-titulo">${m}</span>`)
+      .replace(gm, `<span class="gm-nombre">${gm}</span>`);
+    // tablero de fondo (casi transparente) con la posición inicial; al usar la habilidad se juega el mate del pastor
+    const INICIO = ['♜♞♝♛♚♝♞♜', '♟♟♟♟♟♟♟♟', '        ', '        ', '        ', '        ', '♙♙♙♙♙♙♙♙', '♖♘♗♕♔♗♘♖'];
+    const piezas = INICIO.map((fila) => [...fila]);
+    const MATE = [['e2', 'e4'], ['e7', 'e5'], ['f1', 'c4'], ['b8', 'c6'], ['d1', 'h5'], ['g8', 'f6'], ['h5', 'f7']];
+    const casilla = (c) => [8 - Number(c[1]), c.charCodeAt(0) - 97]; // 'e4' → [fila, columna]
+    // ︎: que las piezas salgan como texto y no como emoji de colores (en el móvil, ♟ suele volverse emoji)
+    const glifo = (p) => (p.trim() ? p + '︎' : '');
+    const celdas = [];
+    for (let f = 0; f < 8; f++) for (let c = 0; c < 8; c++) celdas.push(`<span class="${(f + c) % 2 ? 'oscura' : 'clara'}" data-f="${f}" data-c="${c}">${glifo(piezas[f][c])}</span>`);
+    const { efecto } = montar(capa, `<div class="tablero-fondo">${celdas.join('')}</div>`,
+      '', // sin instrucción: en los Expedientes χ el botón lo dice todo
+      `<div class="piramide-panel">
+         <p class="juego-instruccion mundial-reto">${reto}</p>
+         <div class="piramide-acciones"><button type="button" class="boton juego-accion mundial-agente">${texto('mundial-agente', 'Usar habilidad de súper agente secreto')}</button></div>
+         <p class="piramide-remate mundial-final" role="status" hidden>${texto('mundial-final', 'Muy bien, agente, derrotó a {nombre} con un mate pastor, felicitaciones.')}</p>
+       </div>`);
+    const agente = capa.querySelector('.mundial-agente'), final = capa.querySelector('.mundial-final');
+    let t, vivo = true;
+    const confeti = () => {
+      const COLORES = ['var(--p-luz)', 'var(--p-triada1)', 'var(--p-triada2)', 'var(--p-titulos)'];
+      const PIEZAS = ['✦', '●', '▲', '■', '♦', '♚', '♔', '★'];
+      const lluvia = document.createElement('div');
+      lluvia.className = 'confeti';
+      lluvia.innerHTML = Array.from({ length: quieto ? 0 : 60 }, (_, k) =>
+        `<i style="left:${azar(100)}%;color:${COLORES[k % COLORES.length]};animation-duration:${1.4 + azar(14) / 10}s;animation-delay:${azar(500)}ms">${PIEZAS[azar(PIEZAS.length)]}</i>`).join('');
+      efecto.appendChild(lluvia);
+      setTimeout(() => lluvia.remove(), 3500);
+    };
+    const celda = (f, c) => efecto.querySelector(`[data-f="${f}"][data-c="${c}"]`);
+    agente.addEventListener('click', () => {
+      if (!vivo) return;
+      agente.closest('.piramide-acciones').hidden = true;
+      let k = 0;
+      // el mate del pastor, jugada a jugada, en el tablero de fondo
+      const mover = () => {
+        if (!vivo) return;
+        const [de, a] = MATE[k];
+        const [f1, c1] = casilla(de), [f2, c2] = casilla(a);
+        piezas[f2][c2] = piezas[f1][c1]; piezas[f1][c1] = ' ';
+        efecto.querySelectorAll('.ultima').forEach((e) => e.classList.remove('ultima'));
+        celda(f1, c1).textContent = ''; celda(f2, c2).textContent = glifo(piezas[f2][c2]);
+        celda(f1, c1).classList.add('ultima'); celda(f2, c2).classList.add('ultima');
+        k++;
+        if (k < MATE.length) { t = setTimeout(mover, quieto ? 0 : 550); return; }
+        // jaque mate: el rey negro se queda en rojo y el tablero se ilumina un momento
+        celda(0, 4).classList.add('mate');
+        efecto.querySelector('.tablero-fondo').classList.add('en-mate'); // ojo: «final» ya es el pie del artículo
+        t = setTimeout(() => {
+          if (!vivo) return;
+          vivo = false;
+          final.hidden = false;
+          confeti();
+          fin.ganar(null, { conservar: true }); // el mensaje se queda a la vista y aparece «Leer el expediente»
+        }, quieto ? 0 : 700);
+      };
+      mover();
+    });
+    return () => { vivo = false; clearTimeout(t); };
+  }
+
+  const JUEGOS = { laseres, codigo, caja, contrasena, descenso, bucear, piramide, mundial };
+  // la pirámide y la entrada al duelo no entran en el sorteo ni en la barra de prueba: son de los Expedientes χ
+  const nombres = Object.keys(JUEGOS).filter((n) => !['piramide', 'mundial'].includes(n));
   return {
     nombres,
+    todos: Object.keys(JUEGOS),
     etiquetas: { laseres: 'Láseres', codigo: 'Código', caja: 'Caja fuerte', contrasena: 'Contraseña', descenso: 'Descenso', bucear: 'Inmersión' },
     elegir: () => nombres[azar(nombres.length)],
     jugar: (nombre, capa, textos, fin) => {

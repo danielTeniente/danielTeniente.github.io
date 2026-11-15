@@ -8,6 +8,12 @@
 (async () => {
   const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const textos = await Textos.cargar('../textos/no-ficcion.md');
+  // Los textos de los «Expedientes Χ» viven en su propio archivo; se suman a los de la página.
+  // (fetch + parsear: no hay elementos data-texto que rellenar con ellos.)
+  try {
+    const r = await fetch('../textos/expedientes-x.md', { cache: 'no-cache' });
+    if (r.ok) Object.assign(textos, Textos.parsear(await r.text()));
+  } catch (e) { /* sin el archivo, simplemente no hay Expedientes Χ */ }
   const $ = (id) => document.getElementById(id);
   const informe = $('informe'), archivo = $('archivo'), aviso = $('aviso'), mecha = $('mecha');
   const plano = (clave, defecto) => Textos.enLinea((textos[clave] || defecto).replace(/\s*\n\s*/g, ' ').trim());
@@ -42,7 +48,14 @@
     } catch (e) { return null; }
   };
   // ordenados por fecha, el más reciente arriba; el número de expediente va por antigüedad (el primero publicado es el 001)
-  const expedientes = (await Promise.all(filas.map(leerArticulo))).filter(Boolean).sort((a, b) => b.orden - a.orden);
+  // Los «Expedientes Χ» (## expedientes-x) son los textos fundacionales: no entran en la fila por fecha,
+  // van fijados abajo del archivo. Cada línea: «- nombre» o «- nombre · minijuego».
+  const fundacionales = (textos['expedientes-x'] || '').split(/\r?\n/).map((l) => l.trim()).filter((l) => l.startsWith('- '))
+    .map((l) => { const [nombre, juego = ''] = l.slice(2).split('·').map((x) => x.trim()); return { nombre, juego }; });
+  const nombresX = fundacionales.map((f) => f.nombre);
+  const expedientes = (await Promise.all(filas.filter((n) => !nombresX.includes(n)).map(leerArticulo))).filter(Boolean).sort((a, b) => b.orden - a.orden);
+  // también por fecha, el más reciente arriba; el número (χ-001…) va por antigüedad, como en el archivo
+  const expedientesX = (await Promise.all(fundacionales.map(async (f) => { const a = await leerArticulo(f.nombre); return a && { ...a, juego: f.juego }; }))).filter(Boolean).sort((a, b) => b.orden - a.orden);
 
   // el más reciente queda en custodia
   const custodia = expedientes[0] || null;
@@ -108,34 +121,38 @@
     ir(0);
   }
 
-  // ---------- Expediente en custodia: un minijuego al azar lo tapa ----------
-  const tarjeta = $('custodia');
-  if (tarjeta) {
-    const capa = $('capa'), estado = tarjeta.querySelector('.estado');
-    const estadoInicial = estado.innerHTML;
-    let juego = Minijuegos.elegir(); // uno por visita: cambia cada vez que se abre la página
-    let detener = () => {}, fallos = 0, reintento;
-    // al ganar (o al llegar los refuerzos) el artículo no se abre solo: se disfruta la victoria y se pulsa «Leer»
-    const abrir = (mensaje) => {
-      detener();
+  // ---------- Tarjetas con minijuego (el expediente en custodia y los Expedientes Χ) ----------
+  // Al ganar (o al llegar los refuerzos) el artículo no se abre solo: se disfruta la victoria y se pulsa «Leer».
+  // Al fallar, un mensaje corto y el juego vuelve a empezar; al tercer fallo llegan los refuerzos.
+  const conMinijuego = (tarjeta, capa, destino, primerJuego, { estadoAlGanar = 'Acceso concedido' } = {}) => {
+    const estado = tarjeta.querySelector('.estado');
+    const estadoInicial = estado.innerHTML, clasesEstado = estado.className;
+    let juego = primerJuego, detener = () => {}, fallos = 0, reintento;
+    // conservar: el juego deja su propio desenlace a la vista y sólo se añade el botón (lo usa la pirámide)
+    const abrir = (mensaje, { conservar = false } = {}) => {
+      if (!conservar) detener();
       tarjeta.classList.add('superado');
-      capa.className = 'custodia-capa resultado';
-      estado.textContent = 'Acceso concedido'; estado.classList.remove('custodia');
-      capa.innerHTML = `<p class="juego-resultado exito" role="status">${mensaje}</p>
-        <a class="boton" href="${enlace(custodia)}">${plano('custodia-leer', 'Leer el expediente')}</a>`;
-      capa.querySelector('a').focus({ preventScroll: true });
+      if (estadoAlGanar) { estado.textContent = estadoAlGanar; estado.classList.remove('custodia'); }
+      const leer = `<a class="boton" href="${enlace(destino)}">${plano('custodia-leer', 'Leer el expediente')}</a>`;
+      if (conservar) capa.insertAdjacentHTML('beforeend', `<div class="juego-leer">${leer}</div>`);
+      else {
+        capa.className = 'custodia-capa resultado';
+        capa.innerHTML = `<p class="juego-resultado exito" role="status">${mensaje}</p>${leer}`;
+      }
+      capa.querySelector('a.boton').focus({ preventScroll: true });
     };
     const empezar = () => {
       detener();
       clearTimeout(reintento);
       tarjeta.classList.remove('superado');
-      estado.innerHTML = estadoInicial; estado.classList.add('custodia');
+      estado.innerHTML = estadoInicial; estado.className = clasesEstado;
       capa.className = `custodia-capa capa-${juego}`;
       detener = Minijuegos.jugar(juego, capa, textos, {
-        ganar: () => abrir(plano('juego-exito', 'Acceso concedido, agente.')),
+        // ganar puede traer su propio mensaje (la pirámide dice con cuánto dinero huyó)
+        ganar: (mensaje, opciones) => abrir(mensaje || plano('juego-exito', 'Acceso concedido, agente.'), opciones),
         // juegos que cuentan sus propios errores (la contraseña) llaman aquí al tercero
         refuerzos: () => abrir(plano('juego-refuerzos', 'Llegaron los refuerzos.')),
-        perder: () => {
+        perder: (mensaje) => {
           detener();
           fallos++;
           // al tercer fallo llegan los refuerzos: ese mensaje se queda, para leerlo con calma
@@ -144,16 +161,23 @@
           const conFoco = tarjeta.contains(document.activeElement);
           tarjeta.classList.remove('alarma'); void tarjeta.offsetWidth; tarjeta.classList.add('alarma');
           capa.className = 'custodia-capa resultado';
-          capa.innerHTML = `<p class="juego-resultado" role="status">${plano('juego-fallo', 'Misión fallida.')}</p>`;
+          capa.innerHTML = `<p class="juego-resultado" role="status">${mensaje || plano('juego-fallo', 'Misión fallida.')}</p>`;
           if (conFoco) { capa.tabIndex = -1; capa.focus({ preventScroll: true }); }
           reintento = setTimeout(() => {
             empezar();
             if (conFoco) { const b = capa.querySelector('button, input'); if (b) b.focus({ preventScroll: true }); }
-          }, 2200);
+          }, mensaje ? 3200 : 2200);
         },
       });
     };
     empezar();
+    return { juego: () => juego, cambiar: (nuevo) => { juego = nuevo; fallos = 0; empezar(); } };
+  };
+
+  // Expediente en custodia: un minijuego al azar lo tapa
+  const tarjeta = $('custodia');
+  if (tarjeta) {
+    const custodiaJuego = conMinijuego(tarjeta, $('capa'), custodia, Minijuegos.elegir()); // uno por visita
 
     // PROVISIONAL: botones para ver cada minijuego. Solo salen en localhost (o con ?probar en la dirección).
     const probando = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || new URLSearchParams(location.search).has('probar');
@@ -161,16 +185,44 @@
       const barra = document.createElement('div');
       barra.className = 'probador';
       barra.innerHTML = '<span>Probar minijuego (solo en localhost):</span> ' +
-        Minijuegos.nombres.map((n) => `<button type="button" data-juego="${n}" aria-pressed="${n === juego}">${Minijuegos.etiquetas[n]}</button>`).join('');
+        Minijuegos.nombres.map((n) => `<button type="button" data-juego="${n}" aria-pressed="${n === custodiaJuego.juego()}">${Minijuegos.etiquetas[n]}</button>`).join('');
       lista.before(barra);
       barra.addEventListener('click', (e) => {
         const b = e.target.closest('[data-juego]');
         if (!b) return;
-        juego = b.dataset.juego; fallos = 0;
         barra.querySelectorAll('[data-juego]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        empezar();
+        custodiaJuego.cambiar(b.dataset.juego);
       });
     }
+  }
+
+  // Expedientes Χ: fijados abajo del archivo (en todas las páginas), con cinta de escena y sello.
+  // χ es la ji griega: como los expedientes X, pero sin alienígenas. Los que tienen minijuego lo llevan encima.
+  if (expedientesX.length) {
+    const seccion = document.createElement('section');
+    seccion.className = 'expedientes-x';
+    seccion.setAttribute('aria-labelledby', 'expedientes-x-titulo');
+    // la ji (χ) va aparte para que el texto en mayúsculas no la convierta en Χ, que es idéntica a una X
+    const ji = (html) => html.replace(/[χΧ]/g, '<span class="ji">χ</span>');
+    seccion.innerHTML = `<h3 id="expedientes-x-titulo">${ji(plano('expedientes-x-titulo', 'Expedientes χ'))}</h3>
+      <p class="expedientes-x-intro">${plano('expedientes-x-intro', 'Lo inexplicable de la vida real. Sin alienígenas.')}</p>`;
+    expedientesX.forEach((e, i) => {
+      const ficha = `<span class="cabecera"><span>Expediente ${ji('χ')}-${String(expedientesX.length - i).padStart(3, '0')} · ${Textos.enLinea(e.categoria)}</span><span class="estado sello-x">${plano('expedientes-x-sello', 'Inexplicable')}</span></span>
+        <span class="titulo">${Textos.enLinea(e.titulo)}</span>
+        <span class="subtitulo">${Textos.enLinea(e.subtitulo)}</span>
+        <span class="meta">${Textos.enLinea(e.fecha)}</span>`;
+      if (e.juego && Minijuegos.todos.includes(e.juego)) {
+        const tarjetaX = document.createElement('div');
+        tarjetaX.className = 'expediente en-custodia expediente-x';
+        tarjetaX.innerHTML = `<div class="custodia-ficha">${ficha}</div><div class="custodia-capa"></div>`;
+        seccion.appendChild(tarjetaX);
+        // el sello sigue diciendo «Inexplicable» aunque se gane
+        conMinijuego(tarjetaX, tarjetaX.querySelector('.custodia-capa'), e, e.juego, { estadoAlGanar: null });
+      } else {
+        seccion.insertAdjacentHTML('beforeend', `<a class="expediente expediente-x" href="${enlace(e)}">${ficha}</a>`);
+      }
+    });
+    $('repetir').parentElement.before(seccion);
   }
 
   // ---------- Briefing ----------
