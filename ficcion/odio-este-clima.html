@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PÁGINA DE UN RELATO. Para uno nuevo: copia _plantilla.html con el nombre de su .md
+       (mi-relato.html) y cambia las cuatro cosas marcadas con ✎: título, sinopsis (dos veces) y data-relato.
+       El título y la sinopsis de aquí son los que salen al compartir el enlace (WhatsApp, redes). -->
+  <title>Odio este clima — Daniel DB</title><!-- ✎ título -->
+  <meta name="description" content="Es difícil moverse entre tanta nieve."><!-- ✎ sinopsis -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="La Página de Daniel DB">
+  <meta property="og:title" content="Odio este clima"><!-- ✎ título -->
+  <meta property="og:description" content="Es difícil moverse entre tanta nieve."><!-- ✎ sinopsis -->
+  <!-- La portada al compartir: aquí la dirección tiene que ser completa (WhatsApp y las redes no entienden rutas relativas) -->
+  <meta property="og:image" content="https://danielteniente.github.io/imagenes/portadas/odio-este-clima.jpg"><!-- ✎ portada -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#F3E7F1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Libre+Baskerville:ital@0;1&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <!-- Al cambiar CSS o JS, sube el número de ?v=… (en todas las páginas de ficcion/) -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261115b">
+  <link rel="stylesheet" href="../css/ficcion.css?v=20261123d">
+</head>
+<body class="pagina-relato" data-relato="odio-este-clima"><!-- ✎ nombre del .md, sin .md -->
+  <main>
+    <div class="volver"><a href="index.html" id="volver">← Volver a Ficción</a></div>
+
+    <article>
+      <header class="relato-cabecera">
+        <div class="cabecera"><span>Colección Medianoche</span><span id="numero"></span></div>
+        <p class="relato-genero" id="genero"></p>
+        <h1 id="titulo">Odio este clima</h1>
+        <p class="relato-autor">Daniel DB</p>
+      </header>
+      <div class="relato-cuerpo" id="cuerpo"></div>
+      <div id="final"></div>
+    </article>
+  </main>
+
+  <script src="../js/textos.js?v=20261115b"></script>
+  <script src="../js/nieve.js?v=20261122d"></script>
+  <!-- El minijuego del avance (sólo en esta página) -->
+  <script src="../js/no-dejes-que-se-apaguen.js?v=20261123f"></script>
+  <script src="../js/relato.js?v=20261123a"></script>
+</body>
+</html>

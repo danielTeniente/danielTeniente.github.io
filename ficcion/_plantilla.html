@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PÁGINA DE UN RELATO. Para uno nuevo: copia _plantilla.html con el nombre de su .md
+       (mi-relato.html) y cambia lo marcado con ✎: título, frase de enganche o sinopsis (dos veces), portada y data-relato.
+       El título y la sinopsis de aquí son los que salen al compartir el enlace (WhatsApp, redes). -->
+  <title>Título del relato — Daniel DB</title><!-- ✎ título -->
+  <meta name="description" content="Una o dos frases sobre el relato."><!-- ✎ sinopsis -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="La Página de Daniel DB">
+  <meta property="og:title" content="Título del relato"><!-- ✎ título -->
+  <meta property="og:description" content="Una o dos frases sobre el relato."><!-- ✎ sinopsis -->
+  <!-- Portada al compartir: la dirección completa de la imagen (WhatsApp y las redes no entienden rutas relativas).
+       Si el relato no tiene portada, borra esta línea y cambia "summary_large_image" por "summary". -->
+  <meta property="og:image" content="https://danielteniente.github.io/imagenes/portadas/mi-relato.jpg"><!-- ✎ portada -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#F3E7F1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+  <!-- Al cambiar CSS o JS, sube el número de ?v=… (en todas las páginas de ficcion/) -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261115b">
+  <link rel="stylesheet" href="../css/ficcion.css?v=20261123d">
+</head>
+<body class="pagina-relato" data-relato="mi-relato"><!-- ✎ nombre del .md, sin .md -->
+  <main>
+    <div class="volver"><a href="index.html" id="volver">← Volver a Ficción</a></div>
+
+    <article>
+      <header class="relato-cabecera">
+        <div class="cabecera"><span>Colección Medianoche</span><span id="numero"></span></div>
+        <p class="relato-genero" id="genero"></p>
+        <h1 id="titulo">Título del relato</h1>
+        <p class="relato-autor">Daniel DB</p>
+      </header>
+      <div class="relato-cuerpo" id="cuerpo"></div>
+      <div id="final"></div>
+    </article>
+  </main>
+
+  <script src="../js/textos.js?v=20261115b"></script>
+  <script src="../js/nieve.js?v=20261122d"></script>
+  <script src="../js/relato.js?v=20261123a"></script>
+</body>
+</html>

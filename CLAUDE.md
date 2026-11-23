@@ -15,7 +15,7 @@ Web de artista de Daniel DB. Lee primero [docs/DOCUMENTACION.md](docs/DOCUMENTAC
 
 ## Estilo y contenido
 - La portada imita una página personal de 1998 (Señor X de *Los Simpson*) con humor de *Los Simpson* y *Futurama*: estructura en tres actos, remates que se conectan entre sí (callbacks) y chistes escondidos para quien se fija.
-- **Sin imágenes** en la web: todo es texto, juegos y easter eggs. Excepciones, en `videojuegos/`: el pixel art de Daniel en la galería (`imagenes/pixel-art/`) y las imágenes y vídeos que él ponga en sus reseñas (`imagenes/games/`, tráileres de YouTube).
+- **Sin imágenes** en la web: todo es texto, juegos y easter eggs. Excepciones, en `videojuegos/`: el pixel art de Daniel en la galería (`imagenes/pixel-art/`) y las imágenes y vídeos que él ponga en sus reseñas (`imagenes/games/`, tráileres de YouTube); en `ficcion/`, las portadas de sus relatos (`imagenes/portadas/`).
 - Homenajes de estilo, nunca copias: sin logotipos, personajes ni letras de canciones.
 - **Ortografía de Daniel** (en todo texto o chiste que propongas): *sólo* con tilde cuando significa «solamente» (sin tilde, *solo* = sin compañía); *éste/ésta/éstos/éstas* con tilde cuando son pronombre («quiero éste»), sin tilde cuando acompañan a un nombre («este auto»). No lo «corrijas» a la norma actual de la RAE.
 - Evitar: look corporativo, violetas/galaxias («astrología»), tipografía manuscrita, revelado lento de texto en la portada.

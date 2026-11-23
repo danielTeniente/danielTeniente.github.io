@@ -1,0 +1,239 @@
+/* ==========================================================
+   Ficción — concepto Bolsilibro (conceptos/06-bolsilibro.html):
+   una colección de novelas baratas de quiosco, en papel claro.
+   Colores de la paleta global (css/paleta.css).
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; overflow-x: hidden;
+  background: var(--p-papel); color: var(--p-tinta-2);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: clamp(1rem, 0.4vw + 0.95rem, 1.12rem); line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+/* trama de imprenta barata y viñeta */
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(var(--p-sombra-rgb), 0.16) 1px, transparent 1.4px); background-size: 6px 6px; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%); }
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 160px rgba(var(--p-sombra-rgb), 0.3); }
+p { margin: 0 0 1.1em; }
+h1, h2, h3 { margin: 0; font-weight: 400; }
+a { color: var(--p-luz); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--p-triada2); outline-offset: 3px; }
+
+main { position: relative; z-index: 1; max-width: 46rem; margin: 0 auto; padding: 1.2rem 1.25rem 5rem; }
+.volver { font-family: 'Special Elite', monospace; font-size: 0.85rem; margin-bottom: 2.2rem; }
+.volver a { color: var(--p-tinta); text-decoration: none; }
+.volver a:hover { text-decoration: underline; }
+
+/* ---------- Portada de la colección ---------- */
+.portada { position: relative; }
+.cabecera { display: flex; justify-content: space-between; gap: 1rem; border-top: 3px solid var(--p-tinta); border-bottom: 1px solid var(--p-tinta); padding: 0.4rem 0; font-family: 'Special Elite', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--p-tinta); }
+h1 { font-family: 'Anton', Impact, sans-serif; font-size: clamp(4.2rem, 18vw, 9.5rem); line-height: 0.9; text-transform: uppercase; color: var(--p-luz); margin: 1.4rem 0 0.4rem; letter-spacing: -0.01em; }
+.gancho { font-family: 'Special Elite', monospace; font-size: 1.05rem; text-transform: uppercase; color: var(--p-tinta); margin-bottom: 2.4rem; max-width: 26rem; }
+
+/* la pegatina (se despega con un clic) */
+.pegatina-hueco { position: absolute; top: 4.6rem; right: 0.2rem; width: 8rem; height: 8rem; }
+.pegatina, .debajo { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center; text-align: center; padding: 1rem; margin: 0; }
+.pegatina { border: 0; cursor: pointer; background: var(--p-triada1); color: var(--p-tinta); font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 0.95rem; line-height: 1.1; transform: rotate(12deg); box-shadow: 2px 3px 0 var(--p-tinta); animation: pegar 0.4s 1.2s cubic-bezier(.2,1.6,.4,1) both; transform-origin: 85% 15%; }
+.pegatina:hover { transform: rotate(8deg) scale(1.04); }
+@keyframes pegar { from { transform: rotate(40deg) scale(0); } to { transform: rotate(12deg) scale(1); } }
+.pegatina.despegada { animation: despegar 0.9s ease-in forwards; pointer-events: none; }
+@keyframes despegar { 0% { transform: rotate(12deg); } 35% { transform: rotate(-30deg) translate(-0.4rem, -0.6rem); } 100% { transform: rotate(-70deg) translate(-2rem, 60vh); opacity: 0; } }
+/* lo que había debajo: la marca de pegamento */
+.debajo { border: 2px dashed rgba(var(--p-sombra-rgb), 0.45); font-family: 'Special Elite', monospace; font-size: 0.72rem; line-height: 1.25; color: var(--p-tinta-2); transform: rotate(12deg); }
+.debajo:empty { display: none; }
+
+.intro { max-width: 34rem; margin-bottom: 3rem; }
+.intro p:first-child { font-style: italic; color: var(--p-tinta); font-size: 1.15em; }
+
+/* ---------- Títulos, la tapa de texto y los botones (lanzamiento y página del relato) ---------- */
+h2 { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1.7rem; color: var(--p-tinta); border-bottom: 3px solid var(--p-tinta); padding-bottom: 0.3rem; margin-bottom: 2rem; letter-spacing: 0.01em; }
+
+/* la tapa del bolsilibro, hecha sólo con texto */
+.tapa { --fondo: var(--p-luz); --letra: var(--p-tinta); --titulo: var(--p-tinta); --banda: var(--p-tinta);
+  position: relative; aspect-ratio: 2 / 3; overflow: hidden; display: flex; flex-direction: column; padding: 0 0.7rem 0.7rem;
+  background: var(--fondo); color: var(--letra); border: 4px solid var(--p-tinta); box-shadow: 5px 6px 0 rgba(var(--p-sombra-rgb), 0.55);
+  transform: rotate(-1.5deg); transition: transform 0.25s ease; }
+.tapa::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(0, 0, 0, 0.22) 1px, transparent 1.5px); background-size: 5px 5px; -webkit-mask-image: linear-gradient(200deg, transparent 35%, #000); mask-image: linear-gradient(200deg, transparent 35%, #000); }
+.tapa-serie { margin: 0 -0.7rem; padding: 0.3rem 0.5rem; background: var(--banda); color: var(--fondo); font-family: 'Special Elite', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; text-align: center; }
+.tapa-genero { margin-top: 0.8rem; font-family: 'Special Elite', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.tapa-titulo { position: relative; margin-top: auto; font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1.75rem; line-height: 0.95; color: var(--titulo); overflow-wrap: anywhere; }
+.tapa-autor { position: relative; margin-top: 0.5rem; font-family: 'Special Elite', monospace; font-size: 0.7rem; text-transform: uppercase; }
+
+.ficha-numero { font-family: 'Special Elite', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--p-luz); margin-bottom: 0.3rem; }
+.precio { font-family: 'Special Elite', monospace; font-size: 0.85rem; text-transform: uppercase; color: var(--p-tinta); }
+.comprar { display: inline-block; padding: 0.6rem 1rem; background: var(--p-tinta); color: var(--p-papel); font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.04em; text-decoration: none; box-shadow: 3px 3px 0 var(--p-luz); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.comprar:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--p-luz); }
+
+.acciones { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+.leer { display: inline-block; padding: 0.55rem 1rem; border: 3px solid var(--p-tinta); color: var(--p-tinta); background: var(--p-papel); font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.04em; text-decoration: none; transition: background 0.15s ease, color 0.15s ease; }
+.leer:hover { background: var(--p-luz); color: var(--p-tinta); }
+a.tapa { text-decoration: none; }
+
+.tienda { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--p-tinta); font-style: italic; }
+.pie { margin-top: 3rem; font-family: 'Special Elite', monospace; font-size: 0.8rem; text-transform: uppercase; text-align: center; color: var(--p-tinta-2); }
+
+.surgir { opacity: 0; animation: surgir 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; animation-delay: var(--d, 0ms); }
+@keyframes surgir { to { opacity: 1; } }
+
+/* ---------- Lectura de un relato (relato.html) ---------- */
+.relato-cabecera { margin-bottom: 2.5rem; text-align: center; }
+.relato-genero { margin: 2.5rem 0 0.4rem; font-family: 'Special Elite', monospace; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.85rem; color: var(--p-luz); }
+.pagina-relato h1 { font-size: clamp(2.8rem, 11vw, 5.6rem); line-height: 0.95; margin: 0 0 0.6rem; overflow-wrap: anywhere; }
+.relato-autor { font-family: 'Special Elite', monospace; text-transform: uppercase; color: var(--p-tinta); }
+.relato-cuerpo { max-width: 36rem; margin: 0 auto; font-size: clamp(1.12rem, 0.6vw + 1rem, 1.3rem); line-height: 1.85; color: var(--p-tinta); }
+.relato-cuerpo p { margin-bottom: 1.2em; text-align: justify; hyphens: auto; }
+.relato-cuerpo > p:first-child:not(.proximamente)::first-letter { float: left; font-family: 'Anton', sans-serif; font-size: 4.2em; line-height: 0.85; padding: 0.08em 0.12em 0 0; color: var(--p-luz); }
+.relato-cuerpo .escena { text-align: center; letter-spacing: 0.6em; color: var(--p-luz); margin: 2em 0; }
+/* adelanto: el texto se desvanece antes del cupón */
+.relato-cuerpo.adelanto { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 9rem), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 9rem), transparent); }
+#final { max-width: 36rem; margin: 0 auto; }
+.fin { margin: 3rem 0 2rem; text-align: center; font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 2.4rem; letter-spacing: 0.1em; color: var(--p-tinta); }
+.fin::before, .fin::after { content: '—'; margin: 0 0.5em; color: var(--p-luz); }
+.final-gratis { border-top: 3px solid var(--p-tinta); border-bottom: 1px solid var(--p-tinta); padding: 1.4rem 0 0.4rem; text-align: center; font-style: italic; }
+.final-gratis .comprar { font-style: normal; margin-bottom: 1rem; }
+/* el cupón recortable de las revistas baratas */
+.cupon { position: relative; margin-top: 1.5rem; padding: 1.8rem 1.4rem 1.6rem; border: 3px dashed var(--p-tinta); background: rgba(var(--p-triada1-rgb), 0.35); text-align: center; }
+.cupon::before { content: '✂'; position: absolute; top: -0.95rem; left: 1.2rem; padding: 0 0.3rem; background: var(--p-papel); font-size: 1.3rem; line-height: 1.4; color: var(--p-tinta); }
+.cupon .cupon-titulo { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1.6rem; line-height: 1.05; color: var(--p-tinta); margin-bottom: 0.8rem; }
+.cupon p { font-size: 0.95rem; }
+.cupon .cupon-precio { font-family: 'Anton', sans-serif; font-size: 2.2rem; color: var(--p-luz); margin: 0.2rem 0 0.8rem; text-shadow: 2px 2px 0 var(--p-tinta); }
+
+/* nota del autor: una tarjeta escrita a máquina, no el relato */
+.relato-cuerpo.es-nota > p:first-child::first-letter { all: unset; }
+.nota-autor { position: relative; padding: 1.6rem 1.5rem 1.2rem; background: var(--p-papel-2); border-left: 6px solid var(--p-luz); box-shadow: 4px 5px 0 rgba(var(--p-sombra-rgb), 0.35); font-family: 'Special Elite', monospace; font-size: 0.95em; line-height: 1.7; transform: rotate(-0.6deg); }
+.relato-cuerpo .nota-autor p { text-align: left; }
+.nota-autor .nota-titulo { font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.3rem; color: var(--p-luz); margin-bottom: 0.8rem; }
+.nota-autor .nota-firma { text-align: right !important; margin: 0; }
+
+/* Pásalo: compartir el enlace */
+.pasalo { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--p-tinta); text-align: center; }
+.pasalo .pasalo-titulo { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1.4rem; color: var(--p-tinta); margin-bottom: 0.3rem; }
+.pasalo p { font-size: 0.95rem; }
+.final-gratis + .pasalo { border-top: 0; margin-top: 1.5rem; }
+.pasalo-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+.pasalo button.leer { cursor: pointer; }
+.pasalo-aviso { margin-top: 0.8rem; font-family: 'Special Elite', monospace; font-size: 0.85rem !important; color: var(--p-luz); overflow-wrap: anywhere; }
+
+/* ---------- Frase de enganche y marca de novedad ---------- */
+/* Portada original, al final de la página del relato */
+.portada-original { margin: 3rem 0 0; padding-top: 1.2rem; border-top: 3px solid var(--p-tinta); text-align: center; }
+.portada-original figcaption { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.04em; color: var(--p-tinta); margin-bottom: 1.2rem; }
+.portada-original img { display: block; width: min(20rem, 85%); height: auto; margin: 0 auto; border: 4px solid var(--p-tinta); box-shadow: 6px 7px 0 rgba(var(--p-sombra-rgb), 0.55); transform: rotate(-1.5deg); }
+.relato-gancho { margin: 1.2rem auto 0; max-width: 28rem; font-style: italic; font-size: 1.25rem; color: var(--p-tinta); }
+
+/* ---------- GRAN LANZAMIENTO: una noche de nieve en medio del papel ---------- */
+.lanzamiento { position: relative; overflow: hidden; margin: 0 -1.25rem 3rem; padding: 1.8rem 1.25rem 3rem; background: linear-gradient(180deg, #0B1A22, var(--p-tinta) 70%); color: var(--p-papel); border-top: 6px solid var(--p-triada2); border-bottom: 6px solid var(--p-triada2); box-shadow: 0 10px 0 rgba(var(--p-sombra-rgb), 0.35); }
+.lanzamiento::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2.2rem; background: radial-gradient(ellipse 60% 100% at 30% 100%, var(--p-papel) 60%, transparent 62%), radial-gradient(ellipse 50% 90% at 80% 100%, var(--p-papel-2) 60%, transparent 62%); opacity: 0.9; pointer-events: none; }
+.lanz-etiqueta { position: relative; z-index: 1; display: inline-block; padding: 0.25rem 0.7rem; background: var(--p-triada2); color: var(--p-tinta); font-family: 'Special Elite', monospace; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem; margin-bottom: 1.6rem; }
+.lanz-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 13rem 1fr; gap: 1.8rem; align-items: start; }
+.lanzamiento .tapa { --fondo: #E6F4F6; --letra: var(--p-tinta); --titulo: var(--p-tinta); --banda: var(--p-triada2); border-color: var(--p-papel); box-shadow: 6px 7px 0 rgba(var(--p-triada2-rgb), 0.45); }
+.lanzamiento .tapa-serie { color: var(--p-tinta); }
+.lanzamiento .tapa-titulo { font-size: 2rem; }
+.lanzamiento .ficha-numero { color: var(--p-triada2); }
+.lanz-titulo { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: clamp(2.6rem, 8vw, 4.4rem); line-height: 0.92; color: var(--p-papel); border: 0; padding: 0; margin: 0 0 0.8rem; }
+.lanz-gancho { font-style: italic; font-size: 1.3rem; color: var(--p-triada2); margin-bottom: 1.2rem; }
+.parte { border: 1px dashed rgba(var(--p-triada2-rgb), 0.6); padding: 0.7rem 0.9rem; margin-bottom: 1.2rem; font-family: 'Special Elite', monospace; font-size: 0.85rem; line-height: 1.6; max-width: 24rem; background: rgba(0, 0, 0, 0.25); }
+.parte-titulo { margin: 0 0 0.3rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--p-triada1); }
+.parte ul { list-style: none; margin: 0; padding: 0; }
+.parte b { color: var(--p-triada2); font-weight: 400; }
+.lanzamiento .leer { background: transparent; color: var(--p-papel); border-color: var(--p-papel); }
+.lanzamiento .leer:hover { background: var(--p-triada2); color: var(--p-tinta); }
+
+/* la nieve (js/nieve.js) */
+.nevada { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.copo { position: absolute; top: -2rem; color: var(--p-papel); opacity: 0.75; line-height: 1; animation: nevar linear infinite; }
+@keyframes nevar { from { transform: translate(0, -2rem); } to { transform: translate(var(--deriva), 34rem); } }
+
+/* la página del relato que se estrena: la cabecera es de noche y nieva */
+.estreno .relato-cabecera { position: relative; overflow: hidden; margin: 0 -1.25rem 2.5rem; padding: 0 1.25rem 2.4rem; background: linear-gradient(180deg, #0B1A22, var(--p-tinta) 80%); color: var(--p-papel); border-bottom: 6px solid var(--p-triada2); }
+.estreno .relato-cabecera > *:not(.nevada) { position: relative; z-index: 1; }
+.estreno .relato-cabecera .cabecera { color: var(--p-papel); border-color: var(--p-papel); }
+.estreno .relato-cabecera h1 { color: var(--p-papel); }
+.estreno .relato-genero, .estreno .relato-gancho { color: var(--p-triada2); }
+.estreno .relato-autor { color: var(--p-papel); }
+.estreno .cabecera { gap: 0.6rem; }
+.estreno .cabecera span:first-child { margin-right: auto; }
+
+@media (max-width: 560px) {
+  .pegatina-hueco { width: 6rem; height: 6rem; top: 3.6rem; }
+  .pegatina { font-size: 0.72rem; padding: 0.7rem; }
+  .debajo { font-size: 0.6rem; padding: 0.6rem; }
+  .tapa { width: 10rem; }
+  .lanz-grid { grid-template-columns: 1fr; }
+  .lanzamiento .tapa { width: 11rem; }
+    .relato-cuerpo p { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .surgir { animation: none; opacity: 1; }
+  .copo { animation: none !important; }
+  *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; }
+}
+
+/* La promesa del lanzamiento: se leerá completo aquí */
+.promesa { position: relative; margin: 0 0 1.4rem; padding: 0.9rem 1.1rem 0.5rem; max-width: 28rem; border: 3px solid var(--p-triada2); background: rgba(var(--p-triada2-rgb), 0.12); box-shadow: 4px 4px 0 var(--p-triada2); }
+.promesa-titulo { margin: 0 0 0.4rem; font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: clamp(1.5rem, 4.5vw, 2.1rem); line-height: 1; letter-spacing: 0.02em; color: var(--p-triada1); }
+.promesa p:not(.promesa-titulo) { font-size: 0.95rem; margin-bottom: 0.5rem; }
+.leer-grande { font-size: 1.35rem; padding: 0.7rem 1.4rem; }
+.relato-cuerpo .promesa { margin: 0 auto 2rem; text-align: center; color: var(--p-tinta); background: rgba(var(--p-triada2-rgb), 0.2); box-shadow: 4px 4px 0 var(--p-tinta); border-color: var(--p-tinta); }
+.relato-cuerpo .promesa-titulo { color: var(--p-luz); }
+.relato-cuerpo .promesa p { text-align: center; }
+
+/* Próximamente: relatos que aún no se publican (lectura: proximamente) */
+.proximamente { font-family: 'Special Elite', monospace; font-size: 0.95rem; }
+.proximamente span { display: inline-block; margin-right: 0.5rem; padding: 0.35rem 0.8rem; border: 3px solid currentColor; font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 1.15rem; transform: rotate(-3deg); color: var(--p-luz); }
+.lanzamiento .proximamente span { color: var(--p-triada2); }
+.relato-cuerpo .proximamente.grande { text-align: center; font-size: 1.1rem; margin: 3rem 0; }
+.proximamente.grande span { display: block; width: max-content; margin: 0 auto 1rem; font-size: 2.4rem; }
+
+/* ---------- AVANCE del relato que se estrena: minijuego y portada ---------- */
+.avance { margin-top: 3rem; }
+.avance-titulo { text-align: center; }
+.avance .portada-original { margin-top: 2.5rem; }
+
+/* ---------- «No dejes que se apaguen»: retro, con los colores de la portada de Odio este clima ----------
+   La vista se dibuja en un <canvas> pequeño (un píxel del dibujo = 3 px) y se agranda sin suavizar.
+   Tipografías de 8 bits: Press Start 2P (títulos y botones) y VT323 (textos y dibujos). */
+.viaje { --r-noche: #1C2A40; --r-tormenta: #425375; --r-azul: #417998; --r-turquesa: #31CBD9; --r-aqua: #87D6E3; --r-brillo: #C9EFF5; --r-linea: #2C7884;
+  margin: 0 auto; max-width: 580px; background: var(--r-noche); border: 4px solid var(--r-noche); box-shadow: 0 0 0 4px var(--r-turquesa), 8px 8px 0 4px rgba(var(--p-sombra-rgb), 0.45); }
+.viaje-vista { position: relative; overflow: hidden; height: clamp(15rem, 52vw, 19rem); background: var(--r-tormenta); }
+.viaje-nieve { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; image-rendering: crisp-edges; }
+/* líneas de televisor viejo */
+.viaje-vista::after { content: ''; position: absolute; inset: 0; z-index: 6; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(28, 42, 64, 0.16) 0 1px, transparent 1px 3px); }
+.viaje-nombre { position: absolute; left: 50%; z-index: 2; margin: 0; transform: translateX(-50%); padding: 2px 6px; white-space: nowrap; font-family: 'VT323', monospace; font-size: 1.2rem; line-height: 1; color: var(--r-noche); background: var(--r-brillo); box-shadow: 2px 2px 0 var(--r-linea); }
+.viaje-nombre:empty { display: none; }
+/* rótulo en el centro de la vista («Te levantas temprano…»), para que nadie se lo salte */
+.viaje-rotulo { position: absolute; left: 50%; top: 26%; z-index: 4; width: min(88%, 26rem); margin: 0; transform: translate(-50%, -50%); padding: 0.9rem 1.1rem; text-align: center; font-family: 'Press Start 2P', monospace; font-size: clamp(0.7rem, 2.6vw, 0.95rem); line-height: 1.7; color: #FFFFFF; background: rgba(28, 42, 64, 0.82); box-shadow: 0 0 0 3px var(--r-aqua), 0 0 0 6px var(--r-noche); text-shadow: 2px 2px 0 var(--r-linea); }
+.viaje-rotulo[hidden] { display: none; }
+.viaje-rotulo.centro { top: 50%; }
+/* ráfaga: todo se vuelve blanco, a saltos */
+.viaje-blanco { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: #EAF7F9; opacity: 0; transition: opacity 0.5s steps(4); }
+.aviso .viaje-blanco { opacity: 0.25; }
+.rafaga .viaje-blanco { opacity: 0.85; }
+/* la ventana del taller: una pantalla de ordenador viejo */
+.taller { position: absolute; inset: 8px; z-index: 4; overflow: auto; padding: 0.6rem; background: var(--r-noche); color: var(--r-brillo); text-align: center; border: 3px solid var(--r-aqua); box-shadow: 0 0 0 3px var(--r-noche), 6px 6px 0 3px rgba(28, 42, 64, 0.5); }
+.taller[hidden] { display: none; }
+.taller-arte { display: inline-block; margin: 0 auto 0.3rem; text-align: left; font-family: 'VT323', monospace; font-size: clamp(0.95rem, 4vw, 1.25rem); line-height: 1; color: var(--r-aqua); }
+.taller-arte.debil { animation: debil 3.2s steps(1) infinite; }
+@keyframes debil { 0%, 61%, 66%, 100% { opacity: 1; } 62%, 64% { opacity: 0.35; } 63% { opacity: 0.8; } }
+.hueco { color: rgba(201, 239, 245, 0.45); white-space: pre; }
+.hueco.lleno { color: #FFFFFF; text-shadow: 0 0 6px var(--r-turquesa); }
+.taller-nota { min-height: 1.2em; margin: 0 auto 0.5rem; max-width: 32rem; font-family: 'VT323', monospace; font-size: 1.35rem; line-height: 1.15; color: #FFFFFF; }
+/* abajo, sólo el botón, en el centro */
+.viaje-pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.6rem 1rem; padding: 0.7rem 0.9rem; border-top: 4px solid var(--r-turquesa); background: var(--r-noche); color: var(--r-brillo); }
+/* botones de 8 bits, con relieve */
+.retro-boton { padding: 0.75rem 1rem 0.65rem; border: 0; background: var(--r-turquesa); color: var(--r-noche); font-family: 'Press Start 2P', monospace; font-size: 0.68rem; line-height: 1.3; text-transform: uppercase; cursor: pointer;
+  box-shadow: inset -4px -4px 0 var(--r-linea), inset 4px 4px 0 var(--r-brillo), 0 0 0 3px var(--r-noche); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: none; }
+.retro-boton:hover { background: var(--r-aqua); }
+.retro-boton:active { box-shadow: inset 4px 4px 0 var(--r-linea), inset -4px -4px 0 var(--r-brillo), 0 0 0 3px var(--r-noche); transform: translateY(1px); }
+.retro-boton:disabled { opacity: 0.5; cursor: default; }
+.retro-boton[hidden] { display: none; }
+/* la pantalla de título del juego */
+.viaje .juego-portada { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.9rem; padding: 1.5rem; text-align: center; background: rgba(28, 42, 64, 0.62); color: var(--r-brillo); }
+.viaje .juego-portada[hidden] { display: none; }
+.viaje .juego-titulo { margin: 0; font-family: 'Press Start 2P', monospace; text-transform: uppercase; font-size: clamp(1rem, 4.2vw, 1.7rem); line-height: 1.35; color: #FFFFFF; text-shadow: 3px 3px 0 var(--r-linea), 6px 6px 0 var(--r-noche); }
+.viaje .juego-texto { margin: 0 0 0.3rem; max-width: 28rem; font-family: 'VT323', monospace; font-size: 1.35rem; line-height: 1.15; color: #FFFFFF; text-shadow: 2px 2px 0 var(--r-noche); }
+.viaje .juego-portada.final .juego-texto { color: var(--r-brillo); }
+.viaje .juego-texto p { margin: 0 0 0.45rem; }
+.viaje .juego-texto p:last-child { margin-bottom: 0; }
+.viaje .juego-texto small { display: block; margin-top: 0.5rem; font-size: 1.1rem; color: var(--r-aqua); }

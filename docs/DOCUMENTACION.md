@@ -137,6 +137,56 @@ Pendiente: la bomba de *Super Bomberman 4* con un pixel art secreto, apuntada en
 
 **Pixel art.** Copia la imagen o la carpeta de fotogramas (png o gif) en `imagenes/pixel-art/` y añade su línea a `## galeria`. Da igual si se exportó ya agrandada (p. ej. 32×32 guardado a 512×512): la página calcula el tamaño de cada píxel y la agranda siempre un número entero de veces, sin difuminar; las animaciones cargan todos sus fotogramas antes de empezar y se quedan quietas con «reducir movimiento»; al pulsarla se abre en grande (se cierra con Escape o con un clic fuera).
 
+### Página «Ficción» — [`textos/ficcion.md`](../textos/ficcion.md)
+Se entra desde el botón «Ficción (ahora con 30% más de misterio)» de la portada. Usa el concepto **Bolsilibro** ([`conceptos/06-bolsilibro.html`](../conceptos/06-bolsilibro.html)): una colección de novelas baratas de quiosco («Colección Medianoche») en papel claro. **Hoy la página gira entera alrededor del lanzamiento de *Odio este clima*:** cabecera, la carta `intro`, el bloque de noche con nieve y, debajo, sólo un enlace (`tienda`) a Payhip para los demás relatos. Ya no hay catálogo de relatos (se quitó para no distraer). *La sonrisa de Hera* y *Una línea más* tienen su `.md` y su página sólo en local, con texto de prueba en *lorem ipsum*: no se suben a GitHub ni están en `## relatos`.
+
+| Sección | Qué controla |
+|---|---|
+| `cabecera-izquierda`, `cabecera-derecha` | La franja de arriba, que imita la de los bolsilibros de quiosco (colecciones numeradas con el precio impreso) |
+| `titulo`, `gancho` | Título y frase de la cabecera |
+| `pegatina` | La pegatina amarilla: una al azar en cada visita. Cada línea es `- lo que dice → lo que hay debajo`. **Secreto:** al pulsarla se despega y deja ver lo de después de la flecha |
+| `intro` | Presentación: párrafos separados por una línea en blanco (el primero, en cursiva) |
+| `leer-completo`, `leer-adelanto` | El botón del lanzamiento cuando el relato ya se lee en la web (`completo` o `adelanto`) |
+| `tienda` | El enlace a Payhip para los demás relatos |
+| `relatos` | Lista de relatos: solo el **nombre del archivo** (`- mi-relato`). Se numeran en el orden de la lista (el primero es el Nº 001) y los colores de las tapas se turnan solos |
+| `volver`, `fin`, `final-gratis`, `final-gratis-boton` | Página del relato: enlace de vuelta y el final de un relato completo |
+| `final-pago-titulo`, `final-pago`, `final-pago-boton` | El **cupón recortable** que sale al final de un adelanto. `{precio}` = el precio de ese relato |
+| `final-nota-titulo`, `final-nota`, `final-nota-boton` | El cupón de los relatos que sólo tienen nota del autor |
+| `leer-nota`, `nota-titulo`, `nota-firma` | Botón del lanzamiento (si el relato sólo tiene nota del autor), título y firma de la nota |
+| `pasalo-titulo`, `pasalo`, `pasalo-boton`, `pasalo-copiado` | **Pásalo**, al final de cada relato: «Compartir» abre el menú de compartir del móvil (o copia el enlace en la computadora) y «WhatsApp» abre un mensaje con el título y el enlace |
+| `lanzamiento` | **Gran lanzamiento:** el nombre de un relato de la lista. Sale arriba de todo, en un bloque de noche con nieve, su tapa de texto, su frase de enganche, y el `lanzamiento-parte` (parte meteorológico, una línea por dato); en su página la cabecera es de noche, nieva y la franja de arriba repite `cabecera-izquierda` y `cabecera-derecha`, como en la portada de Ficción. Déjalo vacío cuando pase el estreno, y cambia entonces `cabecera-izquierda`, `intro` y `proximamente-nota`, que hablan del frío y no se apagan solas (están marcadas como TEMPORAL en el `.md`). Hoy: *Odio este clima* |
+| `lanzamiento-promesa-titulo`, `lanzamiento-promesa` | **La promesa** del lanzamiento: un recuadro que deja claro que el relato se leerá completo en la web. Sale en el bloque del lanzamiento y, mientras sea `proximamente`, también en su página. Vacío = no sale. En el lanzamiento no hay botón de Payhip: cuando el relato pase a `completo`, sólo sale un botón grande «Leer aquí» |
+| `lanzamiento-avance`, `avance-titulo` | El botón «Ver el simulador» del lanzamiento (y la tapa) llevan a la página del relato aunque sea `proximamente`: ahí está la sección «Simulador» (el avance), con el minijuego y la portada, que así no salen en la página principal |
+| `pie` | Frase al azar al final |
+
+**Portadas — [`imagenes/portadas/`](../imagenes/portadas/).** Copia la portada (png, jpg o webp) y pon su nombre en `## portada` del `.md` del relato: sale **sólo dentro**, al final de la página del relato, bajo el título `portada-titulo` («Portada original»). En el lanzamiento sigue la tapa de texto. Si falta o no carga, ese espacio no sale. **Que pesen poco** (menos de ~300 KB, unos 900 px de ancho, en jpg): los originales grandes van en `imagenes/portadas/originales/`, que no se sube a GitHub. Hoy: *Odio este clima* (en su simulador, bajo el minijuego); en local también las de *La sonrisa de Hera* y *Una línea más*, que no se suben. Para que salga al compartir, pon su dirección completa (`https://danielteniente.github.io/imagenes/portadas/…`) en el `og:image` de la página `.html` del relato (es la única dirección que no puede ser relativa).
+
+**Relatos — `textos/ficcion/<nombre>.md`.** Secciones `titulo`, `genero`, `sinopsis`, `gancho` (opcional: frase de enganche bajo el título y al compartir), `portada` (opcional: sale al final, como «Portada original»), `payhip` (enlace), `precio`, `lectura` y `cuerpo`. Cada relato tiene **su propia página**, `ficcion/<nombre>.html`: así, al compartir el enlace (WhatsApp, redes), la vista previa muestra su título y sinopsis (esas páginas no ejecutan JavaScript, así que el título y la sinopsis van escritos en el HTML). `ficcion/relato.html?id=<nombre>` abre cualquiera (sirve para probar). `lectura` decide qué se ve en la web:
+
+| `lectura` | Qué pasa |
+|---|---|
+| `completo` | El relato entero; al final, «Fin» y el botón al PDF (pensado para los gratis o de «paga lo que quieras») |
+| `adelanto` | Sólo el comienzo (pega en `cuerpo` sólo esa parte): el texto se desvanece y sale el cupón para seguir en Payhip (pensado para los de pago) |
+| `nota` | Una **nota del autor** sobre el relato (lo que pongas en `cuerpo`), en una tarjeta escrita a máquina, y el cupón (pensado para los de pago sin muestra) |
+| `no` | No tiene página en la web (sólo está en Payhip) |
+| `proximamente` | Aún no se publica: en el lanzamiento sale el sello `proximamente` con `proximamente-nota`, sin precio, sin enlace a su página ni a Payhip; si alguien abre su página, sólo ve el título, la frase de enganche y «Próximamente». Hoy: *Odio este clima* |
+
+**Minijuego «No dejes que se apaguen» — [`textos/no-dejes-que-se-apaguen.md`](../textos/no-dejes-que-se-apaguen.md).** Está en el simulador (la página de *Odio este clima* mientras sea `proximamente`) ([`js/no-dejes-que-se-apaguen.js`](../js/no-dejes-que-se-apaguen.js), que sólo carga `ficcion/odio-este-clima.html`). Como «Inmersión» en No ficción, **nunca se ve a Blab**: todo es lo que ve él, y **todos los textos van en segunda persona** (caminas, te detienes…, nunca «Blab hace…»). Lo importante es sentir la caminata y la nieve. Arranque: la pantalla de inicio dice «Mira el mundo a través de los ojos de Blab.» (`## instrucciones`); al empezar sale «Te levantas temprano para poder visitar a tus amigos.» (`## levantarse`) en grande, en un rótulo en el centro de la vista (para que nadie se lo salte), con el botón «Caminar» y ninguna otra instrucción; el rótulo se va al pulsarlo; al pulsarlo, «Caminas sin descanso...» (`## en-camino`), que vuelve a salir después de cada ráfaga. Todos los textos del camino («Caminas sin descanso...», «Se acerca una ráfaga», «Te detienes», «Has llegado a…») salen en un rótulo dentro de la vista, un poco por encima del centro, para que la pantalla no quede vacía.
+
+**Aspecto retro** con los colores de la portada del relato: la vista se dibuja en un `<canvas>` pequeño (un píxel del dibujo mide 3 px), con tramado de 8 bits y líneas de televisor; textos en VT323 y botones en Press Start 2P, con relieve. El cuadro mide como mucho 580 px de ancho. Delante sólo hay **una pared de nieve blanca celeste** (sin suelo, cielo ni horizonte), con manchas de nieve que soplan despacio. El viaje **empieza de día** y **acaba de noche**: la pared se va oscureciendo, y cada color se cambia por su pareja violeta o azul de la parte alta de la portada (no se oscurece sin más).
+
+- **Caminata.** Se pulsa «Caminar» **una vez** y avanzas solo hasta la máquina, a **grandes zancadas**: la vista sube al sacar la pierna de la nieve, cae con un golpe al pisar y se mece de lado (sin inclinarse). Lo que se mueve es el dibujo por dentro (la pared y su tramado), no la imagen entera, así que nunca se le ven los bordes; además, los copos se te echan encima con cada paso.  Caminas 0,15 km por segundo (unos 20 segundos por tramo). Las máquinas **no tienen luz**: Blab sabe dónde están; a partir de la tercera parte del camino asoma en el centro un **bloque oscuro**, casi confundido con la nieve, que crece y se oscurece al acercarte; su nombre sólo sale al llegar, debajo del bloque (ModelG_33 no tiene bloque: todavía no ha aterrizado). Desde el segundo tramo (nunca en el primero, y nunca nada más echar a andar) puede llegar una **ráfaga** (o ninguna): «Se acerca una ráfaga», todo se vuelve blanco y «Te detienes»; después sigues solo. El orden del viaje y los kilómetros de cada tramo están en `## ruta`.
+- **El panel.** Al llegar sólo se ve el panel de la máquina: un cuadrado con su nombre y los huecos de sus piezas (`[ p11    ]`), sin dibujo. Cada máquina tiene 2 o 3 piezas, que sacas de un saco con «Buscar pieza en el saco»: casi siempre sale una que falta y se pone sola en su sitio; 4 de cada 10 veces sale otra cosa (`## saco-fallo`; la probabilidad es `FALLO_SACO` en el `.js`). Una pieza con «(no está)» en `## <máquina>-piezas` no se encuentra: su hueco se queda vacío y sale `## saco-no-esta`.
+
+Para cada máquina, en el `.md`: `## <máquina>-antes` (opcional: frases sobre la nieve antes de abrir el panel, de una en una; cada línea `botón → texto`; es una espera y con cada frase anochece un poco más), `## <máquina>-llegar` (opcional: lo que sale dentro del panel), `## <máquina>-piezas` y `## <máquina>` (frases al terminar: se cierra el panel y salen de una en una, con «Siguiente», sobre la nieve). Una frase que acaba en `(se va)` hace que la máquina se marche (ese «(se va)» no se ve): ModelG_33 se aleja volando hacia arriba; las demás se encogen y se pierden en la nieve. El viaje de hoy, con los textos de Daniel:
+- **ModelS_69**: llegas, lo reparas (2 piezas) y, ya sin panel, las últimas fotografías de la zona y el cementerio de robots.
+- **ModelG_33**: al llegar no está (no hay bloque). Esperas en su zona de aterrizaje: las frases salen sobre la nieve, y anochece mientras esperas (hambre, preocupación, lo peor…, «...», su aleteo). Aterriza, lo reparas (2 piezas) y después revisas sus mensajes, miras el antiguo mensaje que grabó tu padre, grabas uno nuevo y se aleja volando (su bloque sube y se pierde).
+- **ModelH_44**, en las últimas: al llegar se abre directamente su panel, que **parpadea** como si le costara seguir encendido; 3 piezas, una «(no está)» (se ve que no las tienes todas). Después, sin panel: haces los últimos cambios «y dejas que el robot continúe» (su bloque se aleja despacio y desaparece en la nieve), te lamentas por semejante pérdida y «Es hora de volver a casa».
+
+Al final, en un mismo bloque, `## final`: «Fin.» y «Gracias por probar este simulador (sumamente realista) del mundo de Blab.», una debajo de otra. No se puede perder. En la barra de abajo sólo está el botón, en el centro (sin distancia ni hora).
+
+En el `cuerpo`, párrafos separados por una línea en blanco y `---` para un cambio de escena (sale `* * *`). La primera letra sale en grande. **Para publicar un relato:** (1) copia [`textos/ficcion/_plantilla.md`](../textos/ficcion/_plantilla.md) como `mi-relato.md` y rellénalo; (2) copia [`ficcion/_plantilla.html`](../ficcion/_plantilla.html) como `mi-relato.html` y cambia lo marcado con ✎ (título, sinopsis y `data-relato="mi-relato"`); (3) añade `- mi-relato` a `## relatos`. Para probar sin publicar: un `.md` con `_` delante (no se sube) se abre con `ficcion/relato.html?id=_nombre` (hay uno: `_prueba-nota`). *La sonrisa de Hera* (`completo`) y *Una línea más* (`adelanto`) sólo existen en local, con **texto de prueba en lorem ipsum**: para publicarlos hay que pegar el relato, añadirlos a `## relatos` y subir su `.md`, su `.html` y su portada.
+
 ### Artículos — `textos/no-ficcion/<nombre>.md`
 Cada artículo es un archivo con las secciones `titulo`, `subtitulo`, `categoria`, `fecha`, `original` (enlace a Substack/Medium, solo de referencia: no se muestra) y `cuerpo`.
 Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
@@ -188,6 +238,16 @@ js/paisaje.js           Paisaje en píxeles con paralaje y tres horas del día (
 js/videojuegos.js       Diálogo, selección de partida y galería
 js/resena.js            Convierte el .md de una reseña en la página (y el secreto de LISA)
 js/secretos.js          Los secretos de Videojuegos (hierba alta, base de datos, barril)
+
+ficcion/index.html      Página «Ficción»: lanzamiento de Odio este clima (concepto Bolsilibro) y enlace a Payhip
+textos/ficcion.md       Textos de la página Ficción y lista de relatos
+ficcion/<nombre>.html   Página de cada relato (copia de ficcion/_plantilla.html)
+ficcion/relato.html     Lector genérico (?id=<nombre>), para probar
+textos/ficcion/         Un .md por relato
+css/ficcion.css, js/ficcion.js, js/relato.js  Estilos, lanzamiento y lectura de Ficción
+textos/no-dejes-que-se-apaguen.md, js/no-dejes-que-se-apaguen.js  Minijuego del simulador de Odio este clima
+js/nieve.js             Nieve de caracteres del gran lanzamiento
+imagenes/portadas/      Portadas de los relatos
 
 guia-visual.html        Guía visual (paleta, tipografía, reglas)
 css/tokens.css, css/base.css, css/portada.css, js/cielo.js
@@ -275,7 +335,8 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 - [ ] Traer más artículos: los 11 de Substack guardados en un comentario de `textos/no-ficcion.md` y el de Taleb (su archivo aún tiene un texto de ejemplo y está comentado en la lista).
 - [ ] Afinar la página del artículo si al leer los reales hace falta (por ejemplo, otra tipografía más fina o un blanco menos brillante).
 - [x] **Videojuegos** (concepto Cartucho, publicada el 12/11/2026): dos reseñas («Her Story», con captura y tráiler, y «LISA: The Painful») y galería de pixel art: el primer dibujo de Daniel y, en su propia subsección, las tres animaciones de Quito (de día, paseo por la plaza y de noche).
-- [ ] Decidir el menú completo (relatos, corto de terror, cine y discos, matemáticas).
+- [x] **Ficción** (concepto Bolsilibro): gran lanzamiento de *Odio este clima* (nieve, parte meteorológico, promesa de lectura completa), lo único de la página; los demás relatos, sólo como enlace a Payhip. Su página es, mientras sea `proximamente`, el **simulador** «No dejes que se apaguen» y la portada. Lectura en la web lista para cuando se publique (completo, adelanto o nota del autor, con cupón), página propia por relato y botón «Pásalo».
+- [ ] Decidir el menú completo ( corto de terror, cine y discos, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.
 - [ ] Icono de pestaña (favicon) e imagen para compartir en redes.

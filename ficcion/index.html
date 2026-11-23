@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ficción — Daniel DB</title>
+  <meta name="description" content="Odio este clima, un relato de Daniel DB que se leerá completo en esta página.">
+  <meta name="theme-color" content="#F3E7F1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+  <!-- Los textos de esta página se editan en textos/ficcion.md.
+       Al cambiar CSS o JS, sube el número de ?v=… para que los navegadores no usen la versión vieja. -->
+  <link rel="stylesheet" href="../css/paleta.css?v=20261115b">
+  <link rel="stylesheet" href="../css/ficcion.css?v=20261123d">
+</head>
+<body>
+  <main>
+    <div class="volver"><a href="../index.html">← La Página de Daniel DB</a></div>
+
+    <header class="portada">
+      <div class="cabecera surgir"><span data-texto="cabecera-izquierda" data-formato="plano">Colección Medianoche</span><span data-texto="cabecera-derecha" data-formato="plano">Nº 001 · 25 céntimos</span></div>
+      <h1 class="surgir" style="--d:250ms" data-texto="titulo" data-formato="plano">Ficción</h1>
+      <p class="gancho surgir" style="--d:600ms" data-texto="gancho" data-formato="plano">Relatos para leer con la luz encendida.</p>
+      <!-- La pegatina cambia en cada visita y, SECRETO, se despega con un clic y deja ver otra frase («## pegatina») -->
+      <div class="pegatina-hueco">
+        <p class="debajo" id="debajo" aria-live="polite"></p>
+        <button class="pegatina" id="pegatina" type="button">¡Ahora con 30% más de misterio!</button>
+      </div>
+    </header>
+
+    <div class="intro surgir" style="--d:900ms" data-texto="intro" data-formato="parrafos-fijos">
+      <p>Querido lector:</p>
+      <p>Muy pronto llegará a mi página un relato de ciencia ficción.</p>
+    </div>
+
+    <!-- GRAN LANZAMIENTO: el relato de «## lanzamiento» (textos/ficcion.md), con su nevada.
+         Si «## lanzamiento» está vacío, no sale. -->
+    <section class="lanzamiento" id="lanzamiento" hidden aria-label="Gran lanzamiento"></section>
+
+    <!-- Los demás relatos, sólo como enlace a Payhip -->
+    <p class="tienda" data-texto="tienda">¿Buscas mis otros relatos? Están en <a href="https://payhip.com/DanielDB">mi tienda de Payhip</a>.</p>
+
+    <p class="pie" data-texto="pie" data-formato="aleatorio">El autor no se hace responsable de lo que encuentres.</p>
+  </main>
+
+  <script src="../js/textos.js?v=20261115b"></script>
+  <script src="../js/nieve.js?v=20261122d"></script>
+  <script src="../js/ficcion.js?v=20261123b"></script>
+</body>
+</html>

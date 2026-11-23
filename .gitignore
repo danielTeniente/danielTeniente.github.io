@@ -21,3 +21,10 @@ textos/videojuegos/_*.md
 
 # Libreta de ideas de Daniel: no se publica
 ideas-sin-implementar.md
+
+# Relatos de prueba ocultos con "_" (igual que en No ficción). La plantilla sí se sube.
+textos/ficcion/_*.md
+!textos/ficcion/_plantilla.md
+
+# Portadas originales a tamaño completo (pesan mucho): en la web van las copias ligeras de imagenes/portadas/
+imagenes/portadas/originales/
