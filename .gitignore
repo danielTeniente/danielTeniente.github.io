@@ -28,3 +28,6 @@ textos/ficcion/_*.md
 
 # Portadas originales a tamaño completo (pesan mucho): en la web van las copias ligeras de imagenes/portadas/
 imagenes/portadas/originales/
+
+# Campañas de marketing (fichas, prompts y planes): documentos de trabajo, no se publican
+campana/
