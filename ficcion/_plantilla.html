@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Seguridad: sólo se cargan scripts propios (ver docs/DOCUMENTACION.md) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://danieldb.goatcounter.com; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- PÁGINA DE UN RELATO. Para uno nuevo: copia _plantilla.html con el nombre de su .md
        (mi-relato.html) y cambia lo marcado con ✎: título, frase de enganche o sinopsis (dos veces), portada y data-relato.
@@ -21,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
   <!-- Al cambiar CSS o JS, sube el número de ?v=… (en todas las páginas de ficcion/) -->
-  <link rel="stylesheet" href="../css/paleta.css?v=20261115b">
-  <link rel="stylesheet" href="../css/ficcion.css?v=20261123d">
+  <link rel="stylesheet" href="../css/paleta.css?v=7f1f7762">
+  <link rel="stylesheet" href="../css/ficcion.css?v=11efb62f">
 </head>
 <body class="pagina-relato" data-relato="mi-relato"><!-- ✎ nombre del .md, sin .md -->
   <main>
@@ -40,8 +42,9 @@
     </article>
   </main>
 
-  <script src="../js/textos.js?v=20261115b"></script>
-  <script src="../js/nieve.js?v=20261122d"></script>
-  <script src="../js/relato.js?v=20261123a"></script>
+  <script src="../js/textos.js?v=c2aa980a"></script>
+  <script src="../js/nieve.js?v=2924a75b"></script>
+  <script src="../js/relato.js?v=f0a86c57"></script>
+  <script src="../js/visitas.js?v=2060257f" defer></script>
 </body>
 </html>

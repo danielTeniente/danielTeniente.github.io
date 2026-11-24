@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Seguridad: sólo se cargan scripts propios (ver docs/DOCUMENTACION.md) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://danieldb.goatcounter.com; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La Página de Daniel DB</title>
   <meta name="description" content="La página personal de Daniel DB: relatos, terror, cine, discos, pixel art y matemáticas. En construcción desde 1998.">
@@ -9,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Tinos:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/paleta.css?v=20261108l">
-  <link rel="stylesheet" href="css/senor-x.css?v=20261108l">
+  <link rel="stylesheet" href="css/paleta.css?v=7f1f7762">
+  <link rel="stylesheet" href="css/senor-x.css?v=e855d9b4">
 </head>
 <body>
   <!--
@@ -116,7 +118,8 @@
     </div>
   </div>
 
-  <script src="js/textos.js?v=20261108l"></script>
-  <script src="js/senor-x.js?v=20261108l"></script>
+  <script src="js/textos.js?v=c2aa980a"></script>
+  <script src="js/senor-x.js?v=1a552945"></script>
+  <script src="js/visitas.js?v=2060257f" defer></script>
 </body>
 </html>

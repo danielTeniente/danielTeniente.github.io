@@ -1,0 +1,13 @@
+#!/bin/sh
+# Antes de cada «git push»: revisa la web. Si hay errores, no se sube nada.
+PY=$(command -v python || command -v python3 || command -v py)
+if [ -z "$PY" ]; then
+  echo "Aviso: no se encontró Python; se sube sin revisar."
+  exit 0
+fi
+"$PY" herramientas/revisar.py || {
+  echo ""
+  echo "No se subió nada: corrige los ERRORES de arriba y vuelve a hacer git push."
+  echo "(Los ?v= se arreglan solos con: python herramientas/revisar.py --arreglar)"
+  exit 1
+}

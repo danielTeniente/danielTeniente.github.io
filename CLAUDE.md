@@ -8,7 +8,10 @@ Web de artista de Daniel DB. Lee primero [docs/DOCUMENTACION.md](docs/DOCUMENTAC
 - **No renombres las secciones `## nombre`** del `.md` ni los atributos `data-texto` del HTML: están emparejados. Si añades una sección, añade su elemento en `index.html` con texto por defecto.
 - `marquesina`, `marquesina-visitante` y `reproductor` no tienen `data-texto`: las lee `js/senor-x.js` directamente.
 - **No cambies `(#firmar)` ni `(#leer)`**: abren las ventanas del libro de visitas.
-- **Al cambiar CSS o JS, sube el `?v=…`** de los enlaces de cada HTML que los use (`index.html`, `no-ficcion/*.html`, `videojuegos/*.html`; `js/textos.js` lo usan todas), o el navegador servirá la versión vieja.
+- **Al cambiar CSS o JS, ejecuta `python herramientas/revisar.py --arreglar`**: pone el `?v=` de cada enlace igual a la huella del archivo (si no, el navegador sirve la versión vieja). No escribas los `?v=` a mano.
+- **Antes de dar algo por terminado, `python herramientas/revisar.py` debe salir sin ERRORES** (enlaces, listas de los `.md`, sintaxis JS, seguridad, lorem ipsum). El gancho `pre-push` (`herramientas/ganchos/`, activado con `git config core.hooksPath herramientas/ganchos`) lo ejecuta y no deja subir con errores. Si añades una comprobación nueva al proyecto, añádela al revisor.
+- **Seguridad:** cada página lleva una política CSP en un `<meta>`: sólo scripts propios, nada de `<script>` en línea ni `onclick="…"`. Si un recurso externo nuevo hace falta (otra fuente, otro vídeo), añade su dominio a la CSP de **todas** las páginas. El HTML que sale de un `.md` pasa siempre por `Textos.enLinea` (escapa todo); los `?id=` se validan con `/^[a-z0-9-]+$/`.
+- **Visitas:** `js/visitas.js` (GoatCounter, sin cookies) va al final de cada página pública, también en `ficcion/_plantilla.html`. No cuenta en localhost.
 - **Colores:** usa las variables de `css/paleta.css` (`--p-*`). Los colores propios de la portada (`--x-*`) están al inicio de `css/senor-x.css` y no forman parte de la paleta global.
 - **`conceptos/` es un laboratorio**, no la web pública. Los descartados se mueven a `conceptos/descartados/`; no se borran.
 - **Sin frameworks ni compilación**: HTML, CSS y JS puros para GitHub Pages.
@@ -23,7 +26,7 @@ Web de artista de Daniel DB. Lee primero [docs/DOCUMENTACION.md](docs/DOCUMENTAC
 
 ## Publicar
 - Repositorio `danielTeniente/danielTeniente.github.io`, rama `master`; GitHub Pages sirve la raíz en https://danielteniente.github.io/ (hay `.nojekyll`).
-- Publicar = commit + `git push`, **solo cuando Daniel lo pida**. Revisa en localhost antes.
+- Publicar = commit + `git push`, **solo cuando Daniel lo pida**. Revisa en localhost y con `herramientas/revisar.py` antes.
 - Usa siempre rutas relativas (sin `/` inicial): así la web funciona igual en localhost, en la raíz del dominio o en una subcarpeta.
 
 ## Comprobar

@@ -31,10 +31,13 @@ Repositorio: <https://github.com/danielTeniente/danielTeniente.github.io>.
 **Para publicar una actualización**, desde la carpeta del proyecto:
 
 ```bash
+python herramientas/revisar.py --arreglar
 git add -A
 git commit -m "Qué cambié, en una frase"
 git push
 ```
+
+El primer comando revisa toda la web (ver «Revisor» en la sección 5) y pone al día los `?v=`. Si da **ERRORES**, `git push` no sube nada hasta corregirlos.
 
 GitHub actualiza la web sola en uno o dos minutos. Si tus amigos no ven el cambio, que recarguen con Ctrl + F5.
 Antes de publicar, revisa en `localhost` que todo se vea bien: lo que subes es lo que verán.
@@ -185,7 +188,7 @@ Para cada máquina, en el `.md`: `## <máquina>-antes` (opcional: frases sobre l
 
 Al final, en un mismo bloque, `## final`: «Fin.» y «Gracias por probar este simulador (sumamente realista) del mundo de Blab.», una debajo de otra. No se puede perder. En la barra de abajo sólo está el botón, en el centro (sin distancia ni hora).
 
-En el `cuerpo`, párrafos separados por una línea en blanco y `---` para un cambio de escena (sale `* * *`). La primera letra sale en grande. **Para publicar un relato:** (1) copia [`textos/ficcion/_plantilla.md`](../textos/ficcion/_plantilla.md) como `mi-relato.md` y rellénalo; (2) copia [`ficcion/_plantilla.html`](../ficcion/_plantilla.html) como `mi-relato.html` y cambia lo marcado con ✎ (título, sinopsis y `data-relato="mi-relato"`); (3) añade `- mi-relato` a `## relatos`. Para probar sin publicar: un `.md` con `_` delante (no se sube) se abre con `ficcion/relato.html?id=_nombre` (hay uno: `_prueba-nota`). *La sonrisa de Hera* (`completo`) y *Una línea más* (`adelanto`) sólo existen en local, con **texto de prueba en lorem ipsum**: para publicarlos hay que pegar el relato, añadirlos a `## relatos` y subir su `.md`, su `.html` y su portada.
+En el `cuerpo`, párrafos separados por una línea en blanco y `---` para un cambio de escena (sale `* * *`). La primera letra sale en grande. **Para publicar un relato:** (1) copia [`textos/ficcion/_plantilla.md`](../textos/ficcion/_plantilla.md) como `mi-relato.md` y rellénalo; (2) copia [`ficcion/_plantilla.html`](../ficcion/_plantilla.html) como `mi-relato.html` y cambia lo marcado con ✎ (título, sinopsis y `data-relato="mi-relato"`); (3) añade `- mi-relato` a `## relatos`. Para probar sin publicar: un `.md` con `_` delante (no se sube) se abre con `ficcion/relato.html?id=_nombre` (hay uno: `_prueba-nota`). *La sonrisa de Hera* (`completo`) y *Una línea más* (`adelanto`) sólo existen en local, con **texto de prueba en lorem ipsum**: para publicarlos hay que pegar el relato, añadirlos a `## relatos`, borrar sus líneas de `.gitignore` (están ahí para que no se suban por error) y subir su `.md`, su `.html` y su portada.
 
 ### Artículos — `textos/no-ficcion/<nombre>.md`
 Cada artículo es un archivo con las secciones `titulo`, `subtitulo`, `categoria`, `fecha`, `original` (enlace a Substack/Medium, solo de referencia: no se muestra) y `cuerpo`.
@@ -249,6 +252,11 @@ textos/no-dejes-que-se-apaguen.md, js/no-dejes-que-se-apaguen.js  Minijuego del 
 js/nieve.js             Nieve de caracteres del gran lanzamiento
 imagenes/portadas/      Portadas de los relatos
 
+js/visitas.js           Contador de visitas (GoatCounter, sin cookies): va en todas las páginas públicas
+
+herramientas/revisar.py Revisor automático de la web (ver sección 5)
+herramientas/ganchos/   Gancho pre-push: ejecuta el revisor antes de cada git push
+
 guia-visual.html        Guía visual (paleta, tipografía, reglas)
 css/tokens.css, css/base.css, css/portada.css, js/cielo.js
                         Estilos y cielo animado de la guía visual y del concepto 00 «Niebla»
@@ -306,13 +314,24 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 
 ## 5. Notas técnicas importantes
 
-- **Caché del navegador.** Los enlaces a CSS/JS de cada página HTML (`index.html`, `no-ficcion/*.html`, `videojuegos/*.html`) llevan `?v=AAAAMMDDx`. **Cada vez que cambies un `.css` o un `.js`, sube ese número en los cuatro enlaces** o los visitantes seguirán viendo la versión vieja. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
+- **Revisor — `python herramientas/revisar.py`.** Revisa todo lo que se va a publicar y dice ERROR (bloquea) o AVISO (conviene mirarlo):
+  - que existan los enlaces, CSS, JS e imágenes de cada página;
+  - que cada artículo, reseña, relato, dibujo y portada de las listas de los `.md` exista, se vaya a publicar (no esté en `.gitignore`) y tenga sus secciones obligatorias (sólo mira los títulos `## …`, no lee los textos);
+  - que no se publique nada con *lorem ipsum*;
+  - la sintaxis de todos los `.js` (con Node);
+  - la seguridad de cada página y que cargue el contador de visitas;
+  - los `data-texto` sin sección en su `.md` y el peso de las imágenes.
+
+  El gancho `pre-push` lo ejecuta antes de cada `git push`. En una computadora nueva hay que activarlo una vez: `git config core.hooksPath herramientas/ganchos`.
+- **Caché del navegador.** Los enlaces a CSS/JS de cada página llevan `?v=` con la **huella** del archivo (8 letras que cambian solas si cambia su contenido). **No se escriben a mano:** `python herramientas/revisar.py --arreglar` los pone al día. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
+- **Seguridad (CSP).** Cada página lleva al principio un `<meta http-equiv="Content-Security-Policy">`: el navegador sólo ejecuta los `.js` de la propia web y sólo carga fuentes de Google Fonts, vídeos de `youtube-nocookie.com` e imágenes propias o del contador. Así, aunque algún día se colara un fallo, nadie podría meter un script ajeno. Consecuencias: nada de `<script>` escrito dentro del HTML ni de `onclick="…"` (todo va en los `.js`), y si se añade un recurso de otro sitio (otra fuente, otro tipo de vídeo), hay que añadir su dominio a la CSP **de todas las páginas**.
+- **Visitas — `js/visitas.js`.** Cuenta las páginas vistas en [GoatCounter](https://www.goatcounter.com): sin cookies, sin banner y sin cargar scripts de fuera (pide una imagen de 1×1 px). Envía sólo la página (cada artículo, reseña o relato cuenta aparte), el título, de dónde venía, el tamaño de pantalla y las campañas (`?ref=whatsapp`, `?utm_source=…`). No cuenta en localhost ni a los robots. Las estadísticas se ven en el panel de goatcounter.com. **Para que no cuenten tus visitas**, abre una vez la web con `?no-contarme` al final de la dirección en cada navegador que uses (`?contarme` lo deshace). El código de la cuenta está en la constante `CODIGO` al inicio del archivo; vacío = no cuenta nada. **Para compartir con campaña:** añade `?ref=nombre` al enlace (por ejemplo `https://danielteniente.github.io/ficcion/odio-este-clima.html?ref=whatsapp`) y en el panel verás cuántos llegaron por ahí.
 - **Textos por defecto.** Cada elemento con `data-texto="nombre"` en `index.html` tiene un texto de respaldo por si el `.md` no se puede leer. Al añadir una sección nueva, añade en el HTML el elemento con su `data-texto` y su `data-formato`.
 - **Secciones que no usan `data-texto`:** `marquesina`, `marquesina-visitante` y `reproductor` las lee directamente `js/senor-x.js` (necesitan lógica: horas, orden, Fibonacci). No las borres del `.md` pensando que sobran.
 - **Formatos disponibles** (`data-formato`, en `js/textos.js`): `plano`, `lineas`, `parrafos`, `parrafos-fijos`, `aleatorio`, `firmas`, `menu`, `noticias`, `insignias`. Sin formato = una línea con negrita/cursiva/enlaces.
 - **Seguridad.** El Markdown se escapa antes de convertirlo: no se puede inyectar HTML. Los enlaces solo aceptan `http(s)://`, `mailto:`, `#…` y rutas relativas.
 - **Accesibilidad.** Las ventanas son diálogos (`role="dialog"`/`alertdialog`), se cierran con Escape y devuelven el foco. Las animaciones se apagan con «reducir movimiento» del sistema. La marquesina tiene `aria-label` con su texto.
-- **El contador de visitas** cuenta por navegador (`localStorage`), no visitas reales. Es intencional.
+- **El contador de visitas de la portada** (el de 1998) cuenta por navegador (`localStorage`), no visitas reales. Es intencional. Las visitas reales están en GoatCounter (`js/visitas.js`).
 - **El panel del navegador de Claude Code**, si está oculto, congela animaciones y mide 0 px de ancho: para probar, emular un tamaño (p. ej. 1024×768).
 
 ---

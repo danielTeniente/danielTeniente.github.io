@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Seguridad: sólo se cargan scripts propios (ver docs/DOCUMENTACION.md) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://danieldb.goatcounter.com; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Videojuegos — Daniel DB</title>
   <meta name="description" content="Reseñas de videojuegos y pixel art de Daniel DB.">
@@ -11,8 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <!-- Los textos de esta página se editan en textos/videojuegos.md.
        Al cambiar CSS o JS, sube el número de ?v=… para que los navegadores no usen la versión vieja. -->
-  <link rel="stylesheet" href="../css/paleta.css?v=20261110a">
-  <link rel="stylesheet" href="../css/videojuegos.css?v=20261112c">
+  <link rel="stylesheet" href="../css/paleta.css?v=7f1f7762">
+  <link rel="stylesheet" href="../css/videojuegos.css?v=131a4b99">
 </head>
 <body class="esperando">
   <canvas id="paisaje" aria-hidden="true"></canvas>
@@ -128,9 +130,10 @@
     <p class="visor-nota" id="visor-nota"></p>
   </dialog>
 
-  <script src="../js/textos.js?v=20261110a"></script>
-  <script src="../js/paisaje.js?v=20261109h"></script>
-  <script src="../js/videojuegos.js?v=20261111c"></script>
-  <script src="../js/secretos.js?v=20261112g"></script>
+  <script src="../js/textos.js?v=c2aa980a"></script>
+  <script src="../js/paisaje.js?v=c153d587"></script>
+  <script src="../js/videojuegos.js?v=ad41776e"></script>
+  <script src="../js/secretos.js?v=7d26f53b"></script>
+  <script src="../js/visitas.js?v=2060257f" defer></script>
 </body>
 </html>

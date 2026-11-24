@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Seguridad: sólo se cargan scripts propios (ver docs/DOCUMENTACION.md) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://danieldb.goatcounter.com; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>No ficción — Daniel DB</title>
   <meta name="description" content="Textos de no ficción de Daniel DB: cine, libros, música, ajedrez y ensayo.">
@@ -11,8 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=EB+Garamond:ital@0;1&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <!-- Los textos de esta página se editan en textos/no-ficcion.md.
        Al cambiar CSS o JS, sube el número de ?v=… para que los navegadores no usen la versión vieja. -->
-  <link rel="stylesheet" href="../css/paleta.css?v=20261115b">
-  <link rel="stylesheet" href="../css/no-ficcion.css?v=20261115b">
+  <link rel="stylesheet" href="../css/paleta.css?v=7f1f7762">
+  <link rel="stylesheet" href="../css/no-ficcion.css?v=2a801ff1">
 </head>
 <body>
   <div class="rejilla" aria-hidden="true"></div>
@@ -45,8 +47,9 @@
     </section>
   </main>
 
-  <script src="../js/textos.js?v=20261115b"></script>
-  <script src="../js/minijuegos.js?v=20261115b"></script>
-  <script src="../js/no-ficcion.js?v=20261115b"></script>
+  <script src="../js/textos.js?v=c2aa980a"></script>
+  <script src="../js/minijuegos.js?v=2856ca83"></script>
+  <script src="../js/no-ficcion.js?v=f1b4c8d9"></script>
+  <script src="../js/visitas.js?v=2060257f" defer></script>
 </body>
 </html>

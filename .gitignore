@@ -31,3 +31,12 @@ imagenes/portadas/originales/
 
 # Campañas de marketing (fichas, prompts y planes): documentos de trabajo, no se publican
 campana/
+
+# Relatos que sólo existen en local, con texto de prueba (lorem ipsum).
+# Para publicar uno: pega el relato de verdad y BORRA sus tres líneas de aquí.
+textos/ficcion/la-sonrisa-de-hera.md
+ficcion/la-sonrisa-de-hera.html
+imagenes/portadas/la-sonrisa-de-hera.jpg
+textos/ficcion/una-linea-mas.md
+ficcion/una-linea-mas.html
+imagenes/portadas/una-linea-mas.jpg
