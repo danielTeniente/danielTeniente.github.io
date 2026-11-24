@@ -204,7 +204,7 @@ Se abre con `no-ficcion/articulo.html?id=<nombre>`. En el **cuerpo**:
 | `\|\|texto\|\|` | **texto tachado de expediente**: se revela al pasar el cursor o al tocarlo (también funciona en la portada) |
 | `\| A \| B \|` + línea `\|---\|---:\|` + filas | **tabla**: la segunda línea (guiones) marca la cabecera; `:---` alinea a la izquierda, `:---:` al centro, `---:` a la derecha. En el móvil se desliza de lado si no cabe |
 
-Sin imágenes: todo es texto. Al pegar desde Substack, cambia las cursivas `_así_` por `*así*`.
+El formato de los artículos no admite imágenes (las reseñas sí). Al pegar desde Substack, cambia las cursivas `_así_` por `*así*`.
 
 **Para publicar un artículo nuevo:** copia [`textos/no-ficcion/_plantilla.md`](../textos/no-ficcion/_plantilla.md) en la misma carpeta con un nombre en minúsculas y guiones (`mi-articulo.md`), pega el texto en `## cuerpo`, rellena título, subtítulo, categoría y fecha, y añade `- mi-articulo` a la sección `## expedientes` de `textos/no-ficcion.md`. (Esa línea hace falta porque GitHub Pages no deja que la página vea qué archivos hay en una carpeta.) Los artículos de prueba en *lorem ipsum* siguen en la carpeta con `_` delante (así no se publican); para usarlos, quítales el `_` y añade su nombre a la lista.
 
@@ -251,6 +251,7 @@ css/ficcion.css, js/ficcion.js, js/relato.js  Estilos, lanzamiento y lectura de 
 textos/no-dejes-que-se-apaguen.md, js/no-dejes-que-se-apaguen.js  Minijuego del simulador de Odio este clima
 js/nieve.js             Nieve de caracteres del gran lanzamiento
 imagenes/portadas/      Portadas de los relatos
+imagenes/compartir/     Imágenes que salen sólo al compartir el enlace (og:image), no en la web
 
 js/visitas.js           Contador de visitas (GoatCounter, sin cookies): va en todas las páginas públicas
 
@@ -326,6 +327,7 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 - **Caché del navegador.** Los enlaces a CSS/JS de cada página llevan `?v=` con la **huella** del archivo (8 letras que cambian solas si cambia su contenido). **No se escriben a mano:** `python herramientas/revisar.py --arreglar` los pone al día. Los textos del `.md` siempre se leen frescos (`cache: 'no-cache'`).
 - **Seguridad (CSP).** Cada página lleva al principio un `<meta http-equiv="Content-Security-Policy">`: el navegador sólo ejecuta los `.js` de la propia web y sólo carga fuentes de Google Fonts, vídeos de `youtube-nocookie.com` e imágenes propias o del contador. Así, aunque algún día se colara un fallo, nadie podría meter un script ajeno. Consecuencias: nada de `<script>` escrito dentro del HTML ni de `onclick="…"` (todo va en los `.js`), y si se añade un recurso de otro sitio (otra fuente, otro tipo de vídeo), hay que añadir su dominio a la CSP **de todas las páginas**.
 - **Visitas — `js/visitas.js`.** Cuenta las páginas vistas en [GoatCounter](https://www.goatcounter.com): sin cookies, sin banner y sin cargar scripts de fuera (pide una imagen de 1×1 px). Envía sólo la página (cada artículo, reseña o relato cuenta aparte), el título, de dónde venía, el tamaño de pantalla y las campañas (`?ref=whatsapp`, `?utm_source=…`). No cuenta en localhost ni a los robots. Las estadísticas se ven en el panel de goatcounter.com. **Para que no cuenten tus visitas**, abre una vez la web con `?no-contarme` al final de la dirección en cada navegador que uses (`?contarme` lo deshace). El código de la cuenta está en la constante `CODIGO` al inicio del archivo; vacío = no cuenta nada. **Para compartir con campaña:** añade `?ref=nombre` al enlace (por ejemplo `https://danielteniente.github.io/ficcion/odio-este-clima.html?ref=whatsapp`) y en el panel verás cuántos llegaron por ahí.
+- **Al compartir el enlace (WhatsApp, redes).** La portada y las tres secciones llevan en el `<head>` etiquetas `og:` (título, frase e imagen). Las imágenes están en `imagenes/compartir/` (1200×630, jpg): son capturas de cada página y **no se ven dentro de la web**, sólo en la tarjeta del enlace. La dirección de `og:image` tiene que ser completa. Si una página cambia mucho de aspecto (por ejemplo Ficción después del estreno), conviene rehacer su captura. WhatsApp guarda la vista previa un tiempo: un cambio puede tardar en verse.
 - **Textos por defecto.** Cada elemento con `data-texto="nombre"` en `index.html` tiene un texto de respaldo por si el `.md` no se puede leer. Al añadir una sección nueva, añade en el HTML el elemento con su `data-texto` y su `data-formato`.
 - **Secciones que no usan `data-texto`:** `marquesina`, `marquesina-visitante` y `reproductor` las lee directamente `js/senor-x.js` (necesitan lógica: horas, orden, Fibonacci). No las borres del `.md` pensando que sobran.
 - **Formatos disponibles** (`data-formato`, en `js/textos.js`): `plano`, `lineas`, `parrafos`, `parrafos-fijos`, `aleatorio`, `firmas`, `menu`, `noticias`, `insignias`. Sin formato = una línea con negrita/cursiva/enlaces.
@@ -358,7 +360,8 @@ Comic Neue (títulos y menús), Tinos (Times; texto), VT323 (contador, marquesin
 - [ ] Decidir el menú completo ( corto de terror, cine y discos, matemáticas).
 - [ ] Pie de página: correo o enlace de contacto.
 - [ ] Revisar la portada en el móvil.
-- [ ] Icono de pestaña (favicon) e imagen para compartir en redes.
+- [x] Imagen para compartir en redes (`og:image`) de la portada y de las tres secciones (24/11/2026).
+- [ ] Icono de pestaña (favicon).
 - [ ] Más adelante: relatos del Detective Homero (hoy en Inkspired) publicados aquí, con comunidad.
 
 Otros recursos de Daniel: [Substack «La mente del artista»](https://danieldbarte.substack.com/) · [Libros en Payhip](https://payhip.com/danieldb).

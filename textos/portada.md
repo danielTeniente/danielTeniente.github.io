@@ -73,7 +73,7 @@ Bienvenido
 Querido internauta:
 
 ## carta
-Debería escribir algo profundo en este espacio, pero se me acabron las ideas. 
+Debería escribir algo profundo en este espacio, pero se me acabaron las ideas. 
 
 Vuelve en una semana.
 

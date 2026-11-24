@@ -13,12 +13,12 @@ Web de artista de Daniel DB. Lee primero [docs/DOCUMENTACION.md](docs/DOCUMENTAC
 - **Seguridad:** cada página lleva una política CSP en un `<meta>`: sólo scripts propios, nada de `<script>` en línea ni `onclick="…"`. Si un recurso externo nuevo hace falta (otra fuente, otro vídeo), añade su dominio a la CSP de **todas** las páginas. El HTML que sale de un `.md` pasa siempre por `Textos.enLinea` (escapa todo); los `?id=` se validan con `/^[a-z0-9-]+$/`.
 - **Visitas:** `js/visitas.js` (GoatCounter, sin cookies) va al final de cada página pública, también en `ficcion/_plantilla.html`. No cuenta en localhost.
 - **Colores:** usa las variables de `css/paleta.css` (`--p-*`). Los colores propios de la portada (`--x-*`) están al inicio de `css/senor-x.css` y no forman parte de la paleta global.
+- **No se publican imágenes de otros:** `referencias/` (pósters y capturas de terceros, sólo para trabajar) y `imagenes/portadas/originales/` (portadas a tamaño completo) están en `.gitignore`. No las saques de ahí ni las enlaces desde la web.
 - **`conceptos/` es un laboratorio**, no la web pública. Los descartados se mueven a `conceptos/descartados/`; no se borran.
 - **Sin frameworks ni compilación**: HTML, CSS y JS puros para GitHub Pages.
 
 ## Estilo y contenido
 - La portada imita una página personal de 1998 (Señor X de *Los Simpson*) con humor de *Los Simpson* y *Futurama*: estructura en tres actos, remates que se conectan entre sí (callbacks) y chistes escondidos para quien se fija.
-- **Sin imágenes** en la web: todo es texto, juegos y easter eggs. Excepciones, en `videojuegos/`: el pixel art de Daniel en la galería (`imagenes/pixel-art/`) y las imágenes y vídeos que él ponga en sus reseñas (`imagenes/games/`, tráileres de YouTube); en `ficcion/`, las portadas de sus relatos (`imagenes/portadas/`).
 - Homenajes de estilo, nunca copias: sin logotipos, personajes ni letras de canciones.
 - **Ortografía de Daniel** (en todo texto o chiste que propongas): *sólo* con tilde cuando significa «solamente» (sin tilde, *solo* = sin compañía); *éste/ésta/éstos/éstas* con tilde cuando son pronombre («quiero éste»), sin tilde cuando acompañan a un nombre («este auto»). No lo «corrijas» a la norma actual de la RAE.
 - Evitar: look corporativo, violetas/galaxias («astrología»), tipografía manuscrita, revelado lento de texto en la portada.
